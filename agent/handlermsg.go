@@ -2,7 +2,7 @@ package agent
 
 import (
 	"encoding/json"
-	"osp/agent/model"
+	"osp/internal/model"
 
 	"github.com/luxingwen/pnet"
 	"github.com/luxingwen/pnet/log"

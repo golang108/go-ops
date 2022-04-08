@@ -2,7 +2,7 @@ package script
 
 import (
 	"osp/agent/cmdrunner"
-	"osp/agent/model"
+	"osp/internal/model"
 	ospsys "osp/pkg/system"
 	"strings"
 )

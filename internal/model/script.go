@@ -21,8 +21,9 @@ type Script struct {
 }
 
 type ScriptJob struct {
-	Jobid  string `json:"jobid"`
-	Script Script `json:"script"`
+	Jobid   string `json:"jobid"`
+	Script  Script `json:"script"`
+	RunMode string `json:"runMode"`
 }
 
 type ResCode string

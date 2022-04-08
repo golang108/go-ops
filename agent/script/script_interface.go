@@ -1,6 +1,6 @@
 package script
 
-import "osp/agent/model"
+import "osp/internal/model"
 
 type Script interface {
 	Path() string

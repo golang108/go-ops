@@ -3,7 +3,8 @@ package script
 import (
 	"os"
 	"osp/agent/cmdrunner"
-	"osp/agent/model"
+	"osp/internal/model"
+
 	"osp/agent/script/cmd"
 	"path"
 	"strings"

@@ -7,8 +7,8 @@ import (
 	"github.com/charlievieth/fs"
 
 	"osp/agent/cmdrunner"
-	"osp/agent/model"
 	"osp/agent/script/cmd"
+	"osp/internal/model"
 )
 
 const (

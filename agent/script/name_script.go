@@ -2,8 +2,8 @@ package script
 
 import (
 	"osp/agent/cmdrunner"
-	"osp/agent/model"
 	"osp/agent/script/cmd"
+	"osp/internal/model"
 )
 
 type NameScript struct {

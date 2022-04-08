@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 	"osp/agent/cmdrunner"
-	"osp/agent/model"
 	"osp/agent/script/cmd"
+	"osp/internal/model"
 	"path"
 )
 

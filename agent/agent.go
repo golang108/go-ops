@@ -2,9 +2,10 @@ package agent
 
 import (
 	"fmt"
-	"osp/agent/model"
+
 	"osp/agent/script"
 	"osp/agent/task"
+	"osp/internal/model"
 	"osp/peer"
 
 	"github.com/luxingwen/pnet"
