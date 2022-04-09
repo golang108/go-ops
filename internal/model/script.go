@@ -4,7 +4,7 @@ import (
 	"osp/pkg/message"
 	"reflect"
 
-	"github.com/davyxu/cellnet/util"
+	"osp/pkg/util"
 )
 
 type Script struct {
@@ -26,13 +26,20 @@ type ScriptJob struct {
 	RunMode string `json:"runMode"`
 }
 
+type ScriptJobCancel struct {
+	Jobid string `json:"jobid"`
+}
+
 type ResCode string
 
 const (
-	CodeSuccess ResCode = "SUECCES" // 脚本成功执行，且正常退出码是0
-	CodeFailed  ResCode = "FAILED"  // 脚本运行成功，但是退出码不是0
-	CodeNotRun  ResCode = "NOT_RUN" // 其它错误 脚本没有运行
-
+	CodeSuccess        ResCode = "SUECCES"         // 脚本成功执行，且正常退出码是0
+	CodeFailed         ResCode = "FAILED"          // 脚本运行成功，但是退出码不是0
+	CodeNotRun         ResCode = "NOT_RUN"         // 其它错误 脚本没有运行
+	CodeTimeOut        ResCode = "TIME_OUT"        // 超时退出
+	CodeCancel         ResCode = "CANCEL"          // 脚本被取消运行
+	CodeDownloadFailed ResCode = "DOWNLOAD_FAILED" // 下载失败
+	CodeHashFailed     ResCode = "HASHERR"         // hash 校验不通过
 )
 
 type ResCmd struct {
@@ -44,11 +51,23 @@ type ResCmd struct {
 }
 
 type ResponseResCmd struct {
-	Jobid  string
-	ResCmd ResCmd
+	Jobid  string `json:"jobid"`
+	PeerId string `json:"peerId"`
+	ResCmd ResCmd `json:"resCmd"`
 }
 
 type ExecWay int
+
+type TaskInfo struct {
+	Req    interface{} `json:"req"` // 请求参数
+	Status string      `json:"任务状态"`
+	Value  interface{} `json:"value"`
+	Err    string      `json:"err"` // 错误信息
+}
+
+type GetTaskInfo struct {
+	TaskId string `json:"taskid"`
+}
 
 const (
 	ExecCmd        ExecWay = iota // 命令执行
@@ -66,5 +85,19 @@ func init() {
 	message.RegisterMessage(&message.MessageMeta{
 		Type: reflect.TypeOf((*ResponseResCmd)(nil)).Elem(),
 		ID:   uint32(util.StringHash("model.ResponseResCmd")),
+	})
+
+	message.RegisterMessage(&message.MessageMeta{
+		Type: reflect.TypeOf((*ScriptJobCancel)(nil)).Elem(),
+		ID:   uint32(util.StringHash("model.ScriptJobCancel")),
+	})
+
+	message.RegisterMessage(&message.MessageMeta{
+		Type: reflect.TypeOf((*TaskInfo)(nil)).Elem(),
+		ID:   uint32(util.StringHash("model.TaskInfo")),
+	})
+	message.RegisterMessage(&message.MessageMeta{
+		Type: reflect.TypeOf((*GetTaskInfo)(nil)).Elem(),
+		ID:   uint32(util.StringHash("model.GetTaskInfo")),
 	})
 }

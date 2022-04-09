@@ -16,6 +16,7 @@ const (
 
 type Task struct {
 	ID    string
+	Req   interface{} // 请求参数
 	State State
 	Value interface{}
 	Error error

@@ -1,6 +1,7 @@
 package cmdrunner
 
 import (
+	"osp/internal/model"
 	ospsys "osp/pkg/system"
 )
 
@@ -9,7 +10,7 @@ type CmdResult struct {
 	Stderr []byte
 
 	ExitStatus int
-	IsKilled   bool
+	ResCode    model.ResCode
 }
 
 type CmdRunner interface {

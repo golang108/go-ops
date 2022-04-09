@@ -7,6 +7,7 @@ import (
 
 	"io/ioutil"
 
+	"osp/internal/model"
 	"osp/pkg/errors"
 	ospsys "osp/pkg/system"
 )
@@ -71,6 +72,7 @@ func (f ScriptCmdRunner) RunCommand(jobId string, cmd ospsys.Command) (*CmdResul
 	}()
 
 	cmd.Stdout = stdoutFile
+	cmd.KeepAttached = false
 
 	stderrFile, err := os.OpenFile(stderrPath, fileOpenFlag, fileOpenPerm)
 	if err != nil {
@@ -83,7 +85,7 @@ func (f ScriptCmdRunner) RunCommand(jobId string, cmd ospsys.Command) (*CmdResul
 	cmd.Stderr = stderrFile
 
 	// Stdout/stderr are redirected to the files
-	_, _, exitStatus, runErr := f.cmdRunner.RunComplexCommand(cmd)
+	_, _, exitStatus, exitWay, runErr := f.cmdRunner.RunComplexCommand(cmd)
 
 	stdout, err := ioutil.ReadFile(stdoutPath)
 	if err != nil {
@@ -99,6 +101,13 @@ func (f ScriptCmdRunner) RunCommand(jobId string, cmd ospsys.Command) (*CmdResul
 		Stdout:     stdout,
 		Stderr:     stderr,
 		ExitStatus: exitStatus,
+	}
+
+	if exitWay == ospsys.EXITWAY_TIMEOUT {
+		result.ResCode = model.CodeTimeOut
+	}
+	if exitWay == ospsys.EXITWAY_CANCEL {
+		result.ResCode = model.CodeCancel
 	}
 
 	if runErr != nil {

@@ -12,17 +12,47 @@ type ScriptTaskReq struct {
 }
 
 type ScriptTask struct {
-	Name      string       `json:"name"`
-	Creater   string       `json:"creater"`
-	Hostinfos []string     `json:"hostinfos"`
-	Content   model.Script `json:"content"`
+	Name    string       `json:"name"`
+	Creater string       `json:"creater"`
+	Peers   []string     `json:"peers"`
+	Content model.Script `json:"content"`
 }
 
 type ScriptTaskRes struct {
 	TaskId string `json:"taskid"`
 }
 
+type ScriptRes struct {
+	List []*model.ResponseResCmd `json:"list"`
+}
+
 type ScriptTaskSyncReq struct {
 	g.Meta `path:"/script/sync" tags:"script" method:"post" summary:"脚本执行"`
 	ScriptTask
+}
+
+type ScriptTaskCancelReq struct {
+	g.Meta `path:"/script/cancel" tags:"script" method:"post" summary:"取消脚本运行"`
+	Tasks  []ScriptTaskCancel `json:"tasks"`
+}
+
+type ScriptTaskCancel struct {
+	PeerId string `json:"peerid"`
+	Jobid  string `json:"jobid"`
+	Msg    string `json:"msg"`
+}
+
+type ScriptTaskCancelRes struct {
+	List []*ScriptTaskCancel `json:"list"`
+}
+
+type ScriptTaskInfoReq struct {
+	g.Meta `path:"/script/taskinfo" tags:"script" method:"post" summary:"脚本信息"`
+	PeerId string `json:"peerid"`
+	TaskId string `json:"taskid"`
+}
+
+type ScriptTaskInfoRes struct {
+	PeerId string `json:"peerid"`
+	*model.TaskInfo
 }

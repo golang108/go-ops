@@ -12,10 +12,12 @@ require (
 	github.com/gogf/swagger/v2 v2.0.0
 	github.com/gogo/protobuf v1.3.2
 	github.com/google/uuid v1.3.0
-	github.com/luxingwen/pnet v0.0.0-20220408135512-e58174556127
+	github.com/luxingwen/pnet v0.0.0-20220409181616-a6f4ba3321f4
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
+	github.com/panjf2000/ants/v2 v2.4.8
+	github.com/shirou/gopsutil/v3 v3.22.3
 	github.com/swaggo/swag v1.8.1
 	go.opentelemetry.io/otel/sdk v1.6.3 // indirect
 	golang.org/x/net v0.0.0-20220403103023-749bd193bc2b // indirect

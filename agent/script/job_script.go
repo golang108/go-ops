@@ -1,6 +1,7 @@
 package script
 
 import (
+	"context"
 	"osp/agent/cmdrunner"
 	"osp/internal/model"
 	ospsys "osp/pkg/system"
@@ -13,13 +14,14 @@ type JobScriptProvider struct {
 }
 
 func NewJobScriptProvider(
+	ctx context.Context,
 	scriptJob model.ScriptJob,
 ) JobScriptProvider {
 	path := scriptJob.Script.Path
 	if path == "" {
 		path = ScriptPath
 	}
-	runer := cmdrunner.NewScriptCmdRunner(ospsys.NewExecCmdRunner(), path)
+	runer := cmdrunner.NewScriptCmdRunner(ospsys.NewExecCmdRunner(ctx), path)
 	p := JobScriptProvider{
 		cmdRunner: runer,
 	}

@@ -88,6 +88,11 @@ func (s GenericScript) getResCmd(res *cmdrunner.CmdResult, err error) (r model.R
 		ExitCode: res.ExitStatus,
 	}
 
+	if res.ResCode != "" {
+		r.Code = res.ResCode
+		return
+	}
+
 	if r.ExitCode == 0 {
 		r.Code = model.CodeSuccess
 	} else {

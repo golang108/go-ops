@@ -1,6 +1,7 @@
 package agent
 
 import (
+	"context"
 	"fmt"
 
 	"osp/agent/script"
@@ -26,17 +27,24 @@ func NewOspAgent(workdir string) *OspAgent {
 }
 
 func (self *OspAgent) CreateScriptTask(s *model.ScriptJob, srcId string, msgID []byte, rpath string, pn *pnet.PNet) {
+
+	ctx, cancel := context.WithCancel(context.Background())
+
 	startFunc := func() (r interface{}, err error) {
-		res := script.NewJobScriptProvider(*s).Run()
+		res := script.NewJobScriptProvider(ctx, *s).Run()
 		r = &model.ResponseResCmd{
 			Jobid:  s.Jobid,
 			ResCmd: res,
+			PeerId: pn.GetLocalNode().Id,
 		}
+
 		return
 	}
 
 	endFunc := func(t task.Task) {
-
+		defer func() {
+			ctx.Done()
+		}()
 		if s.RunMode == "sync" {
 			err := peer.SendMsgReplay(pn, t.Value, msgID, srcId, rpath)
 			if err != nil {
@@ -50,7 +58,43 @@ func (self *OspAgent) CreateScriptTask(s *model.ScriptJob, srcId string, msgID [
 		}
 	}
 
-	t := self.CreateTask(s.Jobid, startFunc, nil, endFunc)
+	c := func(t task.Task) error {
+		cancel()
+		return nil
+	}
+
+	t := self.CreateTask(s.Jobid, s, startFunc, c, endFunc)
 	self.StartTask(t)
+}
+
+func (self *OspAgent) CancelcriptTask(taskid string, srcId string, msgID []byte, rpath string, pn *pnet.PNet) {
+	task, ok := self.FindTaskWithID(taskid)
+	if !ok {
+		pn.SendBytesRelayReply(msgID, []byte("没有找到task："+taskid), srcId)
+		return
+	}
+
+	task.Cancel()
+	pn.SendBytesRelayReply(msgID, []byte("任务已经取消："+taskid), srcId)
+	return
+}
+
+func (self *OspAgent) GetTaskInfo(taskid string, srcId string, msgID []byte, rpath string, pn *pnet.PNet) {
+	task, ok := self.FindTaskWithID(taskid)
+	res := model.TaskInfo{}
+	if !ok {
+		res.Err = "找不到任务:" + taskid
+		err := peer.SendMsgReplay(pn, res, msgID, srcId, rpath)
+		if err != nil {
+			fmt.Println("send msg replay err:", err)
+		}
+		return
+	}
+
+	res.Req = task.Req
+	res.Value = task.Value
+	res.Status = string(task.State)
+
+	peer.SendMsgReplay(pn, res, msgID, srcId, rpath)
 
 }

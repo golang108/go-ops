@@ -1,7 +1,9 @@
 package main
 
 import (
+	"flag"
 	"log"
+	"os"
 	"osp/internal/cmd"
 	_ "osp/internal/packed"
 	"osp/peer"
@@ -12,14 +14,26 @@ import (
 )
 
 func main() {
-	conf := &config.Config{}
-	conf.Port = 8888
-	conf.Name = "osp"
+	fg := flag.NewFlagSet("osp", flag.ContinueOnError)
 
-	err := peer.InitOspPeer("osp-server-1", conf)
+	var addr string
+	fg.StringVar(&addr, "addr", "", "-addr")
+
+	err := fg.Parse(os.Args[1:])
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	conf := &config.Config{}
+	conf.Port = 9001
+	conf.Name = "osp"
+
+	err = peer.InitOspPeer("osp-server-1", conf)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	peer.GetOspPeer().Join(addr)
 
 	cmd.Main.Run(gctx.New())
 }

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	v1 "osp/api/v1"
 	"osp/peer"
@@ -103,5 +104,22 @@ func (self *peerManager) StopConnect(ctx context.Context, req *v1.NodeStopReq) (
 	res = new(v1.NodeOpRes)
 
 	res.Msg = string(resMsg.Message)
+	return
+}
+
+func (self *peerManager) PeerStat(ctx context.Context, req *v1.NodeStatReq) (res *v1.NodeStatRes, err error) {
+	if req.NodeId == "" {
+		req.NodeId = peer.GetOspPeer().GetLocalNode().GetId()
+	}
+
+	resMsg, _, err := peer.GetOspPeer().SendMessageSync(peer.GetOspPeer().GetLocalNode().NewNodeStatMessage(req.NodeId), protos.RELAY, 0)
+	if err != nil {
+		return
+	}
+
+	res = new(v1.NodeStatRes)
+
+	err = json.Unmarshal(resMsg.Message, res)
+
 	return
 }

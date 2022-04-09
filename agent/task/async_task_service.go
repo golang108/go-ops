@@ -1,9 +1,14 @@
 package task
 
+import (
+	"github.com/panjf2000/ants/v2"
+)
+
 type asyncTaskService struct {
 	currentTasks map[string]Task
 	taskChan     chan Task
 	taskSem      chan func()
+	taskPool     *ants.PoolWithFunc
 }
 
 func NewAsyncTaskService() (service Service) {
@@ -13,6 +18,9 @@ func NewAsyncTaskService() (service Service) {
 		taskSem:      make(chan func()),
 	}
 
+	p, _ := ants.NewPoolWithFunc(10, s.execTask)
+
+	s.taskPool = p
 	go s.processTasks()
 	go s.processSemFuncs()
 
@@ -21,12 +29,14 @@ func NewAsyncTaskService() (service Service) {
 
 func (service asyncTaskService) CreateTask(
 	id string,
+	req interface{},
 	taskFunc Func,
 	cancelFunc CancelFunc,
 	endFunc EndFunc,
 ) Task {
 	return Task{
 		ID:         id,
+		Req:        req,
 		State:      StateRunning,
 		Func:       taskFunc,
 		CancelFunc: cancelFunc,
@@ -71,27 +81,32 @@ func (service asyncTaskService) processTasks() {
 
 	for {
 		task := <-service.taskChan
+		service.taskPool.Invoke(task)
 
-		value, err := task.Func()
-		if err != nil {
-			task.Error = err
-			task.State = StateFailed
-		} else {
-			task.Value = value
-			task.State = StateDone
-		}
-
-		if task.EndFunc != nil {
-			task.EndFunc(task)
-		}
-
-		// Nil to prevent to memory leaks in case these are closures.
-		task.Func = nil
-		task.CancelFunc = nil
-		task.EndFunc = nil
-
-		service.taskSem <- func() {
-			service.currentTasks[task.ID] = task
-		}
 	}
+}
+
+func (service asyncTaskService) execTask(val interface{}) {
+	task := val.(Task)
+	value, err := task.Func()
+	if err != nil {
+		task.Error = err
+		task.State = StateFailed
+	} else {
+		task.Value = value
+		task.State = StateDone
+	}
+
+	if task.EndFunc != nil {
+		task.EndFunc(task)
+	}
+
+	task.Func = nil
+	task.CancelFunc = nil
+	task.EndFunc = nil
+
+	service.taskSem <- func() {
+		service.currentTasks[task.ID] = task
+	}
+
 }

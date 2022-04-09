@@ -1,17 +1,42 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 	"osp/agent"
 	"osp/peer"
+	"syscall"
 	"time"
 
 	"github.com/luxingwen/pnet/config"
 )
 
+func InitSignal() {
+	sig := make(chan os.Signal, 2)
+	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
+	go func() {
+		for {
+			s := <-sig
+			fmt.Println("Got signal:", s)
+			os.Exit(1)
+		}
+	}()
+}
+
 func main() {
+
+	fg := flag.NewFlagSet("agent", flag.ContinueOnError)
+
+	var addr string
+	fg.StringVar(&addr, "addr", "tcp://127.0.0.1:9000", "-addr")
+
+	err := fg.Parse(os.Args[1:])
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	ospAgent := agent.NewOspAgent("./")
 
@@ -19,6 +44,7 @@ func main() {
 	name, err := os.Hostname()
 
 	if err != nil {
+
 		log.Fatal(err)
 	}
 
@@ -36,10 +62,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	remoteNode, err := p.Join("tcp://127.0.0.1:8888")
+	remoteNode, err := p.Join(addr)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("join:", err)
 	}
+
+	InitSignal()
 
 	for {
 		time.Sleep(time.Second)
@@ -53,5 +81,4 @@ func main() {
 		}
 	}
 
-	select {}
 }

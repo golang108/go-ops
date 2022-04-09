@@ -3,6 +3,7 @@ package v1
 import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/luxingwen/pnet/protos"
+	"github.com/luxingwen/pnet/stat"
 )
 
 type NodeReq struct {
@@ -28,4 +29,13 @@ type NodeStopReq struct {
 	g.Meta   `path:"/peer/node/stop" tags:"Hello" method:"post" summary:"You first hello api"`
 	NodeId   string `json:"nodeid"`
 	RemoteId string `json:"remoteId"`
+}
+
+type NodeStatReq struct {
+	g.Meta `path:"/peer/node/stat" tags:"Hello" method:"post" summary:"You first hello api"`
+	NodeId string `json:"nodeid"`
+}
+
+type NodeStatRes struct {
+	*stat.NodeStat
 }

@@ -2,11 +2,11 @@ package controller
 
 import (
 	"context"
-	"fmt"
 	v1 "osp/api/v1"
 	"osp/internal/model"
 	"osp/peer"
 	"osp/pkg/message"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -23,7 +23,7 @@ func (c *scritptTask) CreateAsync(ctx context.Context, req *v1.ScriptTaskReq) (r
 		TaskId: taskId,
 	}
 
-	for _, item := range req.Hostinfos {
+	for _, item := range req.Peers {
 		scriptJob := model.ScriptJob{
 			Jobid:  uuid.New().String(),
 			Script: req.Content,
@@ -36,22 +36,24 @@ func (c *scritptTask) CreateAsync(ctx context.Context, req *v1.ScriptTaskReq) (r
 	return
 }
 
-func (c *scritptTask) CreateSync(ctx context.Context, req *v1.ScriptTaskSyncReq) (res *v1.ScriptTaskRes, err error) {
+func (c *scritptTask) CreateSync(ctx context.Context, req *v1.ScriptTaskSyncReq) (res *v1.ScriptRes, err error) {
 
-	taskId := uuid.New().String()
-	res = &v1.ScriptTaskRes{
-		TaskId: taskId,
-	}
+	res = &v1.ScriptRes{}
 
-	for _, item := range req.Hostinfos {
+	for _, item := range req.Peers {
+		jobid := uuid.New().String()
 		scriptJob := model.ScriptJob{
-			Jobid:   uuid.New().String(),
+			Jobid:   jobid,
 			Script:  req.Content,
 			RunMode: "sync",
 		}
-		r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, scriptJob, item, "")
+
+		r, err := peer.SendMsgSyncWithTimeout(peer.GetOspPeer().PNet, scriptJob, item, "", time.Duration(req.Content.Timeout*int(time.Second))+time.Second*20)
 		if err != nil {
-			return nil, err
+			resCmd := model.ResCmd{Err: err.Error()}
+			resResponse := &model.ResponseResCmd{Jobid: jobid, PeerId: item, ResCmd: resCmd}
+			res.List = append(res.List, resResponse)
+			continue
 		}
 
 		v, err := message.JSONCodec.Decode(r)
@@ -59,9 +61,49 @@ func (c *scritptTask) CreateSync(ctx context.Context, req *v1.ScriptTaskSyncReq)
 			return nil, err
 		}
 
-		fmt.Println("v:", v)
-
+		val := v.(*model.ResponseResCmd)
+		res.List = append(res.List, val)
 	}
 
 	return
+}
+
+func (c *scritptTask) CancelTask(ctx context.Context, req *v1.ScriptTaskCancelReq) (res *v1.ScriptTaskCancelRes, err error) {
+
+	res = new(v1.ScriptTaskCancelRes)
+	for _, item := range req.Tasks {
+		job := &model.ScriptJobCancel{
+			Jobid: item.Jobid,
+		}
+		r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, job, item.PeerId, "")
+		resItem := &v1.ScriptTaskCancel{PeerId: item.PeerId, Jobid: item.Jobid}
+		if err != nil {
+			resItem.Msg = err.Error()
+			res.List = append(res.List, resItem)
+			continue
+		}
+		resItem.Msg = string(r)
+
+		res.List = append(res.List, resItem)
+	}
+
+	return
+}
+
+func (s *scritptTask) GetTaskInfo(ctx context.Context, req *v1.ScriptTaskInfoReq) (res *v1.ScriptTaskInfoRes, err error) {
+	res = new(v1.ScriptTaskInfoRes)
+	r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, &model.GetTaskInfo{TaskId: req.TaskId}, req.PeerId, "")
+	if err != nil {
+		return
+	}
+
+	val, err := message.JSONCodec.Decode(r)
+	if err != nil {
+		return
+	}
+
+	res.TaskInfo = val.(*model.TaskInfo)
+	res.PeerId = req.PeerId
+	return
+
 }
