@@ -14,6 +14,7 @@ import (
 func main() {
 	conf := &config.Config{}
 	conf.Port = 8888
+	conf.Name = "osp"
 
 	err := peer.InitOspPeer("osp-server-1", conf)
 	if err != nil {

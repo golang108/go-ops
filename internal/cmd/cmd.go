@@ -26,6 +26,7 @@ var (
 				group.Bind(
 					controller.Hello,
 					controller.ScritptTask,
+					controller.PeerManagaer,
 				)
 			})
 
