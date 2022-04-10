@@ -19,9 +19,9 @@ func NewJobScriptProvider(
 ) JobScriptProvider {
 	path := scriptJob.Script.Path
 	if path == "" {
-		path = ScriptPath
+		path = ScriptPath + "/" + scriptJob.Jobid
 	}
-	runer := cmdrunner.NewScriptCmdRunner(ospsys.NewExecCmdRunner(ctx), path)
+	runer := cmdrunner.NewScriptCmdRunner(ospsys.NewExecCmdRunner(ctx), ScriptPath)
 	p := JobScriptProvider{
 		cmdRunner: runer,
 	}
@@ -31,6 +31,10 @@ func NewJobScriptProvider(
 		p.scripter = NewScript(runer, scriptJob.Jobid, path, scriptJob.Script.Content, scriptJob.Script.Env, scriptJob.Script.Timeout, scriptJob.Script.User, scriptJob.Script.Args)
 	case model.ExecContent:
 		p.scripter = NewContentScript(runer, scriptJob.Jobid, path, scriptJob.Script.Cmd, scriptJob.Script.Content, scriptJob.Script.Env, scriptJob.Script.Timeout, scriptJob.Script.Input, scriptJob.Script.User, scriptJob.Script.Args)
+	case model.ExecScriptName:
+		p.scripter = NewNameScript(runer, scriptJob.Jobid, path, scriptJob.Script.Cmd, scriptJob.Script.Content, scriptJob.Script.Env, scriptJob.Script.Timeout, scriptJob.Script.Input, scriptJob.Script.User, scriptJob.Script.Args)
+	case model.ExecURL:
+		p.scripter = NewUrlScript(runer, scriptJob.Jobid, path, scriptJob.Script.Cmd, scriptJob.Script.Content, scriptJob.Script.Env, scriptJob.Script.Timeout, scriptJob.Script.User, scriptJob.Script.Args, scriptJob.Script.Input)
 
 	}
 	return p

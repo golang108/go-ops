@@ -4,11 +4,13 @@ import (
 	"osp/agent/cmdrunner"
 	"osp/agent/script/cmd"
 	"osp/internal/model"
+	"strings"
 )
 
 type NameScript struct {
 	GenericScript
-	cmd string
+	cmd   string
+	input string
 }
 
 func NewNameScript(
@@ -19,15 +21,16 @@ func NewNameScript(
 	content string,
 	env map[string]string,
 	timeout int,
+	input string,
 	user string,
 	args []string,
-) ContentScript {
+) NameScript {
 
 	if cmd == "" {
 		cmd = Cmder
 	}
 
-	s := ContentScript{cmd: cmd}
+	s := NameScript{cmd: cmd, input: input}
 	s.GenericScript.runner = runner
 	s.GenericScript.path = path
 	s.GenericScript.content = content
@@ -47,6 +50,11 @@ func (s NameScript) Run() (r model.ResCmd) {
 	command.Args = append(command.Args, s.args...)
 	command.Timeout = s.timeout
 	command.User = s.user
+	command.WorkingDir = s.path
+
+	if s.input != "" {
+		command.Stdin = strings.NewReader(s.input)
+	}
 
 	for key, val := range s.env {
 		command.Env[key] = val

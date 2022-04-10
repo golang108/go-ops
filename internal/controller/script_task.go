@@ -9,8 +9,6 @@ import (
 	"osp/service"
 	"sync"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 var ScritptTask = &scritptTask{}
@@ -24,7 +22,7 @@ func (c *scritptTask) CreateAsync(ctx context.Context, req *v1.ScriptTaskReq) (r
 		err = peer.SendMsgAsync(peer.GetOspPeer().PNet, scriptJob, peerid, "")
 		return err
 	}
-	taskid, err := service.Task().CreateScriptTask(ctx, req, createFunc)
+	taskid, err := service.Task().CreateScriptTask(ctx, &req.ScriptTask, createFunc)
 	if err != nil {
 		return
 	}
@@ -33,47 +31,74 @@ func (c *scritptTask) CreateAsync(ctx context.Context, req *v1.ScriptTaskReq) (r
 	return
 }
 
-func (c *scritptTask) CreateSync(ctx context.Context, req *v1.ScriptTaskSyncReq) (res *v1.ScriptRes, err error) {
+func (c *scritptTask) CreateSync(ctx context.Context, req *v1.ScriptTaskSyncReq) (res *v1.ScriptTaskExecRes, err error) {
 
-	res = &v1.ScriptRes{}
+	res = &v1.ScriptTaskExecRes{}
 	wg := sync.WaitGroup{}
 
-	for _, item := range req.Peers {
+	createFunc := func(peerid string, scriptJob *model.ScriptJob) error {
 		wg.Add(1)
-		go func(peerid string) {
+		go func() {
 			defer func() {
 				wg.Done()
 			}()
-			jobid := uuid.New().String()
-			scriptJob := model.ScriptJob{
-				Jobid:   jobid,
-				Script:  req.Content,
-				RunMode: "sync",
-			}
+
+			scriptJob.RunMode = "sync"
 
 			r, err := peer.SendMsgSyncWithTimeout(peer.GetOspPeer().PNet, scriptJob, peerid, "", time.Duration(req.Content.Timeout*int(time.Second))+time.Second*20)
 			if err != nil {
-				resCmd := model.ResCmd{Err: err.Error()}
-				resResponse := &model.ResponseResCmd{Jobid: jobid, PeerId: peerid, ResCmd: resCmd}
-				res.List = append(res.List, resResponse)
+				resCmd := model.ResCmd{Err: err.Error(), Code: model.CodeFailed}
+				resResponse := &model.ResponseResCmd{Jobid: scriptJob.Jobid, PeerId: peerid, ResCmd: resCmd}
+
+				res.List = append(res.List, &v1.ScriptTaskExecItem{ResponseResCmd: resResponse, Status: "failed"})
+				service.Task().UpdateSubScriptTask(ctx, resResponse)
+
 				return
 			}
 
 			v, err := message.JSONCodec.Decode(r)
 			if err != nil {
 				resCmd := model.ResCmd{Err: err.Error()}
-				resResponse := &model.ResponseResCmd{Jobid: jobid, PeerId: peerid, ResCmd: resCmd}
-				res.List = append(res.List, resResponse)
+				resResponse := &model.ResponseResCmd{Jobid: scriptJob.Jobid, PeerId: peerid, ResCmd: resCmd}
+				res.List = append(res.List, &v1.ScriptTaskExecItem{ResponseResCmd: resResponse, Status: "failed"})
+				service.Task().UpdateSubScriptTask(ctx, resResponse)
+
 				return
 			}
 
 			val := v.(*model.ResponseResCmd)
-			res.List = append(res.List, val)
-		}(item)
 
+			service.Task().UpdateSubScriptTask(ctx, val)
+			status := "done"
+
+			if val.ResCmd.Code != model.CodeSuccess {
+				status = "failed"
+			}
+			res.List = append(res.List, &v1.ScriptTaskExecItem{ResponseResCmd: val, Status: status})
+		}()
+		return nil
+	}
+
+	taskid, err := service.Task().CreateScriptTask(ctx, &req.ScriptTask, createFunc)
+	if err != nil {
+		return
 	}
 
 	wg.Wait()
+
+	failedcnt := 0
+	for _, item := range res.List {
+		if item.Status == "failed" {
+			failedcnt++
+		}
+	}
+	res.Status = "failed"
+	if failedcnt == 0 {
+		res.Status = "done"
+	}
+
+	service.Task().UpdataScriptTaskStatus(ctx, taskid, res.Status)
+	res.TaskId = taskid
 
 	return
 }

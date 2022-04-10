@@ -37,6 +37,9 @@ var (
 				)
 			})
 
+			s.SetIndexFolder(true)
+			s.AddSearchPath("public")
+			s.AddStaticPath("/public", "public")
 			s.Plugin(&swagger.Swagger{})
 			s.SetPort(8199)
 			enhanceOpenAPIDoc(s)

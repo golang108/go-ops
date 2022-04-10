@@ -83,6 +83,7 @@ func (s ContentScript) Run() (r model.ResCmd) {
 	command.Args = append(command.Args, s.args...)
 	command.Timeout = s.timeout
 	command.User = s.user
+	command.WorkingDir = s.path
 
 	if s.input != "" {
 		command.Stdin = strings.NewReader(s.input)

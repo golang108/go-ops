@@ -12,6 +12,7 @@ import (
 
 	v1 "osp/api/v1"
 	"osp/internal/model"
+	"osp/model/entity"
 	"osp/service/internal/dao"
 	"osp/service/internal/do"
 
@@ -30,7 +31,7 @@ func Task() *sTask {
 	return &insTask
 }
 
-func (self *sTask) CreateScriptTask(ctx context.Context, req *v1.ScriptTaskReq, createTask func(peerid string, scriptJob *model.ScriptJob) error) (taskId string, err error) {
+func (self *sTask) CreateScriptTask(ctx context.Context, req *v1.ScriptTask, createTask func(peerid string, scriptJob *model.ScriptJob) error) (taskId string, err error) {
 
 	taskId = uuid.New().String()
 
@@ -130,26 +131,29 @@ func (self *sTask) UpdateSubScriptTask(ctx context.Context, req *model.ResponseR
 	return err
 }
 
+func (self *sTask) UpdataScriptTaskStatus(ctx context.Context, taskid string, status string) (err error) {
+	_, err = dao.Task.Ctx(ctx).Data("status = ", status).Where("task_id = ?", taskid).Update()
+	return
+}
+
 func (self *sTask) GetScriptTask(ctx context.Context, taskid string) (r *v1.ScriptTaskExecRes, err error) {
-	item := do.Task{}
+	var mtask *entity.Task
 
-	err = dao.Task.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
-		_, err = dao.Task.Ctx(ctx).Data(item).Where("task_id = ?", taskid).One()
-		return err
-	})
-
+	err = dao.Task.Ctx(ctx).Where("task_id = ?", taskid).Scan(&mtask)
 	if err != nil {
 		return
 	}
 
-	subList := make([]do.Task, 0)
+	if mtask == nil {
+		fmt.Println("mtask nil")
+	}
 
-	err = dao.Task.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
-		_, err = dao.Task.Ctx(ctx).Data(subList).Where("parent_id = ?", taskid).All()
-		return err
-	})
+	var subList []*entity.Task
+
+	err = dao.Task.Ctx(ctx).Where("parent_id = ?", taskid).Scan(&subList)
 
 	if err != nil {
+		fmt.Println("err2->", err)
 		return
 	}
 
@@ -158,27 +162,29 @@ func (self *sTask) GetScriptTask(ctx context.Context, taskid string) (r *v1.Scri
 	doingcnt := 0
 	failedcnt := 0
 	for _, item := range subList {
-		status := item.Status.(string)
-		if status == "doing" {
+
+		if item.Status == "doing" {
 			doingcnt++
 		}
 
-		if status == "failed" {
+		if item.Status == "failed" {
 			failedcnt++
 		}
 
-		content := item.Content.(string)
-
 		resTaskExecItem := new(v1.ScriptTaskExecItem)
 
-		json.Unmarshal([]byte(content), resTaskExecItem)
-		resTaskExecItem.Status = status
+		json.Unmarshal([]byte(item.Content), resTaskExecItem)
+		resTaskExecItem.Status = item.Status
 		resTaskExecList = append(resTaskExecList, resTaskExecItem)
 
 	}
 
 	mstatus := "doing"
-	if item.Status.(string) == "doing" {
+
+	if mtask == nil {
+		fmt.Println("mtask is nil")
+	}
+	if mtask.Status == "doing" {
 		if doingcnt == 0 {
 			if failedcnt == 0 {
 				mstatus = "done"

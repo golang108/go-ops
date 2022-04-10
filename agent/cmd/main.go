@@ -11,7 +11,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/luxingwen/pnet/config"
+	"github.com/shirou/gopsutil/v3/host"
 )
 
 func InitSignal() {
@@ -31,36 +33,65 @@ func main() {
 	fg := flag.NewFlagSet("agent", flag.ContinueOnError)
 
 	var addr string
+	var port uint64
+	var name string
+	var id string
+	var h bool
 	fg.StringVar(&addr, "addr", "tcp://127.0.0.1:9000", "-addr")
+	fg.Uint64Var(&port, "port", 13333, "-port port")
+	fg.StringVar(&name, "name", "", "-name name")
+	fg.StringVar(&id, "id", "", "-id name")
+	fg.BoolVar(&h, "h", false, "-h help")
 
 	err := fg.Parse(os.Args[1:])
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	if h {
+		fg.Usage()
+		return
+	}
+
 	ospAgent := agent.NewOspAgent("./")
 
 	conf := &config.Config{}
-	name, err := os.Hostname()
 
-	if err != nil {
-
-		log.Fatal(err)
+	if name == "" {
+		name, err = os.Hostname()
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
-	conf.Name = name
-	conf.Port = 33553
+	if id == "" {
+		hid, err := host.HostID()
+		if err != nil {
+			id = uuid.New().String()
+		} else {
+			id = hid
+		}
+	}
 
-	p, err := peer.NewPnet("agent-1", conf, ospAgent.HandlerFunc)
+	id = id + "@agent"
+
+	conf.Name = name
+	conf.Port = uint16(port)
+
+	p, err := peer.NewPnet(id, conf, ospAgent.HandlerFunc)
 	if err != nil {
 		fmt.Println("new peer err:")
 		return
 	}
 
+	//p.GetLocalNode().SetType("client")
+
 	err = p.Start()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println("join add:", addr)
 
 	remoteNode, err := p.Join(addr)
 	if err != nil {

@@ -1,3 +1,6 @@
+agent/cmd/agent
+osp
+relaypeer/relaypeer
 .buildpath
 .hgignore.swp
 .project

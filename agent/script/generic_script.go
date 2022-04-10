@@ -70,6 +70,7 @@ func (s GenericScript) Run() (r model.ResCmd) {
 	command.Args = append(command.Args, args...)
 	command.Timeout = s.timeout
 	command.User = s.user
+	command.WorkingDir = s.path
 
 	res, err := s.runner.RunCommand(s.jobid, command)
 	return s.getResCmd(res, err)
