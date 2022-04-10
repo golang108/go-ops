@@ -110,3 +110,11 @@ func (service asyncTaskService) execTask(val interface{}) {
 	}
 
 }
+
+func (service asyncTaskService) Stop() {
+	for _, item := range service.currentTasks {
+		if item.State == StateRunning {
+			item.Cancel()
+		}
+	}
+}

@@ -1,7 +1,11 @@
 package peer
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
+	"osp/internal/model"
+	"osp/service"
 
 	"github.com/luxingwen/pnet"
 	"github.com/luxingwen/pnet/config"
@@ -14,6 +18,12 @@ type OspPeer struct {
 
 func (self *OspPeer) HandlerFunc(msg interface{}, msgID []byte, srcID, rpath string, pn *pnet.PNet) {
 	switch v := msg.(type) {
+	case *model.ResponseResCmd:
+		fmt.Println("res cmd:", v.Jobid)
+		err := service.Task().UpdateSubScriptTask(context.Background(), v)
+		if err != nil {
+			fmt.Println("update err:", err)
+		}
 	default:
 		b, _ := json.Marshal(v)
 		log.Error("msg handler not found,msg: %s", string(b))

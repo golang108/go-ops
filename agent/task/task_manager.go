@@ -24,7 +24,6 @@ func (provider taskManagerProvider) NewManager(
 type taskerManager struct {
 	fsSem     chan func()
 	tasksPath string
-
 	taskInfos map[string]Info
 }
 
@@ -65,6 +64,10 @@ func (m *taskerManager) GetInfos() ([]Info, error) {
 	}
 
 	return r, nil
+}
+
+func (m *taskerManager) GetTaskInfo(taskid string) (r Info, ok bool) {
+	return
 }
 
 func (m *taskerManager) AddInfo(taskInfo Info) error {

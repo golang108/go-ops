@@ -42,9 +42,7 @@ func (self *OspAgent) CreateScriptTask(s *model.ScriptJob, srcId string, msgID [
 	}
 
 	endFunc := func(t task.Task) {
-		defer func() {
-			ctx.Done()
-		}()
+
 		if s.RunMode == "sync" {
 			err := peer.SendMsgReplay(pn, t.Value, msgID, srcId, rpath)
 			if err != nil {
@@ -52,6 +50,7 @@ func (self *OspAgent) CreateScriptTask(s *model.ScriptJob, srcId string, msgID [
 			}
 			return
 		}
+		fmt.Println("我来到了这里")
 		err := peer.SendMsgAsync(pn, t.Value, srcId, rpath)
 		if err != nil {
 			fmt.Println("send msg replay err:", err)

@@ -28,7 +28,7 @@ func main() {
 	conf.Port = 9001
 	conf.Name = "osp"
 
-	err = peer.InitOspPeer("osp-server-1", conf)
+	err = peer.InitOspPeer("osp-server-2", conf)
 	if err != nil {
 		log.Fatal(err)
 	}
