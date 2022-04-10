@@ -25,15 +25,18 @@ func main() {
 	}
 
 	conf := &config.Config{}
-	conf.Port = 9001
+	conf.Port = 9002
 	conf.Name = "osp"
 
-	err = peer.InitOspPeer("osp-server-2", conf)
+	err = peer.InitOspPeer("osp-server-1", conf)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	peer.GetOspPeer().Join(addr)
+	_, err = peer.GetOspPeer().Join(addr)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	cmd.Main.Run(gctx.New())
 }

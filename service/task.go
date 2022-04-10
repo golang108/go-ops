@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
+
+	"github.com/gogf/gf/v2/frame/g"
 
 	"github.com/gogf/gf/v2/database/gdb"
 
@@ -125,4 +128,75 @@ func (self *sTask) UpdateSubScriptTask(ctx context.Context, req *model.ResponseR
 		return err
 	})
 	return err
+}
+
+func (self *sTask) GetScriptTask(ctx context.Context, taskid string) (r *v1.ScriptTaskExecRes, err error) {
+	item := do.Task{}
+
+	err = dao.Task.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
+		_, err = dao.Task.Ctx(ctx).Data(item).Where("task_id = ?", taskid).One()
+		return err
+	})
+
+	if err != nil {
+		return
+	}
+
+	subList := make([]do.Task, 0)
+
+	err = dao.Task.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
+		_, err = dao.Task.Ctx(ctx).Data(subList).Where("parent_id = ?", taskid).All()
+		return err
+	})
+
+	if err != nil {
+		return
+	}
+
+	resTaskExecList := make([]*v1.ScriptTaskExecItem, 0)
+
+	doingcnt := 0
+	failedcnt := 0
+	for _, item := range subList {
+		status := item.Status.(string)
+		if status == "doing" {
+			doingcnt++
+		}
+
+		if status == "failed" {
+			failedcnt++
+		}
+
+		content := item.Content.(string)
+
+		resTaskExecItem := new(v1.ScriptTaskExecItem)
+
+		json.Unmarshal([]byte(content), resTaskExecItem)
+		resTaskExecItem.Status = status
+		resTaskExecList = append(resTaskExecList, resTaskExecItem)
+
+	}
+
+	mstatus := "doing"
+	if item.Status.(string) == "doing" {
+		if doingcnt == 0 {
+			if failedcnt == 0 {
+				mstatus = "done"
+			} else {
+				mstatus = "failed"
+			}
+
+			err = dao.Task.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
+				_, err = dao.Task.Ctx(ctx).Data(g.Map{"status": mstatus}).Where("task_id = ?", taskid).Update()
+				return err
+			})
+			if err != nil {
+				fmt.Println("update err:", err)
+			}
+		}
+	}
+
+	r = &v1.ScriptTaskExecRes{TaskId: taskid, Status: mstatus, List: resTaskExecList}
+	return
+
 }

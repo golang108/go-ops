@@ -59,8 +59,8 @@ type ResponseResCmd struct {
 type ExecWay int
 
 type TaskInfo struct {
-	Req    interface{} `json:"req"` // 请求参数
-	Status string      `json:"任务状态"`
+	Req    interface{} `json:"req"`    // 请求参数
+	Status string      `json:"status"` // 任务状态
 	Value  interface{} `json:"value"`
 	Err    string      `json:"err"` // 错误信息
 }

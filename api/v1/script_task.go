@@ -46,8 +46,8 @@ type ScriptTaskCancelRes struct {
 	List []*ScriptTaskCancel `json:"list"`
 }
 
-type ScriptTaskInfoReq struct {
-	g.Meta `path:"/script/taskinfo" tags:"script" method:"post" summary:"脚本信息"`
+type PeerScriptTaskInfoReq struct {
+	g.Meta `path:"/script/peer/taskinfo" tags:"script" method:"post" summary:"脚本信息"`
 	PeerId string `json:"peerid"`
 	TaskId string `json:"taskid"`
 }
@@ -55,4 +55,20 @@ type ScriptTaskInfoReq struct {
 type ScriptTaskInfoRes struct {
 	PeerId string `json:"peerid"`
 	*model.TaskInfo
+}
+
+type ScriptTaskExecItem struct {
+	*model.ResponseResCmd
+	Status string `json:"status"`
+}
+
+type ScriptTaskExecRes struct {
+	TaskId string                `json:"taskid"`
+	Status string                `json:"status"`
+	List   []*ScriptTaskExecItem `json:"list"`
+}
+
+type ScriptTaskInfoReq struct {
+	g.Meta `path:"/script/taskinfo" tags:"script" method:"post" summary:"脚本信息"`
+	TaskId string `json:"taskid"`
 }

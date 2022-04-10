@@ -41,7 +41,10 @@ func InitOspPeer(id string, conf *config.Config) (err error) {
 		return
 	}
 	ospPeer.PNet = pn
-	pn.Start()
+	err = pn.Start()
+	if err != nil {
+		return
+	}
 	return
 }
 

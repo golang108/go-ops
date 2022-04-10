@@ -100,7 +100,7 @@ func (c *scritptTask) CancelTask(ctx context.Context, req *v1.ScriptTaskCancelRe
 	return
 }
 
-func (s *scritptTask) GetTaskInfo(ctx context.Context, req *v1.ScriptTaskInfoReq) (res *v1.ScriptTaskInfoRes, err error) {
+func (s *scritptTask) GetTaskInfo(ctx context.Context, req *v1.PeerScriptTaskInfoReq) (res *v1.ScriptTaskInfoRes, err error) {
 	res = new(v1.ScriptTaskInfoRes)
 	r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, &model.GetTaskInfo{TaskId: req.TaskId}, req.PeerId, "")
 	if err != nil {
@@ -116,4 +116,8 @@ func (s *scritptTask) GetTaskInfo(ctx context.Context, req *v1.ScriptTaskInfoReq
 	res.PeerId = req.PeerId
 	return
 
+}
+
+func (s *scritptTask) GetScriptTaskInfo(ctx context.Context, req *v1.ScriptTaskInfoReq) (res *v1.ScriptTaskExecRes, err error) {
+	return service.Task().GetScriptTask(ctx, req.TaskId)
 }
