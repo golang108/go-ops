@@ -34,6 +34,7 @@ var (
 					controller.Hello,
 					controller.ScritptTask,
 					controller.PeerManagaer,
+					controller.DownloadFileTask,
 				)
 			})
 

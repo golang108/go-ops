@@ -131,12 +131,10 @@ func (s *scritptTask) GetTaskInfo(ctx context.Context, req *v1.PeerScriptTaskInf
 	if err != nil {
 		return
 	}
-
 	val, err := message.JSONCodec.Decode(r)
 	if err != nil {
 		return
 	}
-
 	res.TaskInfo = val.(*model.TaskInfo)
 	res.PeerId = req.PeerId
 	return
