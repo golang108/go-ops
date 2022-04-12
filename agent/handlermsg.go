@@ -16,6 +16,8 @@ func (ospAgent *OspAgent) HandlerFunc(msg interface{}, msgID []byte, srcID, rpat
 		ospAgent.CancelcriptTask(v.Jobid, srcID, msgID, rpath, pn)
 	case *model.GetTaskInfo:
 		ospAgent.GetTaskInfo(v.TaskId, srcID, msgID, rpath, pn)
+	case *model.DownloadFileJob:
+		ospAgent.DownloadFile(v, srcID, msgID, rpath, pn)
 	default:
 		b, _ := json.Marshal(v)
 		log.Error("msg handler not found,msg: %s", string(b))
