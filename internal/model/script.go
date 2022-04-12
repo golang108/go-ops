@@ -8,16 +8,16 @@ import (
 )
 
 type Script struct {
-	Path     string            `json:"path"`     //工作路径
-	Cmd      string            `json:"cmd"`      // 解释器
-	Env      map[string]string `json:"env"`      // 环境变量
-	Content  string            `json:"content"`  // 脚本内容
-	ExecWay  ExecWay           `json:"execWay"`  // 执行方式
-	FileHash string            `json:"filehash"` // 文件hash  从服务器上下载脚本需要
-	User     string            `json:"user"`     // 特定用户
-	Timeout  int               `json:"timeout"`  // 超时时间
-	Args     []string          `json:"args"`     // 输入参数
-	Input    string            `json:"input"`    // 输入内容
+	Path     string            `json:"path" dc:"脚本工作路径"`                                                                                       //工作路径
+	Cmd      string            `json:"cmd" dc:"解释器"`                                                                                           // 解释器
+	Env      map[string]string `json:"env" dc:"环境变量"`                                                                                          // 环境变量
+	Content  string            `json:"content" dc:"脚本内容"`                                                                                      // 脚本内容
+	ExecWay  ExecWay           `json:"execWay" dc:"脚本执行方式,0-命令行执行(适合简单命令) 1-内容执行(脚本内容会保存到一个文件下进行运行) 2-脚本名执行,脚本存在本机上, 3-从服务器上下载脚本执行, 脚本放在服务器上"` // 执行方式
+	FileHash string            `json:"filehash"`                                                                                               // 文件hash  从服务器上下载脚本需要
+	User     string            `json:"user" dc:"脚本执行的用户"`                                                                                      // 特定用户
+	Timeout  int               `json:"timeout" dc:"脚本执行的超时时间"`                                                                                 // 超时时间
+	Args     []string          `json:"args" dc:"脚本需要传入的参数"`                                                                                    // 输入参数
+	Input    string            `json:"input" dc:"脚本通过stdin输入内容"`                                                                               // 输入内容
 }
 
 type ScriptJob struct {

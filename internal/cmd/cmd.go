@@ -11,7 +11,6 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
-	"github.com/gogf/swagger/v2"
 )
 
 func MiddlewareCORS(r *ghttp.Request) {
@@ -31,7 +30,6 @@ var (
 				group.Middleware(MiddlewareCORS)
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
-					controller.Hello,
 					controller.ScritptTask,
 					controller.PeerManagaer,
 					controller.DownloadFileTask,
@@ -40,9 +38,9 @@ var (
 
 			s.SetIndexFolder(true)
 			s.AddSearchPath("public")
+			s.AddSearchPath("swagger")
 			s.AddStaticPath("/public", "public")
-			s.Plugin(&swagger.Swagger{})
-			s.SetPort(8199)
+			s.AddStaticPath("/swagger", "swagger")
 			enhanceOpenAPIDoc(s)
 			s.Run()
 			return nil
@@ -60,8 +58,8 @@ func enhanceOpenAPIDoc(s *ghttp.Server) {
 		Title:       consts.OpenAPITitle,
 		Description: consts.OpenAPIDescription,
 		Contact: &goai.Contact{
-			Name: "GoFrame",
-			URL:  "https://goframe.org",
+			Name: "LUXINGWEN",
+			URL:  "https://yun.pingan.com",
 		},
 	}
 }

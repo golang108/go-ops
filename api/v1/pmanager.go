@@ -7,18 +7,18 @@ import (
 )
 
 type NodeReq struct {
-	g.Meta `path:"/peer/nodes" tags:"Hello" method:"post" summary:"You first hello api"`
-	NodeId string `json:"nodeid"`
+	g.Meta `path:"/peer/nodes" tags:"节点管理" method:"post" summary:"获取节点连接信息"`
+	NodeId string `json:"nodeid" dc:"节点id,空表示当前节点"`
 }
 
 type NodeRes struct {
-	Nodes []*protos.Node `json:""`
+	Nodes []*protos.Node `json:"" dc:"节点列表"`
 }
 
 type NodeConnectReq struct {
-	g.Meta     `path:"/peer/node/connect" tags:"Hello" method:"post" summary:"You first hello api"`
-	NodeId     string `json:"nodeid"`
-	RemoteAddr string `json:"remoteAddr"`
+	g.Meta     `path:"/peer/node/connect" tags:"节点管理" method:"post" summary:"连接节点"`
+	NodeId     string `json:"nodeid" dc:"节点id"`
+	RemoteAddr string `json:"remoteAddr" dc:"远程节点连接地址"`
 }
 
 type NodeOpRes struct {
@@ -26,13 +26,13 @@ type NodeOpRes struct {
 }
 
 type NodeStopReq struct {
-	g.Meta   `path:"/peer/node/stop" tags:"Hello" method:"post" summary:"You first hello api"`
+	g.Meta   `path:"/peer/node/stop" tags:"节点管理" method:"post" summary:"停止节点连接"`
 	NodeId   string `json:"nodeid"`
 	RemoteId string `json:"remoteId"`
 }
 
 type NodeStatReq struct {
-	g.Meta `path:"/peer/node/stat" tags:"Hello" method:"post" summary:"You first hello api"`
+	g.Meta `path:"/peer/node/stat" tags:"节点管理" method:"post" summary:"获取节点状态"`
 	NodeId string `json:"nodeid"`
 }
 

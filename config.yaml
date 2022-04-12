@@ -12,3 +12,5 @@ database:
 
 server:
   ServerRoot: "public"
+  address: ":8199"
+  openapiPath: "/api.json"

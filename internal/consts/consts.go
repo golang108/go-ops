@@ -1,6 +1,6 @@
 package consts
 
 const (
-	OpenAPITitle       = `GoFrame Demos`
-	OpenAPIDescription = `This is a simple demos HTTP server project that is using GoFrame. Enjoy 💖 `
+	OpenAPITitle       = `OSP Server`
+	OpenAPIDescription = `这是osp server的swagger文档. Enjoy 💖 `
 )
