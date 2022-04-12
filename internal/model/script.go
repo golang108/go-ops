@@ -16,8 +16,8 @@ type Script struct {
 	FileHash string            `json:"filehash"` // 文件hash  从服务器上下载脚本需要
 	User     string            `json:"user"`     // 特定用户
 	Timeout  int               `json:"timeout"`  // 超时时间
-	Args     []string          `json:"args"`
-	Input    string            `json:"input"` // 输入内容
+	Args     []string          `json:"args"`     // 输入参数
+	Input    string            `json:"input"`    // 输入内容
 }
 
 type ScriptJob struct {
