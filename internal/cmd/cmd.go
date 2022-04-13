@@ -33,6 +33,8 @@ var (
 					controller.ScritptTask,
 					controller.PeerManagaer,
 					controller.DownloadFileTask,
+					controller.App,
+					controller.Task,
 				)
 			})
 
