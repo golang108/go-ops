@@ -1,13 +1,11 @@
 package system
 
 import (
-	"fmt"
 	"os/exec"
 	"strings"
 )
 
 func newExecCmd(name string, args ...string) *exec.Cmd {
-	fmt.Println("cmd:", name, strings.Join(args, " "))
 	return exec.Command(name, args...)
 }
 

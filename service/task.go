@@ -381,7 +381,7 @@ func (self *sTask) GetFileDownloadTaskInfo(ctx context.Context, taskid string) (
 func (self *sTask) QueryTask(ctx context.Context, req *v1.TaskQueryReq) (res *v1.TaskInfoRes, err error) {
 	//
 
-	var tasks *entity.Task
+	//var tasks *entity.Task
 
 	// err = dao.Task.Ctx(ctx).Where("task_id = ?", req.TaskID).
 

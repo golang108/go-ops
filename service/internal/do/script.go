@@ -22,4 +22,5 @@ type Script struct {
 	OwnerUid  interface{} // 拥有者uid
 	Created   *gtime.Time //
 	Updated   *gtime.Time //
+	ScriptUid interface{} //
 }

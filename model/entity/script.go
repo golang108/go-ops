@@ -20,4 +20,5 @@ type Script struct {
 	OwnerUid  string      `json:"ownerUid"  ` // 拥有者uid
 	Created   *gtime.Time `json:"created"   ` //
 	Updated   *gtime.Time `json:"updated"   ` //
+	ScriptUid string      `json:"scriptUid" ` //
 }

@@ -62,7 +62,7 @@ func (p *execProcess) Wait(ctx context.Context) (res Result) {
 	case <-ctx.Done():
 		syscall.Kill(-p.cmd.Process.Pid, syscall.SIGKILL)
 		res = p.getResult()
-		res.ExitWay = EXITWAY_TIMEOUT
+		res.ExitWay = EXITWAY_CANCEL
 		return res
 	case err := <-done:
 		res = p.getResult()

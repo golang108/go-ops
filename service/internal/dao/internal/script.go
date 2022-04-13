@@ -29,6 +29,7 @@ type ScriptColumns struct {
 	OwnerUid  string // 拥有者uid
 	Created   string //
 	Updated   string //
+	ScriptUid string //
 }
 
 //  scriptColumns holds the columns for table script.
@@ -43,6 +44,7 @@ var scriptColumns = ScriptColumns{
 	OwnerUid:  "owner_uid",
 	Created:   "created",
 	Updated:   "updated",
+	ScriptUid: "script_uid",
 }
 
 // NewScriptDao creates and returns a new DAO object for table data access.
