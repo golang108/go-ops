@@ -63,7 +63,7 @@ type ScriptTaskExecItem struct {
 }
 
 type ScriptTaskExecRes struct {
-	TaskId string                `json:"taskid"`
+	TaskId string                `json:"taskid" dc:"任务id"`
 	Status string                `json:"status"`
 	List   []*ScriptTaskExecItem `json:"list"`
 }
