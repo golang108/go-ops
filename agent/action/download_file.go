@@ -9,6 +9,33 @@ import (
 	"path/filepath"
 )
 
+func Download(ctx context.Context, toFile, urlAddress string) (err error) {
+	hreq, err := http.NewRequestWithContext(ctx, "GET", urlAddress, nil)
+	if err != nil {
+		return
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(hreq)
+	if err != nil {
+
+		return
+	}
+
+	defer resp.Body.Close()
+
+	f, err := os.Create(toFile)
+	if err != nil {
+		return
+	}
+
+	defer f.Close()
+
+	io.Copy(f, resp.Body)
+
+	return
+}
+
 func DownloadFile(ctx context.Context, req *model.DownloadFileInfo) (res *model.DownloadFileRes) {
 
 	savePath := filepath.Dir(req.Path)
