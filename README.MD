@@ -1,5 +1,7 @@
 # OSP
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 OSP是面向云平台系统, 基于 PaaS 技术支持客户实现 DevOps 解决方案的平台。提供完善作业管理、配置管理、定期调度、健康巡检等模块，助力运维人员快速、低成本、自动化的管理配置运维系统。
 
 
@@ -46,3 +48,9 @@ OSP是由很多节点组成的,是一个完全去中心化的,底层实现了一
  * [x] agent启动 
  * [x] agent停止
 
+
+## 其它
+
+该项目基于GoFrame 2.0 开发, 目前项目还在处于开发阶段, 未经过测试, 请勿用于生产。
+
+- 前端: https://github.com/luxingwen/ospApp
