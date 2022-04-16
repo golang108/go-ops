@@ -36,6 +36,7 @@ var (
 					controller.App,
 					controller.Task,
 					controller.Script,
+					controller.Agent,
 				)
 			})
 
@@ -62,7 +63,7 @@ func enhanceOpenAPIDoc(s *ghttp.Server) {
 		Description: consts.OpenAPIDescription,
 		Contact: &goai.Contact{
 			Name: "LUXINGWEN",
-			URL:  "https://yun.pingan.com",
+			URL:  "https://github.com/luxingwen",
 		},
 	}
 }
