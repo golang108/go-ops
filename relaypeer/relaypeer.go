@@ -3,12 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go-ops/agent"
+	"go-ops/peer"
 	"log"
 	"net"
 	"os"
 	"os/signal"
-	"osp/agent"
-	"osp/peer"
 	"syscall"
 
 	"github.com/google/uuid"

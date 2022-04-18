@@ -1,7 +1,7 @@
 package action
 
 import (
-	"osp/internal/model"
+	"go-ops/internal/model"
 	"path/filepath"
 
 	"github.com/toolkits/file"

@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go-ops/agent"
+	"go-ops/peer"
 	"log"
 	"os"
 	"os/signal"
-	"osp/agent"
-	"osp/peer"
 	"syscall"
 	"time"
 

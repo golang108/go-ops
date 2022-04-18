@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"time"
 
-	"osp/pkg/errors"
+	"go-ops/pkg/errors"
 )
 
 const (

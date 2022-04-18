@@ -1,6 +1,6 @@
 package script
 
-import "osp/internal/model"
+import "go-ops/internal/model"
 
 type Script interface {
 	Path() string

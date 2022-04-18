@@ -4,4 +4,4 @@ const ScriptExt = ""
 
 const Cmder = "/bin/sh"
 
-const ScriptPath = "/tmp/osp/script"
+const ScriptPath = "/tmp/go-ops/script"

@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"osp/agent/action"
-	"osp/agent/script"
-	"osp/agent/task"
-	"osp/internal/model"
-	"osp/peer"
+	"go-ops/agent/action"
+	"go-ops/agent/script"
+	"go-ops/agent/task"
+	"go-ops/internal/model"
+	"go-ops/peer"
 
 	"github.com/luxingwen/pnet"
 )

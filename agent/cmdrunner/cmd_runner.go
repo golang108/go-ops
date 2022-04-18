@@ -1,8 +1,8 @@
 package cmdrunner
 
 import (
-	"osp/internal/model"
-	ospsys "osp/pkg/system"
+	"go-ops/internal/model"
+	ospsys "go-ops/pkg/system"
 )
 
 type CmdResult struct {

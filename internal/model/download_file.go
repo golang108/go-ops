@@ -1,8 +1,8 @@
 package model
 
 import (
-	"osp/pkg/message"
-	"osp/pkg/util"
+	"go-ops/pkg/message"
+	"go-ops/pkg/util"
 	"reflect"
 )
 

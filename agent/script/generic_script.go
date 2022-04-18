@@ -6,9 +6,9 @@ import (
 
 	"github.com/charlievieth/fs"
 
-	"osp/agent/cmdrunner"
-	"osp/agent/script/cmd"
-	"osp/internal/model"
+	"go-ops/agent/cmdrunner"
+	"go-ops/agent/script/cmd"
+	"go-ops/internal/model"
 )
 
 const (

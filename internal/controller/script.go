@@ -2,8 +2,8 @@ package controller
 
 import (
 	"context"
-	v1 "osp/api/v1"
-	"osp/service"
+	v1 "go-ops/api/v1"
+	"go-ops/service"
 )
 
 var Script *script = new(script)

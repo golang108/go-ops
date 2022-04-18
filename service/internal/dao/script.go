@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"osp/service/internal/dao/internal"
+	"go-ops/service/internal/dao/internal"
 )
 
 // internalScriptDao is internal type for wrapping internal DAO implements.

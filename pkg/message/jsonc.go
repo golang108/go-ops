@@ -2,7 +2,7 @@ package message
 
 import (
 	"encoding/json"
-	"osp/pkg/schema"
+	"go-ops/pkg/schema"
 
 	"github.com/luxingwen/pnet/log"
 

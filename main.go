@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go-ops/internal/cmd"
+	_ "go-ops/internal/packed"
+	"go-ops/peer"
 	"log"
 	"os"
-	"osp/internal/cmd"
-	_ "osp/internal/packed"
-	"osp/peer"
 
 	"github.com/luxingwen/pnet/config"
 

@@ -2,7 +2,7 @@ package controller
 
 import (
 	"context"
-	v1 "osp/api/v1"
+	v1 "go-ops/api/v1"
 )
 
 var Agent *agent = new(agent)

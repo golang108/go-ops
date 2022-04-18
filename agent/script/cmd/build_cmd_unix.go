@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	ospenv "osp/agent/script/pathenv"
-	ospsys "osp/pkg/system"
+	ospenv "go-ops/agent/script/pathenv"
+	ospsys "go-ops/pkg/system"
 )
 
 func BuildCommand(path string) ospsys.Command {

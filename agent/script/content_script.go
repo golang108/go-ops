@@ -1,11 +1,11 @@
 package script
 
 import (
+	"go-ops/agent/cmdrunner"
+	"go-ops/internal/model"
 	"os"
-	"osp/agent/cmdrunner"
-	"osp/internal/model"
 
-	"osp/agent/script/cmd"
+	"go-ops/agent/script/cmd"
 	"path"
 	"strings"
 )

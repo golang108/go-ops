@@ -1,10 +1,10 @@
 package model
 
 import (
-	"osp/pkg/message"
+	"go-ops/pkg/message"
 	"reflect"
 
-	"osp/pkg/util"
+	"go-ops/pkg/util"
 )
 
 type Script struct {

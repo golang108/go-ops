@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"osp/internal/model"
+	"go-ops/internal/model"
 
 	"github.com/gogf/gf/v2/frame/g"
 )

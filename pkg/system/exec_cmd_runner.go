@@ -2,10 +2,10 @@ package system
 
 import (
 	"context"
+	"go-ops/pkg/errors"
 	"os"
 	"os/exec"
 	"os/user"
-	"osp/pkg/errors"
 	"runtime"
 	"strconv"
 	"strings"

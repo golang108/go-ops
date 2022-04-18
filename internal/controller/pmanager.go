@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	v1 "osp/api/v1"
-	"osp/peer"
+	v1 "go-ops/api/v1"
+	"go-ops/peer"
 	"time"
 
 	"github.com/luxingwen/pnet/log"

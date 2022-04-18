@@ -1,4 +1,4 @@
-module osp
+module go-ops
 
 go 1.15
 

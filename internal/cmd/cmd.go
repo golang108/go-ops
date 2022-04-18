@@ -5,8 +5,8 @@ import (
 
 	"github.com/gogf/gf/v2/protocol/goai"
 
-	"osp/internal/consts"
-	"osp/internal/controller"
+	"go-ops/internal/consts"
+	"go-ops/internal/controller"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"

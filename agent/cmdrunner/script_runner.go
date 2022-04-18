@@ -7,9 +7,9 @@ import (
 
 	"io/ioutil"
 
-	"osp/internal/model"
-	"osp/pkg/errors"
-	ospsys "osp/pkg/system"
+	"go-ops/internal/model"
+	"go-ops/pkg/errors"
+	ospsys "go-ops/pkg/system"
 )
 
 const (

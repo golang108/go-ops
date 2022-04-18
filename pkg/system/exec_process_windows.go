@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"osp/pkg/errors"
+	"go-ops/pkg/errors"
 )
 
 func (p *execProcess) Start() error {

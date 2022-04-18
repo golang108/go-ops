@@ -2,10 +2,10 @@ package action
 
 import (
 	"context"
+	"go-ops/internal/model"
 	"io"
 	"net/http"
 	"os"
-	"osp/internal/model"
 	"path/filepath"
 )
 

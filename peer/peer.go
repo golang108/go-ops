@@ -1,7 +1,7 @@
 package peer
 
 import (
-	"osp/pkg/message"
+	"go-ops/pkg/message"
 	"time"
 
 	"github.com/luxingwen/pnet/log"

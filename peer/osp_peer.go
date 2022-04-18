@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"osp/internal/model"
-	"osp/service"
+	"go-ops/internal/model"
+	"go-ops/service"
 
 	"github.com/luxingwen/pnet"
 	"github.com/luxingwen/pnet/config"

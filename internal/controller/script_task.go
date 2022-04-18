@@ -2,11 +2,11 @@ package controller
 
 import (
 	"context"
-	v1 "osp/api/v1"
-	"osp/internal/model"
-	"osp/peer"
-	"osp/pkg/message"
-	"osp/service"
+	v1 "go-ops/api/v1"
+	"go-ops/internal/model"
+	"go-ops/peer"
+	"go-ops/pkg/message"
+	"go-ops/service"
 	"sync"
 	"time"
 )

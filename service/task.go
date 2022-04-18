@@ -10,11 +10,11 @@ import (
 
 	"github.com/gogf/gf/v2/database/gdb"
 
-	v1 "osp/api/v1"
-	"osp/internal/model"
-	"osp/model/entity"
-	"osp/service/internal/dao"
-	"osp/service/internal/do"
+	v1 "go-ops/api/v1"
+	"go-ops/internal/model"
+	"go-ops/model/entity"
+	"go-ops/service/internal/dao"
+	"go-ops/service/internal/do"
 
 	"github.com/google/uuid"
 )
