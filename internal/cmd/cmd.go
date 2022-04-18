@@ -37,6 +37,7 @@ var (
 					controller.Task,
 					controller.Script,
 					controller.Agent,
+					controller.CheckItem,
 				)
 			})
 
