@@ -102,6 +102,23 @@ Go-ops是由很多节点组成的,是一个完全去中心化的,底层实现了
  * [ ] 调用方权限控制
  * [ ] 用户权限控制
 
+
+
+### Dev-build
+
+本项目分为api-server 端和 agent端, agent 端代码都在agent目录下。
+
+- go version >= 1.16
+- 第一次build 优先 go mod tidy
+- build agent: go build agent/cmd/main.go -o bin/agent
+- build api-server: build main.go -o bin/go-ops-server
+- 运行api-server: 先创建数据库,然后导入scripts/ops.sql 
+- 修改config.yaml 里面的link字符串为你的数据库连接串
+- go run main.go
+- http://ip:port/swagger  查看swagger文档
+
+
+
 ## 其它
 
 该项目基于GoFrame 2.0 开发, 目前项目还在处于开发阶段, 未经过测试, 请勿用于生产。
