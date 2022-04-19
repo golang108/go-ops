@@ -10,10 +10,28 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2022-04-10 13:22:50
+Date: 2022-04-19 21:55:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for agent_info
+-- ----------------------------
+DROP TABLE IF EXISTS `agent_info`;
+CREATE TABLE `agent_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `peerid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '节点id',
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'agent名称',
+  `expected_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '期望状态',
+  `status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_default` int(11) NOT NULL DEFAULT '0',
+  `timeout` int(11) DEFAULT NULL COMMENT '启动超时时间',
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '版本信息',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for app
@@ -34,6 +52,74 @@ CREATE TABLE `app` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
+-- Table structure for check_item
+-- ----------------------------
+DROP TABLE IF EXISTS `check_item`;
+CREATE TABLE `check_item` (
+  `id` int(11) NOT NULL,
+  `check_item_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '检查项名称',
+  `desc` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '检查项描述',
+  `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `content` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '检查项内容',
+  `creater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `updater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for check_tpl
+-- ----------------------------
+DROP TABLE IF EXISTS `check_tpl`;
+CREATE TABLE `check_tpl` (
+  `id` int(11) NOT NULL,
+  `tid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '唯一id',
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '名称',
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '描述',
+  `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '类型',
+  `creater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `updater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for check_tpl_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `check_tpl_detail`;
+CREATE TABLE `check_tpl_detail` (
+  `id` int(11) NOT NULL,
+  `tid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '模板id',
+  `cid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '检查项id',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `weight` double DEFAULT NULL COMMENT '权重',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for cron_task
+-- ----------------------------
+DROP TABLE IF EXISTS `cron_task`;
+CREATE TABLE `cron_task` (
+  `id` int(11) NOT NULL,
+  `cron_uid` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '定时任务名称',
+  `content` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '定时任务内容',
+  `cron_expr` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '定时任务表达式',
+  `lastrun_time` datetime DEFAULT NULL COMMENT '最后执行时间',
+  `nextrun_time` datetime DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '状态 running  stopped',
+  `creater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `updater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
 -- Table structure for script
 -- ----------------------------
 DROP TABLE IF EXISTS `script`;
@@ -48,6 +134,7 @@ CREATE TABLE `script` (
   `owner_uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '拥有者uid',
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
+  `script_uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -68,7 +155,7 @@ CREATE TABLE `task` (
   `updated` datetime DEFAULT NULL,
   `creater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for user
