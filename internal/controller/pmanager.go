@@ -147,3 +147,19 @@ func (self *peerManager) PeerStat(ctx context.Context, req *v1.NodeStatReq) (res
 
 	return
 }
+
+func (self *peerManager) FileList(ctx context.Context, req *v1.NodeFileListReq) (res *v1.NodeFileListRes, err error) {
+	return
+}
+
+func (self *peerManager) FileCreateDir(ctx context.Context, req *v1.NodeFileCreateDirReq) (res *v1.NodeFileListRes, err error) {
+	return
+}
+
+func (self *peerManager) FileMove(ctx context.Context, req *v1.NodeFileMoveReq) (res *v1.NodeFileListRes, err error) {
+	return
+}
+
+func (self *peerManager) FileDelete(ctx context.Context, req *v1.NodeFileDeleteReq) (res *v1.NodeFileListRes, err error) {
+	return
+}
