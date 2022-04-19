@@ -106,4 +106,3 @@ Go-ops是由很多节点组成的,是一个完全去中心化的,底层实现了
 
 该项目基于GoFrame 2.0 开发, 目前项目还在处于开发阶段, 未经过测试, 请勿用于生产。
 
-- 前端: https://github.com/luxingwen/ospApp

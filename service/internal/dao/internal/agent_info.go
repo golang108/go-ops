@@ -28,6 +28,7 @@ type AgentInfoColumns struct {
 	Timeout        string // 启动超时时间
 	Created        string //
 	Updated        string //
+	Version        string // 版本信息
 }
 
 //  agentInfoColumns holds the columns for table agent_info.
@@ -41,6 +42,7 @@ var agentInfoColumns = AgentInfoColumns{
 	Timeout:        "timeout",
 	Created:        "created",
 	Updated:        "updated",
+	Version:        "version",
 }
 
 // NewAgentInfoDao creates and returns a new DAO object for table data access.

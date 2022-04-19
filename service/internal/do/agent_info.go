@@ -21,4 +21,5 @@ type AgentInfo struct {
 	Timeout        interface{} // 启动超时时间
 	Created        *gtime.Time //
 	Updated        *gtime.Time //
+	Version        interface{} // 版本信息
 }

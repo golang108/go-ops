@@ -19,4 +19,5 @@ type AgentInfo struct {
 	Timeout        int         `json:"timeout"        ` // 启动超时时间
 	Created        *gtime.Time `json:"created"        ` //
 	Updated        *gtime.Time `json:"updated"        ` //
+	Version        string      `json:"version"        ` // 版本信息
 }
