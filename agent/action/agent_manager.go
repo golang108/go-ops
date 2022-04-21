@@ -16,7 +16,6 @@ import (
 	"runtime"
 
 	"github.com/toolkits/file"
-	"github.com/xinliangnote/go-gin-api/pkg/file"
 )
 
 const (
@@ -168,7 +167,7 @@ func (self *agentManager) Untar(a *model.AgentInfo) (err error) {
 func (self *agentManager) Backup(a *model.AgentInfo, version string) (err error) {
 	agentDir := self.agentDir + string(filepath.Separator) + a.Name
 
-	if !file.IsExists(agentDir) {
+	if !file.IsExist(agentDir) {
 		return nil
 	}
 
@@ -201,7 +200,7 @@ func (self *agentManager) Backup(a *model.AgentInfo, version string) (err error)
 
 	file.EnsureDir(self.agentDir + string(filepath.Separator) + "backup")
 
-	if file.IsExists(backupDir) {
+	if file.IsExist(backupDir) {
 		os.RemoveAll(backupDir)
 	}
 

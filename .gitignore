@@ -1,3 +1,4 @@
+config.yaml
 agent/cmd/agent
 osp
 relaypeer/relaypeer

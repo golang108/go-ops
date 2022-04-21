@@ -29,7 +29,7 @@ func (self *agentManager) Delete(a *model.AgentInfo) (err error) {
 
 func (self *agentManager) ControlScriptCheck(a *model.AgentInfo) bool {
 	workDir := self.agentDir + string(filepath.Separator) + a.Name
-	if file.IsExists(workDir + string(filepath.Separator) + getControlName()) {
+	if file.IsExist(workDir + string(filepath.Separator) + getControlName()) {
 		return true
 	}
 	return false
