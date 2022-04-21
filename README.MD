@@ -112,11 +112,11 @@ Go-ops是由很多节点组成的,是一个完全去中心化的,底层实现了
 
 - go version >= 1.16
 - 第一次build 优先 go mod tidy
-- build agent: go build agent/cmd/main.go -o bin/agent
-- build api-server: build main.go -o bin/go-ops-server
+- build agent: go build cmd/agent/main.go -o bin/agent
+- build api-server: build cmd/server/main.go -o bin/go-ops-server
 - 运行api-server: 先创建数据库,然后导入scripts/ops.sql 
 - 修改config.yaml 里面的link字符串为你的数据库连接串
-- go run main.go
+- go run cmd/server/main.go
 - http://ip:port/swagger  查看swagger文档
 
 

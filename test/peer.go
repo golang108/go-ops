@@ -56,7 +56,7 @@ func main() {
 	p5 := newPnet("p5", hostname, 40005)
 	p6 := newPnet("p6", hostname, 40006)
 
-	p1.Join("tcp://127.0.0.1:9999")
+	p1.Join("tcp://82.157.165.187:13333")
 
 	p2.Join(p1.GetLocalNode().Addr)
 	p3.Join(p2.GetLocalNode().Addr)
