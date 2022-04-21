@@ -15,6 +15,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/panjf2000/ants/v2 v2.4.8
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/shirou/gopsutil/v3 v3.22.3
 	github.com/toolkits/file v0.0.0-20160325033739-a5b3c5147e07
 	go.opentelemetry.io/otel/sdk v1.6.3 // indirect
