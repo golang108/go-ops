@@ -120,3 +120,8 @@ func (self *sApp) Update(ctx context.Context, req *v1.UpdateAppReq) (res *v1.Add
 
 	return
 }
+
+func (self *sApp) Delete(ctx context.Context, req *v1.DeleteAppReq) (err error) {
+	_, err = dao.App.Ctx(ctx).WhereIn("appid", req.Appids).Delete()
+	return
+}

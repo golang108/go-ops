@@ -39,3 +39,8 @@ type QueryAppReq struct {
 type QueryAppRes struct {
 	List []*entity.App `json:"list"`
 }
+
+type DeleteAppReq struct {
+	g.Meta `path:"/v1/m/app/delete" tags:"App管理" method:"post" summary:"删除app"`
+	Appids []string `json:"appids" dc:"app id 列表"`
+}
