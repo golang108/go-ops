@@ -132,3 +132,5 @@ type QueryCronTaskReq struct {
 type QueryCronTaskRes struct {
 	List []*CronTaskItemRes `json:"list"`
 }
+
+type CronTaskOpRes string

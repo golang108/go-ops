@@ -11,7 +11,7 @@ import (
 // CronTask is the golang structure for table cron_task.
 type CronTask struct {
 	Id          int         `json:"id"          ` //
-	CronUid     int         `json:"cronUid"     ` //
+	CronUid     string      `json:"cronUid"     ` //
 	Name        string      `json:"name"        ` // 定时任务名称
 	Content     string      `json:"content"     ` // 定时任务内容
 	CronExpr    string      `json:"cronExpr"    ` // 定时任务表达式
