@@ -38,6 +38,7 @@ var (
 					controller.Script,
 					controller.Agent,
 					controller.CheckItem,
+					controller.TaskPreset,
 				)
 			})
 
