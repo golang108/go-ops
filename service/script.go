@@ -2,10 +2,12 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	v1 "go-ops/api/v1"
 	"go-ops/model/entity"
 	"go-ops/service/internal/dao"
 
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/guid"
 )
 
@@ -25,11 +27,16 @@ func (self *sScript) Create(ctx context.Context, req *v1.AddScriptReq) (res *v1.
 
 	scriptUid := guid.S()
 
+	argsBytes, err := json.Marshal(req.Args)
+	if err != nil {
+		return
+	}
+
 	script := &entity.Script{
 		ScriptUid: scriptUid,
 		Name:      req.Name,
 		Content:   req.Content,
-		Args:      req.Args,
+		Args:      string(argsBytes),
 		Desc:      req.Desc,
 		Type:      req.Type,
 	}
@@ -48,7 +55,29 @@ func (self *sScript) Create(ctx context.Context, req *v1.AddScriptReq) (res *v1.
 
 func (self *sScript) Query(ctx context.Context, req *v1.ScriptQueryReq) (res *v1.ScriptInfoRes, err error) {
 
-	//da := dao.Script.Ctx(ctx).Where("1 = 1")
+	m := g.Map{}
+
+	if req.Name != "" {
+		m["name"] = req.Name
+
+	}
+
+	if req.Type != "" {
+		m["type"] = req.Type
+	}
+
+	list := make([]*entity.Script, 0)
+
+	err = dao.Script.Ctx(ctx).Where(m).Scan(&list)
+
+	if err != nil {
+		return
+	}
+
+	res = &v1.ScriptInfoRes{
+		List: list,
+	}
+	return
 
 	return
 }
@@ -63,8 +92,12 @@ func (self *sScript) Update(ctx context.Context, req *v1.UpdateScriptReq) (res *
 		return
 	}
 
-	if req.Args != "" {
-		script.Args = req.Args
+	if len(req.Args) != 0 {
+		argsBytes, err := json.Marshal(req.Args)
+		if err != nil {
+			return nil, err
+		}
+		script.Args = string(argsBytes)
 	}
 
 	if req.Content != "" {
@@ -93,10 +126,15 @@ func (self *sScript) Update(ctx context.Context, req *v1.UpdateScriptReq) (res *
 		ScriptId: req.ScriptId,
 		Name:     script.Name,
 		Content:  script.Content,
-		Args:     script.Content,
+		Args:     req.Args,
 		Desc:     script.Desc,
 		Type:     script.Type,
 	}
 
+	return
+}
+
+func (self *sScript) Delete(ctx context.Context, req *v1.DeleteScriptReq) (err error) {
+	_, err = dao.CronTask.Ctx(ctx).WhereIn("script_uid", req.ScriptIds).Delete()
 	return
 }
