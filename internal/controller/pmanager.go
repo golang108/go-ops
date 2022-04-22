@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	v1 "go-ops/api/v1"
+	"go-ops/internal/model"
 	"go-ops/peer"
+	"go-ops/pkg/message"
 	"time"
 
 	"github.com/luxingwen/pnet/log"
@@ -149,6 +151,22 @@ func (self *peerManager) PeerStat(ctx context.Context, req *v1.NodeStatReq) (res
 }
 
 func (self *peerManager) FileList(ctx context.Context, req *v1.NodeFileListReq) (res *v1.NodeFileListRes, err error) {
+
+	r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, &model.PeerListFileInfo{Peerid: req.NodeId, Path: req.Path}, req.NodeId, "")
+	if err != nil {
+		return
+	}
+
+	val, err := message.JSONCodec.Decode(r)
+	if err != nil {
+		return
+	}
+
+	fileinfo := val.(*model.PeerListFileInfoRes)
+
+	res = new(v1.NodeFileListRes)
+	res.Files = fileinfo.List
+
 	return
 }
 
