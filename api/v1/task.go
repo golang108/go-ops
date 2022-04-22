@@ -35,7 +35,7 @@ type UpdateTaskPresetReq struct {
 	Uuid    string `json:"uuid" dc:"预设任务uuid"`
 	Type    string `json:"type" dc:"任务类型"`
 	Name    string `json:"name" dc:"任务名"`
-	Creater string `json:"creater" dc:"创建人"`
+	Updater string `json:"updater" dc:"更新人"`
 	Content string `json:"content" dc:"预设任务内容"`
 }
 
@@ -67,4 +67,5 @@ type TaskPresetItemRes struct {
 	Content string `json:"content" dc:"预设任务内容"`
 	Created string `json:"created" dc:"创建时间"`
 	Updated string `json:"updated" dc:"更新时间"`
+	Updater string `json:"updater" dc:"更新人"`
 }

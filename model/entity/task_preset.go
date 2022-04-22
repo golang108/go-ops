@@ -19,4 +19,5 @@ type TaskPreset struct {
 	Creater string      `json:"creater" ` // 创建人
 	Created *gtime.Time `json:"created" ` // 创建时间
 	Updated *gtime.Time `json:"updated" ` // 更新时间
+	Updater string      `json:"updater" ` // 更新人
 }

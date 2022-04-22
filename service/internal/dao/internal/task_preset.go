@@ -28,6 +28,7 @@ type TaskPresetColumns struct {
 	Creater string // 创建人
 	Created string // 创建时间
 	Updated string // 更新时间
+	Updater string // 更新人
 }
 
 //  taskPresetColumns holds the columns for table task_preset.
@@ -41,6 +42,7 @@ var taskPresetColumns = TaskPresetColumns{
 	Creater: "creater",
 	Created: "created",
 	Updated: "updated",
+	Updater: "updater",
 }
 
 // NewTaskPresetDao creates and returns a new DAO object for table data access.

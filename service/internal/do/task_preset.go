@@ -21,4 +21,5 @@ type TaskPreset struct {
 	Creater interface{} // 创建人
 	Created *gtime.Time // 创建时间
 	Updated *gtime.Time // 更新时间
+	Updater interface{} // 更新人
 }
