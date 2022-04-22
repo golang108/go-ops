@@ -22,4 +22,5 @@ type CronTask struct {
 	Updater     string      `json:"updater"     ` // 更新人
 	Created     *gtime.Time `json:"created"     ` //
 	Updated     *gtime.Time `json:"updated"     ` //
+	Type        string      `json:"type"        ` // 任务类型
 }

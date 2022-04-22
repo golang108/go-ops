@@ -31,6 +31,7 @@ type CronTaskColumns struct {
 	Updater     string // 更新人
 	Created     string //
 	Updated     string //
+	Type        string // 任务类型
 }
 
 //  cronTaskColumns holds the columns for table cron_task.
@@ -47,6 +48,7 @@ var cronTaskColumns = CronTaskColumns{
 	Updater:     "updater",
 	Created:     "created",
 	Updated:     "updated",
+	Type:        "type",
 }
 
 // NewCronTaskDao creates and returns a new DAO object for table data access.

@@ -24,4 +24,5 @@ type CronTask struct {
 	Updater     interface{} // 更新人
 	Created     *gtime.Time //
 	Updated     *gtime.Time //
+	Type        interface{} // 任务类型
 }

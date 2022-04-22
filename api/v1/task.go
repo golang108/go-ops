@@ -69,3 +69,66 @@ type TaskPresetItemRes struct {
 	Updated string `json:"updated" dc:"更新时间"`
 	Updater string `json:"updater" dc:"更新人"`
 }
+
+type AddCronTaskReq struct {
+	g.Meta   `path:"/v1/m/task/cron/create" tags:"Task管理" method:"post" summary:"创建定时任务"`
+	Name     string `json:"name" dc:"任务名称"`
+	Type     string `json:"type" dc:"任务类型"`
+	Creater  string `json:"creater" dc:"创建人"`
+	Content  string `json:"content" dc:"定时任务内容"`
+	CronExpr string `json:"cronExpr" dc:"定时任务表达式"`
+	Status   string `json:"status" dc:"定时任务状态"`
+}
+
+type CronTaskItemRes struct {
+	Name        string `json:"name" dc:"任务名称"`
+	Type        string `json:"type" dc:"任务类型"`
+	Creater     string `json:"creater" dc:"创建人"`
+	Content     string `json:"content" dc:"定时任务内容"`
+	CronExpr    string `json:"cronExpr" dc:"定时任务表达式"`
+	Status      string `json:"status" dc:"定时任务状态"`
+	Created     string `json:"created" dc:"创建时间"`
+	CronUid     string `json:"cronUid" dc:"定时任务唯一id"`
+	LastRunTime string `json:"lastRunTime" dc:"最后运行时间"`
+	NextRunTime string `json:"nextRunTime" dc:"下次运行时间"`
+	Updated     string `json:"updated" dc:"更新时间"`
+	Updater     string `json:"updater" dc:"更新人"`
+}
+
+type StartCronTaskReq struct {
+	g.Meta  `path:"/v1/m/task/cron/start" tags:"Task管理" method:"post" summary:"启动定时任务"`
+	CronUid string `json:"cronUid" dc:"定时任务唯一id"`
+}
+
+type StopCronTaskReq struct {
+	g.Meta  `path:"/v1/m/task/cron/stop" tags:"Task管理" method:"post" summary:"停止定时任务"`
+	CronUid string `json:"cronUid" dc:"定时任务唯一id"`
+}
+
+type UpdateCronTaskReq struct {
+	g.Meta   `path:"/v1/m/task/cron/update" tags:"Task管理" method:"post" summary:"更新定时任务"`
+	Name     string `json:"name" dc:"任务名称"`
+	Type     string `json:"type" dc:"任务类型"`
+	Updater  string `json:"updater" dc:"更新人"`
+	Content  string `json:"content" dc:"定时任务内容"`
+	CronExpr string `json:"cronExpr" dc:"定时任务表达式"`
+	Status   string `json:"status" dc:"定时任务状态"`
+	CronUid  string `json:"cronUid" dc:"定时任务唯一id"`
+}
+
+type DeleteCronTaskReq struct {
+	g.Meta   `path:"/v1/m/task/cron/delete" tags:"Task管理" method:"post" summary:"删除定时任务"`
+	CronUids []string `json:"cronUids" dc:"定时任务唯一id列表"`
+}
+
+type QueryCronTaskReq struct {
+	g.Meta  `path:"/v1/m/task/cron/query" tags:"Task管理" method:"post" summary:"查询定时任务"`
+	CronUid string `json:"cronUid" dc:"定时任务唯一id"`
+	Name    string `json:"name" dc:"任务名称"`
+	Type    string `json:"type" dc:"任务类型"`
+	Creater string `json:"creater" dc:"创建人"`
+}
+
+type QueryCronTaskRes struct {
+	List []*CronTaskItemRes `json:"list"`
+}

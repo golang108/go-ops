@@ -39,6 +39,7 @@ var (
 					controller.Agent,
 					controller.CheckItem,
 					controller.TaskPreset,
+					controller.TaskCron,
 				)
 			})
 
