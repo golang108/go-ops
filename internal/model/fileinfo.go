@@ -31,6 +31,17 @@ type PeerNewDir struct {
 	Path   string `json:"path" dc:"文件夹路径, 如果不存在会递归创建"`
 }
 
+type PeerMoveFile struct {
+	Peerid string `json:"peerid" dc:"节点id"`
+	Src    string `json:"src" dc:"源文件"`
+	Dst    string `json:"dst" dc:"目标文件"`
+}
+
+type PeerDeleteFile struct {
+	Peerid string `json:"peerid" dc:"节点id"`
+	Path   string `json:"path" dc:"文件路径"`
+}
+
 func init() {
 	message.RegisterMessage(&message.MessageMeta{
 		Type: reflect.TypeOf((*PeerListFileInfo)(nil)).Elem(),
@@ -45,6 +56,16 @@ func init() {
 	message.RegisterMessage(&message.MessageMeta{
 		Type: reflect.TypeOf((*PeerNewDir)(nil)).Elem(),
 		ID:   uint32(util.StringHash("model.PeerNewDir")),
+	})
+
+	message.RegisterMessage(&message.MessageMeta{
+		Type: reflect.TypeOf((*PeerMoveFile)(nil)).Elem(),
+		ID:   uint32(util.StringHash("model.PeerMoveFile")),
+	})
+
+	message.RegisterMessage(&message.MessageMeta{
+		Type: reflect.TypeOf((*PeerDeleteFile)(nil)).Elem(),
+		ID:   uint32(util.StringHash("model.PeerDeleteFile")),
 	})
 
 }

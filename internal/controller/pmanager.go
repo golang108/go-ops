@@ -171,13 +171,60 @@ func (self *peerManager) FileList(ctx context.Context, req *v1.NodeFileListReq) 
 }
 
 func (self *peerManager) FileCreateDir(ctx context.Context, req *v1.NodeFileCreateDirReq) (res *v1.NodeFileListRes, err error) {
+
+	r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, &model.PeerNewDir{Peerid: req.NodeId, Path: req.Path}, req.NodeId, "")
+	if err != nil {
+		return
+	}
+
+	val, err := message.JSONCodec.Decode(r)
+	if err != nil {
+		return
+	}
+
+	fileinfo := val.(*model.PeerListFileInfoRes)
+
+	res = new(v1.NodeFileListRes)
+	res.Files = fileinfo.List
+
 	return
 }
 
 func (self *peerManager) FileMove(ctx context.Context, req *v1.NodeFileMoveReq) (res *v1.NodeFileListRes, err error) {
+
+	r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, &model.PeerMoveFile{Peerid: req.NodeId, Src: req.Src, Dst: req.Dst}, req.NodeId, "")
+	if err != nil {
+		return
+	}
+
+	val, err := message.JSONCodec.Decode(r)
+	if err != nil {
+		return
+	}
+
+	fileinfo := val.(*model.PeerListFileInfoRes)
+
+	res = new(v1.NodeFileListRes)
+	res.Files = fileinfo.List
+
 	return
 }
 
 func (self *peerManager) FileDelete(ctx context.Context, req *v1.NodeFileDeleteReq) (res *v1.NodeFileListRes, err error) {
+	r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, &model.PeerDeleteFile{Peerid: req.NodeId, Path: req.Path}, req.NodeId, "")
+	if err != nil {
+		return
+	}
+
+	val, err := message.JSONCodec.Decode(r)
+	if err != nil {
+		return
+	}
+
+	fileinfo := val.(*model.PeerListFileInfoRes)
+
+	res = new(v1.NodeFileListRes)
+	res.Files = fileinfo.List
+
 	return
 }

@@ -18,6 +18,14 @@ func (ospAgent *OspAgent) HandlerFunc(msg interface{}, msgID []byte, srcID, rpat
 		ospAgent.GetTaskInfo(v.TaskId, srcID, msgID, rpath, pn)
 	case *model.DownloadFileJob:
 		ospAgent.DownloadFile(v, srcID, msgID, rpath, pn)
+	case *model.PeerListFileInfo:
+		ospAgent.ListFileInfo(v, srcID, msgID, rpath, pn)
+	case *model.PeerMoveFile:
+		ospAgent.MoveFile(v, srcID, msgID, rpath, pn)
+	case *model.PeerNewDir:
+		ospAgent.CreateDir(v, srcID, msgID, rpath, pn)
+	case *model.PeerDeleteFile:
+		ospAgent.RemoveFile(v, srcID, msgID, rpath, pn)
 	default:
 		b, _ := json.Marshal(v)
 		log.Error("msg handler not found,msg: %s", string(b))

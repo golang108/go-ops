@@ -46,3 +46,12 @@ func (self *fileDisk) Move(ctx context.Context, src, dest string) (err error) {
 	err = os.Rename(src, dest)
 	return
 }
+
+func (self *fileDisk) CreateDir(ctx context.Context, spath string) (r []*model.FileInfo, err error) {
+
+	if err = os.MkdirAll(spath, os.ModePerm); err != nil {
+		return
+	}
+
+	return self.GetDirInfo(ctx, spath)
+}
