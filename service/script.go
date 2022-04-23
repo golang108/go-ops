@@ -8,6 +8,7 @@ import (
 	"go-ops/service/internal/dao"
 
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/guid"
 )
 
@@ -39,6 +40,7 @@ func (self *sScript) Create(ctx context.Context, req *v1.AddScriptReq) (res *v1.
 		Args:      string(argsBytes),
 		Desc:      req.Desc,
 		Type:      req.Type,
+		Created:   gtime.Now(),
 	}
 
 	_, err = dao.Script.Ctx(ctx).Data(script).Insert()
@@ -48,6 +50,11 @@ func (self *sScript) Create(ctx context.Context, req *v1.AddScriptReq) (res *v1.
 
 	res = &v1.ScriptItemRes{
 		ScriptId: script.ScriptUid,
+		Name:     script.Name,
+		Content:  script.Content,
+		Args:     req.Args,
+		Desc:     script.Desc,
+		Type:     script.Type,
 	}
 
 	return
@@ -79,7 +86,6 @@ func (self *sScript) Query(ctx context.Context, req *v1.ScriptQueryReq) (res *v1
 	}
 	return
 
-	return
 }
 
 func (self *sScript) Update(ctx context.Context, req *v1.UpdateScriptReq) (res *v1.ScriptItemRes, err error) {
@@ -116,6 +122,8 @@ func (self *sScript) Update(ctx context.Context, req *v1.UpdateScriptReq) (res *
 		script.Type = req.Type
 	}
 
+	script.Updated = gtime.Now()
+
 	_, err = dao.Script.Ctx(ctx).Data(script).Where("script_uid = ?", req.ScriptId).Update()
 
 	if err != nil {
@@ -135,6 +143,6 @@ func (self *sScript) Update(ctx context.Context, req *v1.UpdateScriptReq) (res *
 }
 
 func (self *sScript) Delete(ctx context.Context, req *v1.DeleteScriptReq) (err error) {
-	_, err = dao.CronTask.Ctx(ctx).WhereIn("script_uid", req.ScriptIds).Delete()
+	_, err = dao.Script.Ctx(ctx).WhereIn("script_uid", req.ScriptIds).Delete()
 	return
 }

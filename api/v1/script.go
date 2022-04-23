@@ -49,8 +49,8 @@ type ScriptItemRes struct {
 }
 
 type DeleteScriptReq struct {
-	g.Meta    `path:"/v1/m/script/delete" tags:"脚本库管理" method:"put" summary:"删除脚本信息"`
-	ScriptIds string `json:"scriptIds" dc:"脚本id 列表"`
+	g.Meta    `path:"/v1/m/script/delete" tags:"脚本库管理" method:"post" summary:"删除脚本信息"`
+	ScriptIds []string `json:"scriptIds" dc:"脚本id 列表"`
 }
 
 type DeleteScriptRes string

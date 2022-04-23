@@ -54,13 +54,28 @@ func (self *sTaskPreset) Create(ctx context.Context, req *v1.AddTaskPresetReq) (
 
 func (self *sTaskPreset) Update(ctx context.Context, req *v1.UpdateTaskPresetReq) (res *v1.TaskPresetItemRes, err error) {
 
-	item := &entity.TaskPreset{
-		Updated: gtime.Now(),
-		Name:    req.Name,
-		Content: req.Content,
-		Updater: req.Updater,
-		Type:    req.Type,
-		Uuid:    req.Uuid,
+	var item *entity.TaskPreset
+
+	err = dao.TaskPreset.Ctx(ctx).Where("uuid = ?", req.Uuid).Scan(&item)
+
+	if item == nil {
+		return
+	}
+
+	if req.Name != "" {
+		item.Name = req.Name
+	}
+
+	if req.Content != "" {
+		item.Content = req.Content
+	}
+
+	if req.Updater != "" {
+		item.Updater = req.Updater
+	}
+
+	if req.Type != "" {
+		item.Type = req.Type
 	}
 
 	_, err = dao.TaskPreset.Ctx(ctx).Data(item).Where("uuid = ?", req.Uuid).Update()
