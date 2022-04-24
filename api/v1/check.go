@@ -27,8 +27,10 @@ type QueryCheckItemReq struct {
 	g.Meta `path:"/check/item/query" tags:"巡检管理" method:"post" summary:"查询检查项"`
 	Name   string `json:"name"  dc:"检查项名称"      ` // 检查项名称
 	Type   string `json:"type"  dc:"类型"      `    //
+	PageReq
 }
 
 type QueryCheckItemRes struct {
+	Page
 	List []*CheckItemRes `json:"list"`
 }

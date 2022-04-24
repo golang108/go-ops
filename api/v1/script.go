@@ -20,9 +20,11 @@ type ScriptQueryReq struct {
 	g.Meta `path:"/v1/m/script/query" tags:"脚本库管理" method:"post" summary:"查询脚本库信息"`
 	Name   string `json:"name"    dc:"脚本名称"  `
 	Type   string `json:"type"   dc:"脚本类型shell或者powershell"`
+	PageReq
 }
 
 type ScriptInfoRes struct {
+	Page
 	List []*entity.Script `json:"list"`
 }
 
