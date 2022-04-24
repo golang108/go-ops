@@ -11,6 +11,7 @@ type TaskQueryReq struct {
 	Name    string `json:"name" dc:"任务名"`
 	Creater string `json:"creater" dc:"创建人"`
 	TaskID  string `json:"taskid" dc:"任务id"`
+	PageReq
 }
 
 type TaskInfo struct {
@@ -19,6 +20,7 @@ type TaskInfo struct {
 }
 
 type TaskInfoRes struct {
+	Page
 	List []*TaskInfo `json:"list"`
 }
 
@@ -53,9 +55,11 @@ type QueryTaskPresetReq struct {
 	Uuid    string `json:"uuid" dc:"预设任务uuid"`
 	Name    string `json:"name" dc:"任务名"`
 	Creater string `json:"creater" dc:"创建人"`
+	PageReq
 }
 
 type QueryTaskPresetRes struct {
+	Page
 	List []*TaskPresetItemRes `json:"list"`
 }
 
@@ -127,9 +131,11 @@ type QueryCronTaskReq struct {
 	Name    string `json:"name" dc:"任务名称"`
 	Type    string `json:"type" dc:"任务类型"`
 	Creater string `json:"creater" dc:"创建人"`
+	PageReq
 }
 
 type QueryCronTaskRes struct {
+	Page
 	List []*CronTaskItemRes `json:"list"`
 }
 

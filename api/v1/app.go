@@ -34,9 +34,11 @@ type QueryAppReq struct {
 	g.Meta `path:"/v1/m/app/query" tags:"App管理" method:"post" summary:"查询app"`
 	Name   string `json:"name" dc:"应用名"`  // 应用名
 	Owner  string `json:"owner" dc:"拥有者"` // 拥有者
+	PageReq
 }
 
 type QueryAppRes struct {
+	Page
 	List []*entity.App `json:"list"`
 }
 

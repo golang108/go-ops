@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	v1 "go-ops/api/v1"
 	"go-ops/model/entity"
 	"go-ops/service/internal/dao"
@@ -58,15 +59,41 @@ func (self *sTaskCron) Create(ctx context.Context, req *v1.AddCronTaskReq) (res 
 
 func (self *sTaskCron) Update(ctx context.Context, req *v1.UpdateCronTaskReq) (res *v1.CronTaskItemRes, err error) {
 
-	item := &entity.CronTask{
-		Type:     req.Type,
-		Content:  req.Content,
-		CronExpr: req.CronExpr,
-		Name:     req.Name,
-		Updater:  req.Updater,
-		Updated:  gtime.Now(),
-		Status:   req.Status,
+	var item *entity.CronTask
+
+	err = dao.CronTask.Ctx(ctx).Where("cron_uid = ?", req.CronUid).Scan(&item)
+
+	if item == nil {
+
+		err = errors.New("not found:" + req.CronUid)
+		return
 	}
+
+	if req.Type != "" {
+		item.Type = req.Type
+	}
+
+	if req.Content != "" {
+		item.Content = req.Content
+	}
+
+	if req.CronExpr != "" {
+		item.CronExpr = req.CronExpr
+	}
+
+	if req.Name != "" {
+		item.Name = req.Name
+	}
+
+	if req.Updater != "" {
+		item.Updater = req.Updater
+	}
+
+	if req.Status != "" {
+		item.Status = req.Status
+	}
+
+	item.Updated = gtime.Now()
 
 	_, err = dao.CronTask.Ctx(ctx).Data(item).Where("cron_uid = ?", req.CronUid).Update()
 
