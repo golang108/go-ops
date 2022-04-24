@@ -66,8 +66,13 @@ func (self *sApp) Query(ctx context.Context, req *v1.QueryAppReq) (res *v1.Query
 
 	list := make([]*entity.App, 0)
 
-	err = dao.App.Ctx(ctx).Where(m).Scan(&list)
+	err = dao.App.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&list)
 
+	if err != nil {
+		return
+	}
+
+	count, err := dao.App.Ctx(ctx).Where(m).Count()
 	if err != nil {
 		return
 	}
@@ -75,6 +80,15 @@ func (self *sApp) Query(ctx context.Context, req *v1.QueryAppReq) (res *v1.Query
 	res = &v1.QueryAppRes{
 		List: list,
 	}
+
+	res.Total = count
+	res.PageNum = req.PageNum
+	res.PageSize = req.PageSize
+
+	if res.Total%res.PageSize > 0 {
+		res.PageTotal = 1
+	}
+	res.PageTotal += res.Total / res.PageSize
 	return
 }
 

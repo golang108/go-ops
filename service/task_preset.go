@@ -115,13 +115,26 @@ func (self *sTaskPreset) Query(ctx context.Context, req *v1.QueryTaskPresetReq) 
 
 	list := make([]*entity.TaskPreset, 0)
 
-	err = dao.TaskPreset.Ctx(ctx).Where(m).Scan(&list)
+	err = dao.TaskPreset.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&list)
 
 	if err != nil {
 		return
 	}
 
+	count, err := dao.TaskPreset.Ctx(ctx).Where(m).Count()
+	if err != nil {
+		return
+	}
+
 	res = new(v1.QueryTaskPresetRes)
+	res.Total = count
+	res.PageNum = req.PageNum
+	res.PageSize = req.PageSize
+
+	if res.Total%res.PageSize > 0 {
+		res.PageTotal = 1
+	}
+	res.PageTotal += res.Total / res.PageSize
 
 	for _, item := range list {
 		res.List = append(res.List, &v1.TaskPresetItemRes{

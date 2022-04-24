@@ -138,13 +138,27 @@ func (self *sTaskCron) Query(ctx context.Context, req *v1.QueryCronTaskReq) (res
 
 	list := make([]*entity.CronTask, 0)
 
-	err = dao.CronTask.Ctx(ctx).Where(m).Scan(&list)
+	err = dao.CronTask.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&list)
 
 	if err != nil {
 		return
 	}
 
 	res = new(v1.QueryCronTaskRes)
+
+	count, err := dao.CronTask.Ctx(ctx).Where(m).Count()
+	if err != nil {
+		return
+	}
+
+	res.Total = count
+	res.PageNum = req.PageNum
+	res.PageSize = req.PageSize
+
+	if res.Total%res.PageSize > 0 {
+		res.PageTotal = 1
+	}
+	res.PageTotal += res.Total / res.PageSize
 
 	for _, item := range list {
 		res.List = append(res.List, &v1.CronTaskItemRes{

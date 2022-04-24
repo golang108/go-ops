@@ -18,7 +18,7 @@ func (self *OspAgent) ListFileInfo(req *model.PeerListFileInfo, srcId string, ms
 		return
 	}
 
-	err = peer.SendMsgAsync(pn, fileInfos, srcId, rpath)
+	err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{List: fileInfos, Path: req.Path}, msgID, srcId, rpath)
 	if err != nil {
 		fmt.Println("send msg replay err:", err)
 	}
@@ -31,14 +31,14 @@ func (self *OspAgent) MoveFile(req *model.PeerMoveFile, srcId string, msgID []by
 		return
 	}
 
-	bpath := filepath.Base(req.Dst)
+	bpath := filepath.Clean(req.Dst)
 
 	fileInfos, err := action.FileDisk().GetDirInfo(ctx, bpath)
 	if err != nil {
 		return
 	}
 
-	err = peer.SendMsgAsync(pn, fileInfos, srcId, rpath)
+	err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{List: fileInfos, Path: bpath}, msgID, srcId, rpath)
 	if err != nil {
 		fmt.Println("send msg replay err:", err)
 	}
@@ -51,7 +51,7 @@ func (self *OspAgent) CreateDir(req *model.PeerNewDir, srcId string, msgID []byt
 		return
 	}
 
-	err = peer.SendMsgAsync(pn, fileInfos, srcId, rpath)
+	err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{List: fileInfos, Path: req.Path}, msgID, srcId, rpath)
 	if err != nil {
 		fmt.Println("send msg replay err:", err)
 	}
@@ -61,17 +61,19 @@ func (self *OspAgent) RemoveFile(req *model.PeerDeleteFile, srcId string, msgID 
 	ctx := context.Background()
 	err := action.FileDisk().Remove(ctx, req.Path)
 	if err != nil {
+		fmt.Println("remove file err:", err)
 		return
 	}
 
-	bpath := filepath.Base(req.Path)
+	bpath := filepath.Dir(req.Path)
 
 	fileInfos, err := action.FileDisk().GetDirInfo(ctx, bpath)
 	if err != nil {
+		fmt.Println("获取文件夹失败:", err)
 		return
 	}
 
-	err = peer.SendMsgAsync(pn, fileInfos, srcId, rpath)
+	err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{List: fileInfos, Path: bpath}, msgID, srcId, rpath)
 	if err != nil {
 		fmt.Println("send msg replay err:", err)
 	}

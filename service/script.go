@@ -75,8 +75,13 @@ func (self *sScript) Query(ctx context.Context, req *v1.ScriptQueryReq) (res *v1
 
 	list := make([]*entity.Script, 0)
 
-	err = dao.Script.Ctx(ctx).Where(m).Scan(&list)
+	err = dao.Script.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&list)
 
+	if err != nil {
+		return
+	}
+
+	count, err := dao.Script.Ctx(ctx).Where(m).Count()
 	if err != nil {
 		return
 	}
@@ -84,6 +89,15 @@ func (self *sScript) Query(ctx context.Context, req *v1.ScriptQueryReq) (res *v1
 	res = &v1.ScriptInfoRes{
 		List: list,
 	}
+
+	res.Total = count
+	res.PageNum = req.PageNum
+	res.PageSize = req.PageSize
+
+	if res.Total%res.PageSize > 0 {
+		res.PageTotal = 1
+	}
+	res.PageTotal += res.Total / res.PageSize
 	return
 
 }
