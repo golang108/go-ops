@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	v1 "go-ops/api/v1"
 	"go-ops/model/entity"
 	"go-ops/service/internal/dao"
@@ -21,6 +22,23 @@ var (
 
 func App() *sApp {
 	return &insApp
+}
+
+func (self *sApp) GetApp(ctx context.Context, appid string) (r *entity.App, err error) {
+	var app *entity.App
+
+	err = dao.App.Ctx(ctx).Where("appid = ?", appid).Scan(&app)
+	if err != nil {
+		return
+	}
+
+	if app == nil {
+		err = errors.New("not found:" + appid)
+		return
+	}
+
+	r = app
+	return
 }
 
 func (self *sApp) Create(ctx context.Context, req *v1.AddAppReq) (res *v1.AddAppRes, err error) {
