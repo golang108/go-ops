@@ -6,8 +6,8 @@ import (
 	"encoding/base64"
 )
 
-func GetSign(apikey string, nonce, timestamp string, body []byte) (r string) {
-	key := []byte(apikey)
+func GetSign(apikey string, seckey string, nonce, timestamp string, body []byte) (r string) {
+	key := []byte(seckey)
 	mac := hmac.New(sha1.New, key)
 
 	mac.Write([]byte(apikey))

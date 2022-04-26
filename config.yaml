@@ -7,7 +7,7 @@ gfcli:
 
 database:
   default:
-    link:  "mysql:root:root@tcp(192.168.1.4:3306)/osp"
+    link:  "mysql:root:root@tcp(127.0.0.1:3306)/ops"
     debug: "true"
 
 server:
