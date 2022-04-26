@@ -28,7 +28,7 @@ var (
 
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(MiddlewareCORS)
-				group.Middleware(controller.MiddlewareGetApp)
+				//	group.Middleware(controller.MiddlewareGetApp)
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
 					controller.ScritptTask,

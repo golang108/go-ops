@@ -4,9 +4,9 @@ import (
 	"context"
 	v1 "go-ops/api/v1"
 	"go-ops/internal/model"
+	"go-ops/internal/service"
 	"go-ops/peer"
 	"go-ops/pkg/message"
-	"go-ops/service"
 	"sync"
 	"time"
 )

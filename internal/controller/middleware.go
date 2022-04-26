@@ -2,8 +2,8 @@ package controller
 
 import (
 	"fmt"
+	"go-ops/internal/service"
 	"go-ops/pkg/util"
-	"go-ops/service"
 	"net/http"
 
 	"github.com/gogf/gf/v2/net/ghttp"

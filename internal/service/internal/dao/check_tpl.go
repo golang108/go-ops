@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"go-ops/service/internal/dao/internal"
+	"go-ops/internal/service/internal/dao/internal"
 )
 
 // internalCheckTplDao is internal type for wrapping internal DAO implements.

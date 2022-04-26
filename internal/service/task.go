@@ -12,9 +12,9 @@ import (
 
 	v1 "go-ops/api/v1"
 	"go-ops/internal/model"
-	"go-ops/model/entity"
-	"go-ops/service/internal/dao"
-	"go-ops/service/internal/do"
+	"go-ops/internal/model/entity"
+	"go-ops/internal/service/internal/dao"
+	"go-ops/internal/service/internal/do"
 
 	"github.com/google/uuid"
 )

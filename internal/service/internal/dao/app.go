@@ -5,22 +5,22 @@
 package dao
 
 import (
-	"go-ops/service/internal/dao/internal"
+	"go-ops/internal/service/internal/dao/internal"
 )
 
-// internalVmDao is internal type for wrapping internal DAO implements.
-type internalVmDao = *internal.VmDao
+// internalAppDao is internal type for wrapping internal DAO implements.
+type internalAppDao = *internal.AppDao
 
-// vmDao is the data access object for table vm.
+// appDao is the data access object for table app.
 // You can define custom methods on it to extend its functionality as you wish.
-type vmDao struct {
-	internalVmDao
+type appDao struct {
+	internalAppDao
 }
 
 var (
-	// Vm is globally public accessible object for table vm operations.
-	Vm = vmDao{
-		internal.NewVmDao(),
+	// App is globally public accessible object for table app operations.
+	App = appDao{
+		internal.NewAppDao(),
 	}
 )
 

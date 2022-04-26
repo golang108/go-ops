@@ -5,22 +5,22 @@
 package dao
 
 import (
-	"go-ops/service/internal/dao/internal"
+	"go-ops/internal/service/internal/dao/internal"
 )
 
-// internalAppDao is internal type for wrapping internal DAO implements.
-type internalAppDao = *internal.AppDao
+// internalUserDao is internal type for wrapping internal DAO implements.
+type internalUserDao = *internal.UserDao
 
-// appDao is the data access object for table app.
+// userDao is the data access object for table user.
 // You can define custom methods on it to extend its functionality as you wish.
-type appDao struct {
-	internalAppDao
+type userDao struct {
+	internalUserDao
 }
 
 var (
-	// App is globally public accessible object for table app operations.
-	App = appDao{
-		internal.NewAppDao(),
+	// User is globally public accessible object for table user operations.
+	User = userDao{
+		internal.NewUserDao(),
 	}
 )
 

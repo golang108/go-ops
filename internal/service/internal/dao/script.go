@@ -5,22 +5,22 @@
 package dao
 
 import (
-	"go-ops/service/internal/dao/internal"
+	"go-ops/internal/service/internal/dao/internal"
 )
 
-// internalUserDao is internal type for wrapping internal DAO implements.
-type internalUserDao = *internal.UserDao
+// internalScriptDao is internal type for wrapping internal DAO implements.
+type internalScriptDao = *internal.ScriptDao
 
-// userDao is the data access object for table user.
+// scriptDao is the data access object for table script.
 // You can define custom methods on it to extend its functionality as you wish.
-type userDao struct {
-	internalUserDao
+type scriptDao struct {
+	internalScriptDao
 }
 
 var (
-	// User is globally public accessible object for table user operations.
-	User = userDao{
-		internal.NewUserDao(),
+	// Script is globally public accessible object for table script operations.
+	Script = scriptDao{
+		internal.NewScriptDao(),
 	}
 )
 

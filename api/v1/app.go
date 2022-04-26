@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"go-ops/model/entity"
+	"go-ops/internal/model/entity"
 
 	"github.com/gogf/gf/v2/frame/g"
 )

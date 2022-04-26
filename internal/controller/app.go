@@ -3,7 +3,7 @@ package controller
 import (
 	"context"
 	v1 "go-ops/api/v1"
-	"go-ops/service"
+	"go-ops/internal/service"
 )
 
 var App *app = new(app)

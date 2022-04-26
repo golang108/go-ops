@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	v1 "go-ops/api/v1"
-	"go-ops/model/entity"
-	"go-ops/service/internal/dao"
+	"go-ops/internal/model/entity"
+	"go-ops/internal/service/internal/dao"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"

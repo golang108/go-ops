@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go-ops/internal/model"
-	"go-ops/service"
+	"go-ops/internal/service"
 
 	"github.com/luxingwen/pnet"
 	"github.com/luxingwen/pnet/config"
