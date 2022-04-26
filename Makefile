@@ -29,6 +29,10 @@ dao: cli.install
 	@gf gen dao
 
 
+.PHONY: pb
+pb:
+	protoc -I pkg/proto/ pkg/proto/*.proto --go_out=plugins=grpc:pkg/proto/
+
 
 # Build image, deploy image and yaml to current kubectl environment and make port forward to local machine.
 .PHONY: start

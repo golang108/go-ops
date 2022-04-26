@@ -182,6 +182,6 @@ func (self *sTaskCron) Query(ctx context.Context, req *v1.QueryCronTaskReq) (res
 
 func (self *sTaskCron) Delete(ctx context.Context, req *v1.DeleteCronTaskReq) (err error) {
 
-	_, err = dao.TaskPreset.Ctx(ctx).WhereIn("cron_uid", req.CronUids).Delete()
+	_, err = dao.CronTask.Ctx(ctx).WhereIn("cron_uid", req.CronUids).Delete()
 	return
 }

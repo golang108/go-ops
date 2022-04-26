@@ -1,0 +1,16 @@
+syntax = "proto3";
+package proto;
+option go_package = "../proto";
+
+message Request {
+    bytes body = 1;
+}
+
+message Response {
+    bytes body = 1;
+}
+
+
+service OpsAgentPlugin {
+    rpc Run(Request) returns (Response);
+}
