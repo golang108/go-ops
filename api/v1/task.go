@@ -14,6 +14,13 @@ type TaskQueryReq struct {
 	PageReq
 }
 
+type TaskInfoReq struct {
+	g.Meta `path:"/v1/m/task/info" tags:"Task管理" method:"post" summary:"单个任务信息"`
+	TaskID string `json:"taskid" dc:"任务id"`
+}
+
+type TaskDetailRes TaskInfo
+
 type TaskInfo struct {
 	Task    *entity.Task `json:"task" dc:"任务"`
 	Sublist []*TaskInfo  `json:"sublist" dc:"子任务详情"`
@@ -21,7 +28,7 @@ type TaskInfo struct {
 
 type TaskInfoRes struct {
 	Page
-	List []*TaskInfo `json:"list"`
+	List []*entity.Task `json:"list"`
 }
 
 type AddTaskPresetReq struct {

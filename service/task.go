@@ -379,15 +379,81 @@ func (self *sTask) GetFileDownloadTaskInfo(ctx context.Context, taskid string) (
 }
 
 func (self *sTask) QueryTask(ctx context.Context, req *v1.TaskQueryReq) (res *v1.TaskInfoRes, err error) {
-	//
 
-	//var tasks *entity.Task
+	m := g.Map{}
 
-	// err = dao.Task.Ctx(ctx).Where("task_id = ?", req.TaskID).
+	if req.Name != "" {
+		m["name"] = req.Name
 
-	// if err != nil {
-	// 	fmt.Println("err2->", err)
-	// 	return
-	// }
+	}
+
+	if req.Creater != "" {
+		m["creater"] = req.Creater
+	}
+	tasks := make([]*entity.Task, 0)
+
+	err = dao.Task.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&tasks)
+
+	if err != nil {
+		return
+	}
+
+	count, err := dao.Script.Ctx(ctx).Where(m).Count()
+	if err != nil {
+		return
+	}
+
+	res = &v1.TaskInfoRes{
+		List: tasks,
+	}
+
+	res.Total = count
+	res.PageNum = req.PageNum
+	res.PageSize = req.PageSize
+
+	if res.Total%res.PageSize > 0 {
+		res.PageTotal = 1
+	}
+	res.PageTotal += res.Total / res.PageSize
+
+	return
+}
+
+func (self *sTask) GetTaskInfo(ctx context.Context, req *v1.TaskInfoReq) (taskinfo *v1.TaskInfo, err error) {
+	return getTaskInfo(ctx, req.TaskID)
+}
+
+func getTaskInfo(ctx context.Context, taskid string) (taskInfo *v1.TaskInfo, err error) {
+
+	var task *entity.Task
+
+	err = dao.Task.Ctx(ctx).Where("task_id = ?", taskid).Scan(&task)
+	if err != nil {
+		return
+	}
+
+	if task == nil {
+		return
+	}
+
+	subTasks := make([]*entity.Task, 0)
+
+	err = dao.Task.Ctx(ctx).Where("parent_id = ?", taskid).Scan(&subTasks)
+	if err != nil {
+		return
+	}
+
+	taskInfo = &v1.TaskInfo{
+		Task:    task,
+		Sublist: make([]*v1.TaskInfo, 0),
+	}
+
+	for _, item := range subTasks {
+		subTask, err := getTaskInfo(ctx, item.TaskId)
+		if err != nil {
+			continue
+		}
+		taskInfo.Sublist = append(taskInfo.Sublist, subTask)
+	}
 	return
 }

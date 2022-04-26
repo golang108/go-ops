@@ -13,7 +13,7 @@ const (
 
 func MiddlewareGetApp(r *ghttp.Request) {
 
-	appid := r.Header(GoOpsHeaderAppId)
+	appid := r.GetHeader(GoOpsHeaderAppId)
 	if appid == "" {
 		r.Response.WriteStatus(http.StatusForbidden)
 		return
