@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2022-04-24 21:23:54
+Date: 2022-04-27 00:19:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -119,6 +119,25 @@ CREATE TABLE `cron_task` (
   `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '任务类型',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for plugin
+-- ----------------------------
+DROP TABLE IF EXISTS `plugin`;
+CREATE TABLE `plugin` (
+  `id` int(11) NOT NULL,
+  `uuid` varchar(255) DEFAULT NULL COMMENT '插件uuid',
+  `name` varchar(255) DEFAULT NULL COMMENT '插件名',
+  `package_name` varchar(255) DEFAULT NULL COMMENT '包名',
+  `os` varchar(255) DEFAULT NULL COMMENT '操作系统',
+  `arch` varchar(255) DEFAULT NULL COMMENT '架构',
+  `md5` varchar(255) DEFAULT NULL COMMENT '包md5名称',
+  `creater` varchar(255) DEFAULT NULL COMMENT '创建人',
+  `updater` varchar(255) DEFAULT NULL COMMENT '更新人',
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for script
