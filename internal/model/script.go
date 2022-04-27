@@ -48,6 +48,7 @@ type ResCmd struct {
 	Code     ResCode `json:"code"`
 	Err      string  `json:"err"`      // 错误信息
 	ExitCode int     `json:"exitCode"` // 退出码
+	Res      []byte  `json:"res"`      // 插件返回内容
 }
 
 type ResponseResCmd struct {
@@ -74,6 +75,8 @@ const (
 	ExecContent                   // 脚本内容执行
 	ExecScriptName                // 根据脚本名执行   脚本在本机上
 	ExecURL                       // 从服务器上下载脚本执行
+	ExecPack                      // 执行压缩包
+	ExecPlugin                    // 执行插件
 )
 
 func init() {

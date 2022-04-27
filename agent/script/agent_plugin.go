@@ -72,7 +72,7 @@ type AgentPlugin struct {
 	Cmd         string        `json:"cmd"`         // 插件运行解释器
 	CmdArgs     string        `json:"cmdArgs"`     // 插件解释器运行
 	Timeout     time.Duration // 插件运行超时时间
-	Args        string        `json:"args"` // 插件启动参数
+	Args        []string      `json:"args"` // 插件启动参数
 
 	client proto.OpsAgentPluginClient
 }
@@ -140,9 +140,7 @@ func (agentPlugin *AgentPlugin) Run(ctx context.Context, reqBody []byte) (res []
 	args := []string{agentPlugin.Name}
 	args = append(args, cmdArgs...)
 
-	if agentPlugin.Args != "" {
-		args = append(args, agentPlugin.Args)
-	}
+	args = append(args, agentPlugin.Args...)
 
 	cmd := exec.Command(cmdstr, args...)
 
