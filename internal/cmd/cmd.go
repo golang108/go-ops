@@ -41,6 +41,7 @@ var (
 					controller.CheckItem,
 					controller.TaskPreset,
 					controller.TaskCron,
+					controller.Plugin,
 				)
 			})
 
