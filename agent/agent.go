@@ -2,13 +2,18 @@ package agent
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"net"
+	"runtime"
 
 	"go-ops/agent/action"
 	"go-ops/agent/script"
 	"go-ops/agent/task"
 	"go-ops/internal/model"
 	"go-ops/peer"
+
+	"go-ops/pkg/stat"
 
 	"github.com/luxingwen/pnet"
 )
@@ -129,4 +134,43 @@ func (self *OspAgent) DownloadFile(req *model.DownloadFileJob, srcId string, msg
 
 	t := self.CreateTask(req.Jobid, req, startFunc, c, endFunc)
 	self.StartTask(t)
+}
+
+func (self *OspAgent) GetPeerInfo(pn *pnet.PNet) (r *model.PeerInfo) {
+
+	publicIp, _ := getClientIp()
+
+	r = &model.PeerInfo{
+		PeerId:   pn.GetLocalNode().GetId(),
+		Name:     pn.GetLocalNode().GetName(),
+		Address:  pn.GetLocalNode().GetAddr(),
+		PublicIp: publicIp,
+		Os:       runtime.GOOS,
+		Arch:     runtime.GOARCH,
+	}
+
+	statinfo := stat.HostInfos()
+	r.HostName = statinfo.Hostname
+	return
+}
+
+func getClientIp() (string, error) {
+	addrs, err := net.InterfaceAddrs()
+
+	if err != nil {
+		return "", err
+	}
+
+	for _, address := range addrs {
+		// 检查ip地址判断是否回环地址
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String(), nil
+			}
+
+		}
+	}
+
+	return "", errors.New("Can not find the client ip address!")
+
 }

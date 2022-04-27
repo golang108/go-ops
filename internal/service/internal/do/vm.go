@@ -16,7 +16,6 @@ type Vm struct {
 	Uuid        interface{} // 主机uuid
 	Name        interface{} //
 	Hostname    interface{} //
-	Az          interface{} // 可用区
 	OsType      interface{} // 操作系统类型
 	OsInfo      interface{} // 操作系统信息
 	Hosttype    interface{} // 主机类型
@@ -26,4 +25,6 @@ type Vm struct {
 	Created     *gtime.Time //
 	Updated     *gtime.Time //
 	Creater     interface{} // 创建人
+	Address     interface{} //
+	PeerId      interface{} //
 }

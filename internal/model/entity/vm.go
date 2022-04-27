@@ -14,7 +14,6 @@ type Vm struct {
 	Uuid        string      `json:"uuid"        ` // 主机uuid
 	Name        string      `json:"name"        ` //
 	Hostname    string      `json:"hostname"    ` //
-	Az          string      `json:"az"          ` // 可用区
 	OsType      string      `json:"osType"      ` // 操作系统类型
 	OsInfo      string      `json:"osInfo"      ` // 操作系统信息
 	Hosttype    string      `json:"hosttype"    ` // 主机类型
@@ -24,4 +23,6 @@ type Vm struct {
 	Created     *gtime.Time `json:"created"     ` //
 	Updated     *gtime.Time `json:"updated"     ` //
 	Creater     string      `json:"creater"     ` // 创建人
+	Address     string      `json:"address"     ` //
+	PeerId      string      `json:"peerId"      ` //
 }

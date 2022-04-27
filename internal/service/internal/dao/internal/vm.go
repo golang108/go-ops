@@ -23,7 +23,6 @@ type VmColumns struct {
 	Uuid        string // 主机uuid
 	Name        string //
 	Hostname    string //
-	Az          string // 可用区
 	OsType      string // 操作系统类型
 	OsInfo      string // 操作系统信息
 	Hosttype    string // 主机类型
@@ -33,6 +32,8 @@ type VmColumns struct {
 	Created     string //
 	Updated     string //
 	Creater     string // 创建人
+	Address     string //
+	PeerId      string //
 }
 
 //  vmColumns holds the columns for table vm.
@@ -41,7 +42,6 @@ var vmColumns = VmColumns{
 	Uuid:        "uuid",
 	Name:        "name",
 	Hostname:    "hostname",
-	Az:          "az",
 	OsType:      "os_type",
 	OsInfo:      "os_info",
 	Hosttype:    "hosttype",
@@ -51,6 +51,8 @@ var vmColumns = VmColumns{
 	Created:     "created",
 	Updated:     "updated",
 	Creater:     "creater",
+	Address:     "address",
+	PeerId:      "peer_id",
 }
 
 // NewVmDao creates and returns a new DAO object for table data access.
