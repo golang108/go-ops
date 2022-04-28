@@ -42,6 +42,7 @@ var (
 					controller.TaskPreset,
 					controller.TaskCron,
 					controller.Plugin,
+					controller.VM,
 				)
 			})
 
