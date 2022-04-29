@@ -26,6 +26,8 @@ func (ospAgent *OspAgent) HandlerFunc(msg interface{}, msgID []byte, srcID, rpat
 		ospAgent.CreateDir(v, srcID, msgID, rpath, pn)
 	case *model.PeerDeleteFile:
 		ospAgent.RemoveFile(v, srcID, msgID, rpath, pn)
+	case *model.GetPeerInfo:
+		ospAgent.FineAgentByHostname(v, srcID, msgID, rpath, pn)
 	default:
 		b, _ := json.Marshal(v)
 		log.Error("msg handler not found,msg: %s", string(b))

@@ -29,6 +29,11 @@ func (self *OspPeer) HandlerFunc(msg interface{}, msgID []byte, srcID, rpath str
 		if err != nil {
 			fmt.Println("update err:", err)
 		}
+	case *model.PeerInfo:
+		err := service.VM().Check(context.Background(), v)
+		if err != nil {
+			fmt.Println("check vm err:", err)
+		}
 	default:
 		b, _ := json.Marshal(v)
 		log.Error("msg handler not found,msg: %s", string(b))

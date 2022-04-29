@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/luxingwen/pnet/log"
+	"github.com/luxingwen/pnet/protos"
 
 	"github.com/luxingwen/pnet/config"
 
@@ -76,5 +77,16 @@ func SendMsgReplay(pn *pnet.PNet, msg interface{}, msgID []byte, srcID, rpath st
 		return
 	}
 	_, err = pn.SendBytesRelayReply(msgID, data, srcID)
+	return
+}
+
+func SendMsgBroadCast(pn *pnet.PNet, msg interface{}) (err error) {
+	data, err := message.JSONCodec.Encode(msg)
+	if err != nil {
+		log.Error("json encode err:", err)
+		return
+	}
+
+	_, err = pn.SendMessageAsync(pn.GetLocalNode().NewBraodcastMessage(data), protos.BROADCAST)
 	return
 }

@@ -3,7 +3,11 @@ package controller
 import (
 	"context"
 	v1 "go-ops/api/v1"
+	"go-ops/internal/model"
 	"go-ops/internal/service"
+	"go-ops/peer"
+	"strings"
+	"time"
 )
 
 var VM *vm = new(vm)
@@ -19,7 +23,38 @@ func (self *vm) Update(ctx context.Context, req *v1.UpdateVmReq) (res *v1.VmItem
 }
 
 func (self *vm) Query(ctx context.Context, req *v1.QueryVmReq) (res *v1.QueryVmRes, err error) {
-	return service.VM().Query(ctx, req)
+	res, err = service.VM().Query(ctx, req)
+	if err != nil {
+		return
+	}
+	if len(res.List) > 0 {
+		return
+	}
+
+	req.Hostname = strings.TrimSpace(req.Hostname)
+
+	if req.Hostname == "" {
+		return
+	}
+
+	// 没有查找到主机信息，需要到网络中查找
+
+	err = peer.SendMsgBroadCast(peer.GetOspPeer().PNet, &model.GetPeerInfo{HostName: req.Hostname})
+	if err != nil {
+		return
+	}
+
+	for i := 0; i < 30; i++ {
+		res, err = service.VM().Query(ctx, req)
+		if err != nil {
+			return
+		}
+		if len(res.List) > 0 {
+			return
+		}
+		time.Sleep(time.Second * 2)
+	}
+	return
 }
 
 func (self *vm) Delete(ctx context.Context, req *v1.DeleteVmReq) (res v1.DeleteRes, err error) {

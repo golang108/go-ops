@@ -136,6 +136,16 @@ func (self *OspAgent) DownloadFile(req *model.DownloadFileJob, srcId string, msg
 	self.StartTask(t)
 }
 
+func (self *OspAgent) FineAgentByHostname(req *model.GetPeerInfo, srcId string, msgID []byte, rpath string, pn *pnet.PNet) {
+	peerInfo := self.GetPeerInfo(pn)
+	if req.HostName != peerInfo.HostName {
+		return
+	}
+
+	peer.SendMsgAsync(pn, peerInfo, srcId, rpath)
+
+}
+
 func (self *OspAgent) GetPeerInfo(pn *pnet.PNet) (r *model.PeerInfo) {
 
 	publicIp, _ := getClientIp()
