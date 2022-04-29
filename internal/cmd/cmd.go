@@ -66,7 +66,7 @@ func enhanceOpenAPIDoc(s *ghttp.Server) {
 	// API description.
 	openapi.Info = goai.Info{
 		Title:       consts.OpenAPITitle,
-		Description: consts.OpenAPIDescription,
+		Description: consts.OpenAPIDescription + consts.OpenAPISign,
 		Contact: &goai.Contact{
 			Name: "LUXINGWEN",
 			URL:  "https://github.com/luxingwen",

@@ -1,32 +1,63 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Go-ops API DOC
-    </title>
-    <!-- needed for adaptive design -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
 
-    <!--
+<head>
+  <title>Go-ops API DOC
+  </title>
+  <!-- needed for adaptive design -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+  <!--
     Redoc doesn't change outer page styles
     -->
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <!--
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .codepre {
+      box-sizing: border-box;
+      /*以下样式是自动换行代码*/
+      white-space: pre-wrap;
+      /* css-3 */
+      white-space: -moz-pre-wrap;
+      /* Mozilla, since 1999 */
+      white-space: -pre-wrap;
+      /* Opera 4-6 */
+      white-space: -o-pre-wrap;
+      /* Opera 7 */
+      word-wrap: break-word;
+      /* Internet Explorer 5.5+ */
+      /*以上样式是自动换行代码，需要的加上，不需要的删除*/
+      overflow: auto;
+      font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+      font-size: 13px;
+      padding: 9.5px;
+      margin-top: 0px;
+      margin-bottom: 10px;
+      line-height: 1.42857;
+      color: #333333;
+      word-break: break-all;
+      word-wrap: break-word;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px;
+      background-color: #F5F5F5;
+    }
+  </style>
+</head>
+
+<body>
+  <!--
     Redoc element with link to your OpenAPI definition
     -->
-    <redoc spec-url="/api.json"></redoc>
-    <!--
+  <redoc spec-url="/api.json"></redoc>
+  <!--
     Link to Redoc JavaScript on CDN for rendering standalone element
     -->
-    <script src="/swagger/redoc.standalone.js"></script>
-  </body>
+  <script src="/swagger/redoc.standalone.js"></script>
+</body>
+
 </html>
