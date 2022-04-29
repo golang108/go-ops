@@ -11,7 +11,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/hashicorp/go-plugin v1.4.3
 	github.com/kr/text v0.2.0 // indirect
-	github.com/luxingwen/pnet v0.0.0-20220409181616-a6f4ba3321f4
+	github.com/luxingwen/pnet v0.0.0-20220427160329-86f96199cdd8
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/panjf2000/ants/v2 v2.4.8

@@ -123,8 +123,8 @@ github.com/longbridgeapp/sqlparser v0.3.1 h1:iWOZWGIFgQrJRgobLXUNJdvqGRpbVXkyKUK
 github.com/longbridgeapp/sqlparser v0.3.1/go.mod h1:GIHaUq8zvYyHLCLMJJykx1CdM6LHtkUih/QaJXySSx4=
 github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 h1:6E+4a0GO5zZEnZ81pIr0yLvtUWk2if982qA3F3QD6H4=
 github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0/go.mod h1:zJYVVT2jmtg6P3p1VtQj7WsuWi/y4VnjVBn7F8KPB3I=
-github.com/luxingwen/pnet v0.0.0-20220409181616-a6f4ba3321f4 h1:a7GychcpIeaaqDKXQhci4WMRyCxa0wRjUDFggdgHrLo=
-github.com/luxingwen/pnet v0.0.0-20220409181616-a6f4ba3321f4/go.mod h1:pUNsGaKY+8mXfkVlKRXWLaSkxJtlWMkWCx2GvlquJQ0=
+github.com/luxingwen/pnet v0.0.0-20220427160329-86f96199cdd8 h1:WY6GVYjp5evtkGqW3602iHTwaIuS5dHBce7ETiGwbXQ=
+github.com/luxingwen/pnet v0.0.0-20220427160329-86f96199cdd8/go.mod h1:pUNsGaKY+8mXfkVlKRXWLaSkxJtlWMkWCx2GvlquJQ0=
 github.com/mattn/go-colorable v0.1.4/go.mod h1:U0ppj6V5qS13XJ6of8GYAs25YV2eR4EVcfRqFIhoBtE=
 github.com/mattn/go-colorable v0.1.9/go.mod h1:u6P/XSegPjTcexA+o6vUJrdnUu04hMope9wVRipJSqc=
 github.com/mattn/go-colorable v0.1.12 h1:jF+Du6AlPIjs2BiUiQlKOX0rt3SujHxPnksPKZbaA40=
