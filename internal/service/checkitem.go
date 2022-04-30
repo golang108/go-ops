@@ -143,3 +143,8 @@ func (self *sCheckitem) Query(ctx context.Context, req *v1.QueryCheckItemReq) (r
 	res.PageTotal += res.Total / res.PageSize
 	return
 }
+
+func (self *sCheckitem) Delete(ctx context.Context, req *v1.DeleteCheckItemReq) (err error) {
+	_, err = dao.CheckItem.Ctx(ctx).WhereIn("check_item_id", req.CheckItemIds).Delete()
+	return
+}

@@ -21,3 +21,13 @@ func (self *checkitem) Update(ctx context.Context, req *v1.UpdateCheckItemReq) (
 func (self *checkitem) Query(ctx context.Context, req *v1.QueryCheckItemReq) (res *v1.QueryCheckItemRes, err error) {
 	return service.Checkitem().Query(ctx, req)
 }
+
+func (self *checkitem) Delete(ctx context.Context, req *v1.DeleteCheckItemReq) (res v1.DeleteRes, err error) {
+	err = service.Checkitem().Delete(ctx, req)
+	if err != nil {
+		res = v1.DeleteRes("删除失败")
+		return
+	}
+	res = v1.DeleteRes("删除成功")
+	return
+}

@@ -34,3 +34,8 @@ type QueryCheckItemRes struct {
 	Page
 	List []*CheckItemRes `json:"list"`
 }
+
+type DeleteCheckItemReq struct {
+	g.Meta       `path:"/check/item/delete" tags:"巡检管理" method:"post" summary:"删除检查项"`
+	CheckItemIds []string `json:"checkItemIds" dc:"检查项id列表"`
+}
