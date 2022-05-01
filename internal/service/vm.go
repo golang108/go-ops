@@ -152,6 +152,10 @@ func (self *sVM) Query(ctx context.Context, req *v1.QueryVmReq) (res *v1.QueryVm
 		m["uuid"] = req.Uuid
 	}
 
+	if req.PeerId != "" {
+		m["peer_id"] = req.PeerId
+	}
+
 	list := make([]*entity.Vm, 0)
 
 	err = dao.Vm.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&list)

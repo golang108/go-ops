@@ -45,6 +45,7 @@ type QueryVmReq struct {
 	Name     string `json:"name"`
 	Uuid     string `json:"uuid"`
 	Hostname string `json:"hostname"`
+	PeerId   string `json:"peerId"`
 	PageReq
 }
 

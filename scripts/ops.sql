@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2022-04-27 00:19:57
+Date: 2022-05-02 00:13:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -156,7 +156,7 @@ CREATE TABLE `script` (
   `updated` datetime DEFAULT NULL,
   `script_uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for task
@@ -216,11 +216,10 @@ CREATE TABLE `user` (
 -- ----------------------------
 DROP TABLE IF EXISTS `vm`;
 CREATE TABLE `vm` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '主机uuid',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `hostname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `az` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '可用区',
   `os_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '操作系统类型',
   `os_info` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '操作系统信息',
   `hosttype` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '主机类型',
@@ -230,5 +229,7 @@ CREATE TABLE `vm` (
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
   `creater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `peer_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
