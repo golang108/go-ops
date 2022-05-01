@@ -7,7 +7,7 @@ import (
 )
 
 type AddScriptReq struct {
-	g.Meta  `path:"/v1/m/script" tags:"脚本库管理" method:"post" summary:"创建一个脚本"`
+	g.Meta  `path:"/v1/m/script/add" tags:"脚本库管理" method:"post" summary:"创建一个脚本"`
 	Name    string            `json:"name"    dc:"脚本名称"  `                  // 命令名称
 	Content string            `json:"content" dc:"脚本内容"  `                  // 脚本内容
 	Args    map[string]string `json:"args"    dc:"参数信息"  `                  // 参数信息
@@ -17,9 +17,10 @@ type AddScriptReq struct {
 }
 
 type ScriptQueryReq struct {
-	g.Meta `path:"/v1/m/script/query" tags:"脚本库管理" method:"post" summary:"查询脚本库信息"`
-	Name   string `json:"name"    dc:"脚本名称"  `
-	Type   string `json:"type"   dc:"脚本类型shell或者powershell"`
+	g.Meta   `path:"/v1/m/script/query" tags:"脚本库管理" method:"post" summary:"查询脚本库信息"`
+	Name     string `json:"name"    dc:"脚本名称"  `
+	Type     string `json:"type"   dc:"脚本类型shell或者powershell"`
+	ScriptId string `json:"scriptId" dc:"脚本id"`
 	PageReq
 }
 
@@ -29,7 +30,7 @@ type ScriptInfoRes struct {
 }
 
 type UpdateScriptReq struct {
-	g.Meta   `path:"/v1/m/script" tags:"脚本库管理" method:"put" summary:"更新脚本信息"`
+	g.Meta   `path:"/v1/m/script/update" tags:"脚本库管理" method:"post" summary:"更新脚本信息"`
 	ScriptId string            `json:"scriptId" dc:"脚本id"`
 	Name     string            `json:"name"    dc:"脚本名称"  `                  // 命令名称
 	Content  string            `json:"content" dc:"脚本内容"  `                  // 脚本内容

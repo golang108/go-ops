@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	v1 "go-ops/api/v1"
 	"go-ops/internal/model/entity"
 	"go-ops/internal/service/internal/dao"
@@ -73,6 +74,10 @@ func (self *sScript) Query(ctx context.Context, req *v1.ScriptQueryReq) (res *v1
 		m["type"] = req.Type
 	}
 
+	if req.ScriptId != "" {
+		m["script_uid"] = req.ScriptId
+	}
+
 	list := make([]*entity.Script, 0)
 
 	err = dao.Script.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&list)
@@ -109,6 +114,7 @@ func (self *sScript) Update(ctx context.Context, req *v1.UpdateScriptReq) (res *
 	err = dao.Script.Ctx(ctx).Where("script_uid = ?", req.ScriptId).Scan(&script)
 
 	if script == nil {
+		err = errors.New("not found:" + req.ScriptId)
 		return
 	}
 

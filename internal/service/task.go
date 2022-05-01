@@ -380,16 +380,20 @@ func (self *sTask) GetFileDownloadTaskInfo(ctx context.Context, taskid string) (
 
 func (self *sTask) QueryTask(ctx context.Context, req *v1.TaskQueryReq) (res *v1.TaskInfoRes, err error) {
 
-	m := g.Map{}
+	m := g.Map{"parent_id": ""}
 
 	if req.Name != "" {
 		m["name"] = req.Name
-
 	}
 
 	if req.Creater != "" {
 		m["creater"] = req.Creater
 	}
+
+	if req.TaskID !="" {
+		m["task_id"] = req.TaskID
+	} 
+
 	tasks := make([]*entity.Task, 0)
 
 	err = dao.Task.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&tasks)
@@ -398,7 +402,7 @@ func (self *sTask) QueryTask(ctx context.Context, req *v1.TaskQueryReq) (res *v1
 		return
 	}
 
-	count, err := dao.Script.Ctx(ctx).Where(m).Count()
+	count, err := dao.Task.Ctx(ctx).Where(m).Count()
 	if err != nil {
 		return
 	}

@@ -39,7 +39,7 @@ func (self *sVM) Check(ctx context.Context, req *model.PeerInfo) (err error) {
 		vm = &entity.Vm{
 			PeerId:   req.PeerId,
 			OsInfo:   req.Os,
-			PublicIp: req.PeerId,
+			PublicIp: req.PublicIp,
 			Hostname: req.HostName,
 			Name:     req.Name,
 			Uuid:     uuid,
