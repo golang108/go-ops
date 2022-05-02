@@ -99,4 +99,5 @@ func (self *sCheckTpl) Update(ctx context.Context, req *v1.UpdateCheckTplReq) (e
 		return err
 	})
 
+	return
 }
