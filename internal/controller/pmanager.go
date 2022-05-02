@@ -165,6 +165,16 @@ func (self *peerManager) FileList(ctx context.Context, req *v1.NodeFileListReq) 
 	}
 
 	fileinfo := val.(*model.PeerListFileInfoRes)
+	sort.SliceStable(fileinfo.List, func(i, j int) bool {
+		if fileinfo.List[i].Type == "dir" {
+			return true
+		}
+		return false
+	})
+
+	for _, item := range fileinfo.List {
+		fmt.Println("item:", item.Name, "typ:", item.Type)
+	}
 
 	res = new(v1.NodeFileListRes)
 	res.Files = fileinfo.List
@@ -189,16 +199,7 @@ func (self *peerManager) FileCreateDir(ctx context.Context, req *v1.NodeFileCrea
 	res = new(v1.NodeFileListRes)
 
 	// sort.Sort()
-	sort.SliceStable(fileinfo.List, func(i, j int) bool {
-		if fileinfo.List[i].Type == "dir" {
-			return true
-		}
-		return false
-	})
 
-	for _, item := range fileinfo.List {
-		fmt.Println("item:", item.Name, "typ:", item.Type)
-	}
 	res.Files = fileinfo.List
 
 	return

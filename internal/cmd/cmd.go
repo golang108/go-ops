@@ -59,6 +59,7 @@ var (
 )
 
 func enhanceOpenAPIDoc(s *ghttp.Server) {
+
 	openapi := s.GetOpenApi()
 	openapi.Config.CommonResponse = ghttp.DefaultHandlerResponse{}
 	openapi.Config.CommonResponseDataField = `Data`
