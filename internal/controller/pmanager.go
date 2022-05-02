@@ -4,10 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	v1 "go-ops/api/v1"
 	"go-ops/internal/model"
 	"go-ops/peer"
 	"go-ops/pkg/message"
+	"sort"
 	"time"
 
 	"github.com/luxingwen/pnet/log"
@@ -185,6 +187,18 @@ func (self *peerManager) FileCreateDir(ctx context.Context, req *v1.NodeFileCrea
 	fileinfo := val.(*model.PeerListFileInfoRes)
 
 	res = new(v1.NodeFileListRes)
+
+	// sort.Sort()
+	sort.SliceStable(fileinfo.List, func(i, j int) bool {
+		if fileinfo.List[i].Type == "dir" {
+			return true
+		}
+		return false
+	})
+
+	for _, item := range fileinfo.List {
+		fmt.Println("item:", item.Name, "typ:", item.Type)
+	}
 	res.Files = fileinfo.List
 
 	return

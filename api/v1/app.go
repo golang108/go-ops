@@ -7,7 +7,7 @@ import (
 )
 
 type AddAppReq struct {
-	g.Meta `path:"/v1/m/app" tags:"App管理" method:"post" summary:"创建一个app"`
+	g.Meta `path:"/v1/m/app/create" tags:"App管理" method:"post" summary:"创建一个app"`
 	Name   string `json:"name" dc:"应用名"`  // 应用名
 	Owner  string `json:"owner" dc:"拥有者"` // 拥有者
 }
@@ -23,7 +23,7 @@ type AddAppRes struct {
 }
 
 type UpdateAppReq struct {
-	g.Meta `path:"/v1/m/app" tags:"App管理" method:"put" summary:"更新一个app"`
+	g.Meta `path:"/v1/m/app/update" tags:"App管理" method:"post" summary:"更新一个app"`
 	Appid  string `json:"appid"  dc:"appid"  `       //
 	Name   string `json:"name" dc:"应用名"`             // 应用名
 	Owner  string `json:"owner" dc:"拥有者"`            // 拥有者
