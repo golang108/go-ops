@@ -37,6 +37,11 @@ type QueryAppReq struct {
 	PageReq
 }
 
+type QuerySingleAppReq struct {
+	g.Meta `path:"/v1/m/app/single_query" tags:"App管理" method:"post" summary:"通过id查询app"`
+	AppId  string `json:"appid" dc:"appid"` // 应用名
+}
+
 type QueryAppRes struct {
 	Page
 	List []*entity.App `json:"list"`

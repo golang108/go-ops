@@ -46,8 +46,8 @@ CREATE TABLE `app` (
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '应用名',
   `status` tinyint(4) DEFAULT NULL COMMENT '1启用 0 禁用',
   `owner_uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '拥有者uid',
-  `created` datetime DEFAULT NULL,
-  `updated` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
