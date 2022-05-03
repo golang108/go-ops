@@ -390,19 +390,19 @@ func (self *sTask) QueryTask(ctx context.Context, req *v1.TaskQueryReq) (res *v1
 		m["creater"] = req.Creater
 	}
 
-	if req.TaskID !="" {
+	if req.TaskID != "" {
 		m["task_id"] = req.TaskID
-	} 
+	}
 
 	tasks := make([]*entity.Task, 0)
 
-	err = dao.Task.Ctx(ctx).Where(m).Page(req.PageNum, req.PageSize).Scan(&tasks)
+	err = dao.Task.Ctx(ctx).Where(m).WhereOr("parent_id IS NULL").Page(req.PageNum, req.PageSize).Scan(&tasks)
 
 	if err != nil {
 		return
 	}
 
-	count, err := dao.Task.Ctx(ctx).Where(m).Count()
+	count, err := dao.Task.Ctx(ctx).Where(m).WhereOr("parent_id IS NULL").Count()
 	if err != nil {
 		return
 	}
