@@ -22,6 +22,10 @@ func (self *app) Query(ctx context.Context, req *v1.QueryAppReq) (res *v1.QueryA
 	return service.App().Query(ctx, req)
 }
 
+func (self *app) SingleQuery(ctx context.Context, req *v1.QuerySingleAppReq) (res *v1.AddAppRes, err error) {
+	return service.App().SingleQuery(ctx, req)
+}
+
 func (self *app) Delete(ctx context.Context, req *v1.DeleteAppReq) (res v1.DeleteRes, err error) {
 	err = service.App().Delete(ctx, req)
 	if err != nil {

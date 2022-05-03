@@ -110,6 +110,26 @@ func (self *sApp) Query(ctx context.Context, req *v1.QueryAppReq) (res *v1.Query
 	return
 }
 
+func (self *sApp) SingleQuery(ctx context.Context, req *v1.QuerySingleAppReq) (res *v1.AddAppRes, err error) {
+	var app *entity.App
+	err = dao.App.Ctx(ctx).Where("appid = ?", req.AppId).Scan(&app)
+	if err != nil {
+		return
+	}
+	if app == nil {
+		return
+	}
+	res = &v1.AddAppRes{
+		Appid:  app.Appid,
+		Name:   app.Name,
+		Owner:  app.Owner,
+		ApiKey: app.ApiKey,
+		Status: app.Status,
+	}
+
+	return
+}
+
 func (self *sApp) Update(ctx context.Context, req *v1.UpdateAppReq) (res *v1.AddAppRes, err error) {
 
 	var app *entity.App
