@@ -61,3 +61,6 @@ class Ops:
     
     def task_preset_delete(self, data):
         return self.post("/v1/m/task/preset/delete", data)
+
+    def app_add(self, data):
+        return self.post("/v1/m/app/create", data)
