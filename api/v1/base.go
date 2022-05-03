@@ -13,3 +13,9 @@ type PageReq struct {
 	PageNum  int `json:"pageNum" dc:"第几页" d:"1"  v:"min:0#分页号码错误"`
 	PageSize int `json:"pageSize" dc:"每页的数量" d:"10" v:"max:50#分页数量最大50条"`
 }
+
+type KVString struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+	Desc  string `json:"desc"`
+}

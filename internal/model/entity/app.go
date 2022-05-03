@@ -10,14 +10,14 @@ import (
 
 // App is the golang structure for table app.
 type App struct {
-	Id       int         `json:"id"       ` //
-	Appid    string      `json:"appid"    ` //
-	ApiKey   string      `json:"apiKey"   ` //
-	SecKey   string      `json:"secKey"   ` //
-	Owner    string      `json:"owner"    ` //
-	Name     string      `json:"name"     ` // 应用名
-	Status   int         `json:"status"   ` // 1启用 0 禁用
-	OwnerUid string      `json:"ownerUid" ` // 拥有者uid
-	Created  *gtime.Time `json:"created"  ` //
-	Updated  *gtime.Time `json:"updated"  ` //
+	Id        int         `json:"id"        ` //
+	Appid     string      `json:"appid"     ` //
+	ApiKey    string      `json:"apiKey"    ` //
+	SecKey    string      `json:"secKey"    ` //
+	Owner     string      `json:"owner"     ` //
+	Name      string      `json:"name"      ` // 应用名
+	Status    int         `json:"status"    ` // 1启用 0 禁用
+	OwnerUid  string      `json:"ownerUid"  ` // 拥有者uid
+	CreatedAt *gtime.Time `json:"createdAt" ` //
+	UpdatedAt *gtime.Time `json:"updatedAt" ` //
 }

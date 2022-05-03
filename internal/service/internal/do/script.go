@@ -23,4 +23,6 @@ type Script struct {
 	Created   *gtime.Time //
 	Updated   *gtime.Time //
 	ScriptUid interface{} //
+	WaitTime  interface{} // 脚本超时时间
+	Cmd       interface{} // 脚本解释器
 }

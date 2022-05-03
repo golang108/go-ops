@@ -42,6 +42,8 @@ func (self *sScript) Create(ctx context.Context, req *v1.AddScriptReq) (res *v1.
 		Desc:      req.Desc,
 		Type:      req.Type,
 		Created:   gtime.Now(),
+		Cmd:       req.Cmd,
+		WaitTime:  req.WaitTime,
 	}
 
 	_, err = dao.Script.Ctx(ctx).Data(script).Insert()
@@ -56,6 +58,8 @@ func (self *sScript) Create(ctx context.Context, req *v1.AddScriptReq) (res *v1.
 		Args:     req.Args,
 		Desc:     script.Desc,
 		Type:     script.Type,
+		Cmd:      script.Cmd,
+		WaitTime: script.WaitTime,
 	}
 
 	return
@@ -142,6 +146,14 @@ func (self *sScript) Update(ctx context.Context, req *v1.UpdateScriptReq) (res *
 		script.Type = req.Type
 	}
 
+	if req.Cmd != "" {
+		script.Cmd = req.Cmd
+	}
+
+	if req.WaitTime != 0 {
+		script.WaitTime = req.WaitTime
+	}
+
 	script.Updated = gtime.Now()
 
 	_, err = dao.Script.Ctx(ctx).Data(script).Where("script_uid = ?", req.ScriptId).Update()
@@ -157,6 +169,8 @@ func (self *sScript) Update(ctx context.Context, req *v1.UpdateScriptReq) (res *
 		Args:     req.Args,
 		Desc:     script.Desc,
 		Type:     script.Type,
+		Cmd:      script.Cmd,
+		WaitTime: script.WaitTime,
 	}
 
 	return

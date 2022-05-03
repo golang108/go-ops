@@ -19,30 +19,30 @@ type AppDao struct {
 
 // AppColumns defines and stores column names for table app.
 type AppColumns struct {
-	Id       string //
-	Appid    string //
-	ApiKey   string //
-	SecKey   string //
-	Owner    string //
-	Name     string // 应用名
-	Status   string // 1启用 0 禁用
-	OwnerUid string // 拥有者uid
-	Created  string //
-	Updated  string //
+	Id        string //
+	Appid     string //
+	ApiKey    string //
+	SecKey    string //
+	Owner     string //
+	Name      string // 应用名
+	Status    string // 1启用 0 禁用
+	OwnerUid  string // 拥有者uid
+	CreatedAt string //
+	UpdatedAt string //
 }
 
 //  appColumns holds the columns for table app.
 var appColumns = AppColumns{
-	Id:       "id",
-	Appid:    "appid",
-	ApiKey:   "api_key",
-	SecKey:   "sec_key",
-	Owner:    "owner",
-	Name:     "name",
-	Status:   "status",
-	OwnerUid: "owner_uid",
-	Created:  "created",
-	Updated:  "updated",
+	Id:        "id",
+	Appid:     "appid",
+	ApiKey:    "api_key",
+	SecKey:    "sec_key",
+	Owner:     "owner",
+	Name:      "name",
+	Status:    "status",
+	OwnerUid:  "owner_uid",
+	CreatedAt: "created_at",
+	UpdatedAt: "updated_at",
 }
 
 // NewAppDao creates and returns a new DAO object for table data access.

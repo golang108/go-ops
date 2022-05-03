@@ -30,6 +30,8 @@ type ScriptColumns struct {
 	Created   string //
 	Updated   string //
 	ScriptUid string //
+	WaitTime  string // 脚本超时时间
+	Cmd       string // 脚本解释器
 }
 
 //  scriptColumns holds the columns for table script.
@@ -45,6 +47,8 @@ var scriptColumns = ScriptColumns{
 	Created:   "created",
 	Updated:   "updated",
 	ScriptUid: "script_uid",
+	WaitTime:  "wait_time",
+	Cmd:       "cmd",
 }
 
 // NewScriptDao creates and returns a new DAO object for table data access.

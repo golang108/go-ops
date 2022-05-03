@@ -21,4 +21,6 @@ type Script struct {
 	Created   *gtime.Time `json:"created"   ` //
 	Updated   *gtime.Time `json:"updated"   ` //
 	ScriptUid string      `json:"scriptUid" ` //
+	WaitTime  int         `json:"waitTime"  ` // 脚本超时时间
+	Cmd       string      `json:"cmd"       ` // 脚本解释器
 }

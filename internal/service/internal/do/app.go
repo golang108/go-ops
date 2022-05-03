@@ -11,15 +11,15 @@ import (
 
 // App is the golang structure of table app for DAO operations like Where/Data.
 type App struct {
-	g.Meta   `orm:"table:app, do:true"`
-	Id       interface{} //
-	Appid    interface{} //
-	ApiKey   interface{} //
-	SecKey   interface{} //
-	Owner    interface{} //
-	Name     interface{} // 应用名
-	Status   interface{} // 1启用 0 禁用
-	OwnerUid interface{} // 拥有者uid
-	Created  *gtime.Time //
-	Updated  *gtime.Time //
+	g.Meta    `orm:"table:app, do:true"`
+	Id        interface{} //
+	Appid     interface{} //
+	ApiKey    interface{} //
+	SecKey    interface{} //
+	Owner     interface{} //
+	Name      interface{} // 应用名
+	Status    interface{} // 1启用 0 禁用
+	OwnerUid  interface{} // 拥有者uid
+	CreatedAt *gtime.Time //
+	UpdatedAt *gtime.Time //
 }
