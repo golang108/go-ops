@@ -37,7 +37,7 @@ var (
 				)
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					// 打开这里使用认证功能
-					//group.Middleware(controller.AuthUser)
+					group.Middleware(controller.AuthUser)
 					group.Bind(
 						controller.ScritptTask,
 						controller.PeerManagaer,
