@@ -124,6 +124,7 @@ func (self *sApp) SingleQuery(ctx context.Context, req *v1.QuerySingleAppReq) (r
 		Name:   app.Name,
 		Owner:  app.Owner,
 		ApiKey: app.ApiKey,
+		SecKey: app.SecKey,
 		Status: app.Status,
 	}
 
