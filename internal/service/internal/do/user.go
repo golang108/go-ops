@@ -20,4 +20,6 @@ type User struct {
 	Created  *gtime.Time //
 	Updated  *gtime.Time //
 	Phone    interface{} //
+	Avatar   interface{} // 头像
+	Status   interface{} // 状态 1 启用 2 禁用
 }

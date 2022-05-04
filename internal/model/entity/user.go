@@ -18,4 +18,6 @@ type User struct {
 	Created  *gtime.Time `json:"created"  ` //
 	Updated  *gtime.Time `json:"updated"  ` //
 	Phone    string      `json:"phone"    ` //
+	Avatar   string      `json:"avatar"   ` // 头像
+	Status   string      `json:"status"   ` // 状态 1 启用 2 禁用
 }
