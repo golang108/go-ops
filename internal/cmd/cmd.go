@@ -28,22 +28,33 @@ var (
 
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(MiddlewareCORS)
+
 				//	group.Middleware(controller.MiddlewareGetApp)
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
+
 				group.Bind(
-					controller.ScritptTask,
-					controller.PeerManagaer,
-					controller.DownloadFileTask,
-					controller.App,
-					controller.Task,
-					controller.Script,
-					controller.Agent,
-					controller.CheckItem,
-					controller.TaskPreset,
-					controller.TaskCron,
-					controller.Plugin,
-					controller.VM,
+					controller.Auth,
 				)
+				group.Group("/", func(group *ghttp.RouterGroup) {
+					// 打开这里使用认证功能
+					//group.Middleware(controller.AuthUser)
+					group.Bind(
+						controller.ScritptTask,
+						controller.PeerManagaer,
+						controller.DownloadFileTask,
+						controller.App,
+						controller.Task,
+						controller.Script,
+						controller.Agent,
+						controller.CheckItem,
+						controller.TaskPreset,
+						controller.TaskCron,
+						controller.Plugin,
+						controller.VM,
+						controller.User,
+					)
+				})
+
 			})
 
 			s.SetIndexFolder(true)

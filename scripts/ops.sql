@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2022-05-02 00:13:34
+Date: 2022-05-04 17:41:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -49,7 +49,7 @@ CREATE TABLE `app` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for check_item
@@ -155,8 +155,10 @@ CREATE TABLE `script` (
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
   `script_uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `wait_time` int(11) DEFAULT NULL COMMENT '脚本超时时间',
+  `cmd` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '脚本解释器',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for task
@@ -208,8 +210,10 @@ CREATE TABLE `user` (
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
   `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatar` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '头像',
+  `status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '状态 1 启用 2 禁用',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for vm

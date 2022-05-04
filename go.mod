@@ -6,6 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.1.0 // indirect
 	github.com/charlievieth/fs v0.0.2
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
+	github.com/gogf/gf-jwt/v2 v2.0.1
 	github.com/gogf/gf/v2 v2.0.6
 	github.com/gogo/protobuf v1.3.2
 	github.com/google/uuid v1.3.0

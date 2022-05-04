@@ -14,6 +14,7 @@ const (
 	GoOpsHeaderSignature = "GO-OPS-X-SIGNATURE"
 	GoOpsHeaderTimestamp = "GO-OPS-X-TIMESTAMP"
 	GoOpsHeaderNonce     = "GO-OPS-X-NONCE"
+	GoOpsHeaderToken     = "GO-OPS-X-TOKEN"
 )
 
 func MiddlewareGetApp(r *ghttp.Request) {
@@ -43,4 +44,9 @@ func MiddlewareGetApp(r *ghttp.Request) {
 	fmt.Println("appid=", appid)
 	r.Middleware.Next()
 
+}
+
+func AuthUser(r *ghttp.Request) {
+	service.Auth().MiddlewareFunc()(r)
+	r.Middleware.Next()
 }
