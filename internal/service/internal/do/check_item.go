@@ -22,4 +22,7 @@ type CheckItem struct {
 	Updater     interface{} // 更新人
 	Created     *gtime.Time //
 	Updated     *gtime.Time //
+	Weight      interface{} // 权重
+	WaitTime    interface{} // 超时时间
+	Cmd         interface{} // 脚本执行解释器
 }
