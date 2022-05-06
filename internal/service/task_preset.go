@@ -141,6 +141,7 @@ func (self *sTaskPreset) Query(ctx context.Context, req *v1.QueryTaskPresetReq) 
 			Name:    item.Name,
 			Content: item.Content,
 			Updater: item.Updater,
+			Creater: item.Creater,
 			Type:    item.Type,
 			Uuid:    item.Uuid,
 			Updated: item.Updated.String(),
