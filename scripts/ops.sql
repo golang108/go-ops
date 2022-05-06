@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2022-05-04 17:41:08
+Date: 2022-05-06 20:36:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -66,8 +66,11 @@ CREATE TABLE `check_item` (
   `updater` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '更新人',
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
+  `weight` double DEFAULT NULL COMMENT '权重',
+  `wait_time` int(11) DEFAULT NULL COMMENT '超时时间',
+  `cmd` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '脚本执行解释器',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for check_tpl
