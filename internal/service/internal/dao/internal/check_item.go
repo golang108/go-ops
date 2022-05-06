@@ -29,6 +29,9 @@ type CheckItemColumns struct {
 	Updater     string // 更新人
 	Created     string //
 	Updated     string //
+	Weight      string // 权重
+	WaitTime    string // 超时时间
+	Cmd         string // 脚本执行解释器
 }
 
 //  checkItemColumns holds the columns for table check_item.
@@ -43,6 +46,9 @@ var checkItemColumns = CheckItemColumns{
 	Updater:     "updater",
 	Created:     "created",
 	Updated:     "updated",
+	Weight:      "weight",
+	WaitTime:    "wait_time",
+	Cmd:         "cmd",
 }
 
 // NewCheckItemDao creates and returns a new DAO object for table data access.

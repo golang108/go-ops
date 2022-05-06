@@ -20,4 +20,7 @@ type CheckItem struct {
 	Updater     string      `json:"updater"     ` // 更新人
 	Created     *gtime.Time `json:"created"     ` //
 	Updated     *gtime.Time `json:"updated"     ` //
+	Weight      float64     `json:"weight"      ` // 权重
+	WaitTime    int         `json:"waitTime"    ` // 超时时间
+	Cmd         string      `json:"cmd"         ` // 脚本执行解释器
 }

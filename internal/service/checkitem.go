@@ -31,6 +31,9 @@ func (self *sCheckitem) Create(ctx context.Context, req *v1.AddCheckItemReq) (re
 		Content:     req.Content,
 		Desc:        req.Content,
 		Type:        req.Type,
+		WaitTime:    req.WaitTime,
+		Cmd:         req.Cmd,
+		Weight:      req.Weight,
 	}
 
 	_, err = dao.CheckItem.Ctx(ctx).Data(item).Insert()
@@ -43,6 +46,9 @@ func (self *sCheckitem) Create(ctx context.Context, req *v1.AddCheckItemReq) (re
 		Content:     item.Content,
 		Desc:        item.Desc,
 		Type:        item.Type,
+		Cmd:         item.Cmd,
+		WaitTime:    item.WaitTime,
+		Weight:      item.Weight,
 	}
 
 	return
@@ -78,8 +84,17 @@ func (self *sCheckitem) Update(ctx context.Context, req *v1.UpdateCheckItemReq) 
 	if req.Type != "" {
 		item.Type = req.Type
 	}
+	if req.Cmd != "" {
+		item.Cmd = req.Cmd
+	}
+	if req.Weight != 0 {
+		item.Weight = req.Weight
+	}
+	if req.WaitTime != 0 {
+		item.WaitTime = req.WaitTime
+	}
 
-	_, err = dao.CheckItem.Ctx(ctx).Data(item).Update()
+	_, err = dao.CheckItem.Ctx(ctx).Data(item).Where("check_item_id = ?", req.CheckItemId).Update()
 	if err != nil {
 		return
 	}
@@ -90,6 +105,9 @@ func (self *sCheckitem) Update(ctx context.Context, req *v1.UpdateCheckItemReq) 
 		Content:     item.Content,
 		Desc:        item.Desc,
 		Type:        item.Type,
+		Cmd:         item.CheckItemId,
+		WaitTime:    item.WaitTime,
+		Weight:      item.Weight,
 	}
 	return
 }
@@ -97,6 +115,10 @@ func (self *sCheckitem) Update(ctx context.Context, req *v1.UpdateCheckItemReq) 
 func (self *sCheckitem) Query(ctx context.Context, req *v1.QueryCheckItemReq) (res *v1.QueryCheckItemRes, err error) {
 
 	m := g.Map{}
+
+	if req.CheckItemId != "" {
+		m["check_item_id"] = req.CheckItemId
+	}
 
 	if req.Name != "" {
 		m["name"] = req.Name
@@ -130,6 +152,9 @@ func (self *sCheckitem) Query(ctx context.Context, req *v1.QueryCheckItemReq) (r
 			Content:     item.Content,
 			Desc:        item.Desc,
 			Type:        item.Type,
+			Cmd:         item.Cmd,
+			Weight:      item.Weight,
+			WaitTime:    item.WaitTime,
 		})
 	}
 

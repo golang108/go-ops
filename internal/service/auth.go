@@ -21,7 +21,7 @@ func init() {
 		Realm:           "test zone",
 		Key:             []byte("secret key"),
 		Timeout:         time.Minute * 10,
-		MaxRefresh:      time.Minute * 5,
+		MaxRefresh:      time.Minute * 20,
 		IdentityKey:     "uid",
 		TokenLookup:     "header: GO-OPS-X-TOKEN, query: token, cookie: jwt",
 		TokenHeadName:   "Bearer",
@@ -60,8 +60,10 @@ func IdentityHandler(ctx context.Context) interface{} {
 
 // Unauthorized is used to define customized Unauthorized callback function.
 func Unauthorized(ctx context.Context, code int, message string) {
+
 	r := g.RequestFromCtx(ctx)
-	r.Response.WriteJson(g.Map{
+
+	r.Response.WriteStatus(code, g.Map{
 		"code":    code,
 		"message": message,
 	})
