@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"go-ops/agent"
-	"go-ops/agent/script"
-	"go-ops/agent/task"
 	"go-ops/internal/model"
+	"go-ops/pkg/agent"
+	"go-ops/pkg/agent/script"
+	"go-ops/pkg/agent/task"
 	"time"
 )
 

@@ -2,8 +2,8 @@ package script
 
 import (
 	"context"
-	"go-ops/agent/cmdrunner"
 	"go-ops/internal/model"
+	"go-ops/pkg/agent/cmdrunner"
 	ospsys "go-ops/pkg/system"
 	"strings"
 )

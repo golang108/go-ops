@@ -2,8 +2,8 @@ package controller
 
 import (
 	"context"
-	v1 "go-ops/api/v1"
 	"go-ops/internal/service"
+	v1 "go-ops/pkg/api/v1"
 
 	"github.com/gogf/gf/v2/util/gconv"
 )

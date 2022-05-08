@@ -3,7 +3,7 @@ package script
 import (
 	"context"
 	"fmt"
-	"go-ops/agent/action"
+	"go-ops/pkg/agent/action"
 	"go-ops/pkg/proto"
 	"os"
 	"os/exec"

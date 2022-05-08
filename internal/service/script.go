@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	v1 "go-ops/api/v1"
 	"go-ops/internal/model/entity"
 	"go-ops/internal/service/internal/dao"
+	v1 "go-ops/pkg/api/v1"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"

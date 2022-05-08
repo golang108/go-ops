@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 
-	v1 "go-ops/api/v1"
 	"go-ops/internal/model/entity"
 	"go-ops/internal/service/internal/dao"
 	"go-ops/internal/service/internal/do"
+	v1 "go-ops/pkg/api/v1"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 )

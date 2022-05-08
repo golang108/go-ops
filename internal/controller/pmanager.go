@@ -4,10 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
-	v1 "go-ops/api/v1"
 	"go-ops/internal/model"
-	"go-ops/peer"
+	"go-ops/internal/peer"
+	v1 "go-ops/pkg/api/v1"
 	"go-ops/pkg/message"
 	"sort"
 	"time"
@@ -171,10 +170,6 @@ func (self *peerManager) FileList(ctx context.Context, req *v1.NodeFileListReq) 
 		}
 		return false
 	})
-
-	for _, item := range fileinfo.List {
-		fmt.Println("item:", item.Name, "typ:", item.Type)
-	}
 
 	res = new(v1.NodeFileListRes)
 	res.Files = fileinfo.List

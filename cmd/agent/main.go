@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go-ops/agent"
-	"go-ops/peer"
+	"go-ops/internal/peer"
+	"go-ops/pkg/agent"
 	"log"
 	"os"
 	"os/signal"
