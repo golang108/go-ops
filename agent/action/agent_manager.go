@@ -78,7 +78,7 @@ func (self *agentManager) Download(ctx context.Context, a *model.AgentInfo) (err
 		return
 	}
 
-	fileMd5 := fmt.Sprintln("%x", md5.Sum(filecontent))
+	fileMd5 := fmt.Sprintf("%x", md5.Sum(filecontent))
 
 	if fileMd5 != string(md5Content) {
 		err = errors.New("check md5 failed")
