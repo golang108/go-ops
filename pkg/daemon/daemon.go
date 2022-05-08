@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"time"
 )
 
 const ENV_NAME = "LXW_DAEMON_IDX"
@@ -13,8 +14,38 @@ const ENV_NAME = "LXW_DAEMON_IDX"
 //运行时调用background的次数
 var runIdx int = 0
 
+type Daemon struct {
+	pid  int
+	cpid int
+}
+
+func NewDaemon() *Daemon {
+	return &Daemon{}
+}
+
+func (self *Daemon) Start() {
+	Background(true)
+
+	for {
+		cmd, err := Background(false)
+		if err != nil {
+			log.Println("start proc err:", err)
+			time.Sleep(time.Second)
+			continue
+
+		}
+
+		//	self.cpid = cmd.Process.Pid
+		err = cmd.Wait()
+		if err != nil {
+			log.Println("sub procss exit err:", err)
+			time.Sleep(time.Second)
+		}
+	}
+}
+
 // auto Start 是否自动重启
-func Background(autoStart bool, f func()) (cmd *exec.Cmd, err error) {
+func Background(isExit bool) (cmd *exec.Cmd, err error) {
 
 	var runIdx int = 0
 
@@ -22,12 +53,8 @@ func Background(autoStart bool, f func()) (cmd *exec.Cmd, err error) {
 	if err != nil {
 		envIdx = 0
 	}
-	if runIdx <= envIdx { //子进程, 退出
-		if autoStart {
-			AutoRestart(autoStart, f)
-			return
-		}
-		return  nil
+	if runIdx > envIdx { //子进程, 退出
+		return nil, err
 	}
 
 	//设置子进程环境变量
@@ -35,24 +62,17 @@ func Background(autoStart bool, f func()) (cmd *exec.Cmd, err error) {
 	env = append(env, fmt.Sprintf("%s=%d", ENV_NAME, runIdx))
 
 	//启动子进程
-	cmd,err = startProc(os.Args, env)
+	cmd, err = startProc(os.Args, env)
 	if err != nil {
 		log.Println(os.Getpid(), "启动子进程失败:", err)
 		return nil, err
-	} 
+	}
+
+	if isExit {
+		os.Exit(0)
+	}
 
 	return cmd, nil
-}
-
-
-// 用守护进程的方式 运行
-func runDaemon(autoStart bool, f func()) (err error) {
-
-	cmd,err:=Background(false, f)
-	if err!=nil{
-
-	}
-	return
 }
 
 func startProc(args, env []string) (*exec.Cmd, error) {
@@ -67,6 +87,5 @@ func startProc(args, env []string) (*exec.Cmd, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return cmd, nil
 }
