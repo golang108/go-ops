@@ -3,9 +3,9 @@ package agent
 import (
 	"context"
 	"fmt"
-	"go-ops/agent/action"
 	"go-ops/internal/model"
-	"go-ops/peer"
+	"go-ops/internal/peer"
+	"go-ops/pkg/agent/action"
 	"path/filepath"
 
 	"github.com/luxingwen/pnet"

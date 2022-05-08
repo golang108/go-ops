@@ -7,11 +7,11 @@ import (
 	"net"
 	"runtime"
 
-	"go-ops/agent/action"
-	"go-ops/agent/script"
-	"go-ops/agent/task"
 	"go-ops/internal/model"
-	"go-ops/peer"
+	"go-ops/internal/peer"
+	"go-ops/pkg/agent/action"
+	"go-ops/pkg/agent/script"
+	"go-ops/pkg/agent/task"
 
 	"go-ops/pkg/stat"
 

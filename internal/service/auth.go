@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	v1 "go-ops/api/v1"
+	v1 "go-ops/pkg/api/v1"
 	"time"
 
 	"github.com/gogf/gf/v2/frame/g"

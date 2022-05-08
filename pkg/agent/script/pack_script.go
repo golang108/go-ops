@@ -2,10 +2,10 @@ package script
 
 import (
 	"context"
-	"go-ops/agent/action"
-	"go-ops/agent/cmdrunner"
-	"go-ops/agent/script/cmd"
 	"go-ops/internal/model"
+	"go-ops/pkg/agent/action"
+	"go-ops/pkg/agent/cmdrunner"
+	"go-ops/pkg/agent/script/cmd"
 	"path"
 	"path/filepath"
 	"strings"

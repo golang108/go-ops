@@ -1,22 +1,23 @@
 package script
 
 import (
-	"go-ops/agent/cmdrunner"
 	"go-ops/internal/model"
+	"go-ops/pkg/agent/cmdrunner"
+	"go-ops/pkg/agent/script/cmd"
+	"io"
+	"net/http"
 	"os"
-
-	"go-ops/agent/script/cmd"
 	"path"
 	"strings"
 )
 
-type ContentScript struct {
+type UrlScript struct {
 	GenericScript
 	cmd   string
 	input string
 }
 
-func NewContentScript(
+func NewUrlScript(
 	runner cmdrunner.CmdRunner,
 	jobid string,
 	path string,
@@ -24,16 +25,16 @@ func NewContentScript(
 	content string,
 	env map[string]string,
 	timeout int,
-	input string,
 	user string,
 	args []string,
-) ContentScript {
+	input string,
+) UrlScript {
 
 	if cmd == "" {
 		cmd = Cmder
 	}
 
-	s := ContentScript{cmd: cmd, input: input}
+	s := UrlScript{cmd: cmd, input: input}
 	s.GenericScript.runner = runner
 	s.GenericScript.path = path
 	s.GenericScript.content = content
@@ -42,57 +43,66 @@ func NewContentScript(
 	s.GenericScript.timeout = timeout
 	s.GenericScript.user = user
 	s.GenericScript.args = args
-
 	return s
 }
 
-func (s ContentScript) Run() (r model.ResCmd) {
+func (s UrlScript) Run() (r model.ResCmd) {
 
-	if s.path == "" {
-		s.path = ScriptPath
-	}
-	runpath := path.Join(s.path, s.jobid)
-	runpath = path.Join(runpath, s.jobid+ScriptExt)
-	err := s.ensureContainingDir(runpath)
-
+	err := s.downloadFile()
 	if err != nil {
 		return s.getResCmd(nil, err)
 	}
-
-	f, err := os.OpenFile(runpath, fileOpenFlag, fileOpenPerm)
-	if err != nil {
-		return
-	}
-	defer f.Close()
-
-	_, err = f.WriteString(s.content)
-	if err != nil {
-		return
-	}
-	err = f.Close()
-	if err != nil {
-		return
-	}
-
 	cmdstr, args := getCmdArgs(s.cmd)
-
 	command := cmd.BuildCommand(cmdstr)
-
 	command.Args = append(command.Args, args...)
-	command.Args = append(command.Args, runpath)
+
+	filename := path.Base(s.content)
+
+	command.Args = append(command.Args, filename)
 	command.Args = append(command.Args, s.args...)
 	command.Timeout = s.timeout
 	command.User = s.user
 	command.WorkingDir = s.path
 
-	if s.input != "" {
-		command.Stdin = strings.NewReader(s.input)
-	}
-
 	for key, val := range s.env {
 		command.Env[key] = val
 	}
 
+	if s.input != "" {
+		command.Stdin = strings.NewReader(s.input)
+	}
+
 	res, err := s.runner.RunCommand(s.jobid, command)
 	return s.getResCmd(res, err)
+}
+
+func (s UrlScript) downloadFile() (err error) {
+	savePath := s.path
+	if savePath == ScriptPath {
+		savePath = path.Join(s.path, s.jobid)
+	}
+
+	filename := path.Base(s.content)
+
+	savePath = path.Join(savePath, filename)
+
+	err = s.ensureContainingDir(savePath)
+	if err != nil {
+		return
+	}
+
+	f, err := os.OpenFile(savePath, fileOpenFlag, fileOpenPerm)
+	if err != nil {
+		return
+	}
+	defer f.Close()
+
+	res, err := http.Get(s.content)
+	if err != nil {
+		return
+	}
+	defer res.Body.Close()
+
+	_, err = io.Copy(f, res.Body)
+	return
 }

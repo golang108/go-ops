@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"go-ops/internal/cmd"
 	_ "go-ops/internal/packed"
-	"go-ops/peer"
+	"go-ops/internal/peer"
 	"log"
 	"os"
 
