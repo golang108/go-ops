@@ -24,6 +24,7 @@ type PeerListFileInfoRes struct {
 	Peerid string      `json:"peerid" dc:"节点id"`
 	Path   string      `json:"path" dc:"文件夹路径"`
 	List   []*FileInfo `json:"list" dc:"文件列表"`
+	Error  string      `json:"error" dc:"报错信息"`
 }
 
 type PeerNewDir struct {

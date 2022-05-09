@@ -15,6 +15,7 @@ func (self *OspAgent) ListFileInfo(req *model.PeerListFileInfo, srcId string, ms
 	ctx := context.Background()
 	fileInfos, err := action.FileDisk().GetDirInfo(ctx, req.Path)
 	if err != nil {
+		err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{List: fileInfos, Path: req.Path, Error: err.Error()}, msgID, srcId, rpath)
 		return
 	}
 
@@ -28,6 +29,8 @@ func (self *OspAgent) MoveFile(req *model.PeerMoveFile, srcId string, msgID []by
 	ctx := context.Background()
 	err := action.FileDisk().Move(ctx, req.Src, req.Dst)
 	if err != nil {
+		err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{Error: err.Error()}, msgID, srcId, rpath)
+
 		return
 	}
 
@@ -35,6 +38,8 @@ func (self *OspAgent) MoveFile(req *model.PeerMoveFile, srcId string, msgID []by
 
 	fileInfos, err := action.FileDisk().GetDirInfo(ctx, bpath)
 	if err != nil {
+		err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{Error: err.Error()}, msgID, srcId, rpath)
+
 		return
 	}
 
@@ -48,6 +53,7 @@ func (self *OspAgent) CreateDir(req *model.PeerNewDir, srcId string, msgID []byt
 	ctx := context.Background()
 	fileInfos, err := action.FileDisk().CreateDir(ctx, req.Path)
 	if err != nil {
+		err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{Error: err.Error()}, msgID, srcId, rpath)
 		return
 	}
 
@@ -61,6 +67,7 @@ func (self *OspAgent) RemoveFile(req *model.PeerDeleteFile, srcId string, msgID 
 	ctx := context.Background()
 	err := action.FileDisk().Remove(ctx, req.Path)
 	if err != nil {
+		err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{Error: err.Error()}, msgID, srcId, rpath)
 		fmt.Println("remove file err:", err)
 		return
 	}
@@ -70,6 +77,7 @@ func (self *OspAgent) RemoveFile(req *model.PeerDeleteFile, srcId string, msgID 
 	fileInfos, err := action.FileDisk().GetDirInfo(ctx, bpath)
 	if err != nil {
 		fmt.Println("获取文件夹失败:", err)
+		err = peer.SendMsgReplay(pn, &model.PeerListFileInfoRes{Error: err.Error()}, msgID, srcId, rpath)
 		return
 	}
 
