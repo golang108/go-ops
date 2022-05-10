@@ -33,11 +33,15 @@ func TestGenericScript(t *testing.T) {
 	res = NewJobScriptProvider(ctx, s).Run()
 	fmt.Println("res1:", res)
 
-	s = testGetScriptJob("pwd", "/Users/luxingwen/go/src/go-ops/pkg/agent/script")
+	s = testGetScriptJob("pwd", "/home/lewis/go/src/go-ops/pkg/agent/script")
 	res = NewJobScriptProvider(ctx, s).Run()
 	fmt.Println("res2:", res)
 
-	s = testGetScriptJob("ls", "/Users/luxingwen/go/src/go-ops/pkg/agent/script")
+	s = testGetScriptJob("ls", "/home/lewis/go/src/go-ops/pkg/agent/script")
 	res = NewJobScriptProvider(ctx, s).Run()
 	fmt.Println("res3:", res)
+
+	s = testGetScriptJob("echo $HOME", "")
+	res = NewJobScriptProvider(ctx, s).Run()
+	fmt.Println("res4:", res)
 }
