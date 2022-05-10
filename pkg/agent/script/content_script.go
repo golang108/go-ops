@@ -51,8 +51,7 @@ func (s ContentScript) Run() (r model.ResCmd) {
 	if s.path == "" {
 		s.path = ScriptPath
 	}
-	runpath := path.Join(s.path, s.jobid)
-	runpath = path.Join(runpath, s.jobid+ScriptExt)
+	runpath := path.Join(s.path, s.jobid+ScriptExt)
 	err := s.ensureContainingDir(runpath)
 
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"go-ops/internal/model"
 	"go-ops/pkg/agent/cmdrunner"
 	ospsys "go-ops/pkg/system"
+	"os"
 	"strings"
 )
 
@@ -45,6 +46,7 @@ func (p JobScriptProvider) Run() model.ResCmd {
 }
 
 func getCmdArgs(s string) (cmd string, args []string) {
+	s = os.ExpandEnv(s)
 	list := strings.Fields(s)
 	if len(list) <= 0 {
 		return
