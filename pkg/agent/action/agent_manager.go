@@ -59,6 +59,7 @@ func (self *agentManager) Download(ctx context.Context, a *model.AgentInfo) (err
 
 	err = Download(ctx, tmpFile, downloadUrl)
 	if err != nil {
+
 		return
 	}
 
