@@ -452,6 +452,41 @@ func getTaskInfo(ctx context.Context, taskid string) (taskInfo *v1.TaskInfo, err
 		Sublist: make([]*v1.TaskInfo, 0),
 	}
 
+	doingcnt := 0
+	failedcnt := 0
+	mstatus := task.Status
+	if task.Status == "doing" {
+
+		for _, item := range subTasks {
+
+			if item.Status == "doing" {
+				doingcnt++
+			}
+
+			if item.Status == "failed" {
+				failedcnt++
+			}
+
+		}
+
+		if doingcnt == 0 {
+			if failedcnt == 0 {
+				mstatus = "done"
+			} else {
+				mstatus = "failed"
+			}
+
+			err = dao.Task.Transaction(ctx, func(ctx context.Context, tx *gdb.TX) error {
+				_, err = dao.Task.Ctx(ctx).Data(g.Map{"status": mstatus}).Where("task_id = ?", taskid).Update()
+				return err
+			})
+			if err != nil {
+				fmt.Println("update err:", err)
+			}
+		}
+	}
+	task.Status = mstatus
+
 	for _, item := range subTasks {
 		subTask, err := getTaskInfo(ctx, item.TaskId)
 		if err != nil {
