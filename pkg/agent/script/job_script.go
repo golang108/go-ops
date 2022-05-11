@@ -7,6 +7,8 @@ import (
 	ospsys "go-ops/pkg/system"
 	"os"
 	"strings"
+
+	log "go-ops/pkg/logger"
 )
 
 type JobScriptProvider struct {
@@ -26,6 +28,8 @@ func NewJobScriptProvider(
 	p := JobScriptProvider{
 		cmdRunner: runer,
 	}
+
+	log.Infof("[%s] new script job, execway: %v, waitime:%d", scriptJob.Jobid, scriptJob.Script.ExecWay, scriptJob.Script.Timeout)
 
 	switch scriptJob.Script.ExecWay {
 	case model.ExecCmd:

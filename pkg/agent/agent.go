@@ -3,7 +3,6 @@ package agent
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net"
 	"runtime"
 
@@ -15,18 +14,23 @@ import (
 
 	"go-ops/pkg/stat"
 
+	"go-ops/pkg/agent/config"
+	log "go-ops/pkg/logger"
+
 	"github.com/luxingwen/pnet"
 )
 
 type OspAgent struct {
+	*config.Config
 	task.Manager
 	task.Service
 }
 
-func NewOspAgent(workdir string) *OspAgent {
+func NewOspAgent(cfg *config.Config) *OspAgent {
 
 	ospAgent := &OspAgent{
-		Manager: task.NewManagerProvider().NewManager(workdir),
+		Config:  cfg,
+		Manager: task.NewManagerProvider().NewManager(cfg.TaskPath),
 		Service: task.NewAsyncTaskService(),
 	}
 	return ospAgent
@@ -44,23 +48,20 @@ func (self *OspAgent) CreateScriptTask(s *model.ScriptJob, srcId string, msgID [
 			ResCmd: res,
 			PeerId: pn.GetLocalNode().Id,
 		}
-
 		return
 	}
 
 	endFunc := func(t task.Task) {
-
 		if s.RunMode == "sync" {
 			err := peer.SendMsgReplay(pn, t.Value, msgID, srcId, rpath)
 			if err != nil {
-				fmt.Println("send msg replay err:", err)
+				log.Errorf("[%s] CreateScriptTask sync send msg replay err:%v", s.Jobid, err)
 			}
 			return
 		}
-		fmt.Println("我来到了这里")
 		err := peer.SendMsgAsync(pn, t.Value, srcId, rpath)
 		if err != nil {
-			fmt.Println("send msg replay err:", err)
+			log.Errorf("[%s] CreateScriptTask send msg async err:%v", s.Jobid, err)
 		}
 	}
 
@@ -92,7 +93,7 @@ func (self *OspAgent) GetTaskInfo(taskid string, srcId string, msgID []byte, rpa
 		res.Err = "找不到任务:" + taskid
 		err := peer.SendMsgReplay(pn, res, msgID, srcId, rpath)
 		if err != nil {
-			fmt.Println("send msg replay err:", err)
+			log.Errorf("[%s] GetTaskInfo send msg replay err:%v", taskid, err)
 		}
 		return
 	}
@@ -123,7 +124,7 @@ func (self *OspAgent) DownloadFile(req *model.DownloadFileJob, srcId string, msg
 	endFunc := func(t task.Task) {
 		err := peer.SendMsgAsync(pn, t.Value, srcId, rpath)
 		if err != nil {
-			fmt.Println("send msg replay err:", err)
+			log.Errorf("[%s] DownloadFile send msg async err:%v", req.Jobid, err)
 		}
 	}
 
