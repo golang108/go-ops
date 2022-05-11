@@ -54,7 +54,7 @@ Go-ops是面向云平台系统, 基于 PaaS 技术支持客户实现 DevOps 解�
   ```
   - config.yaml  apiserver配置文件
   
-  ```json
+  ```yaml
 
   database:
     default:
