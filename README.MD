@@ -38,5 +38,49 @@ Go-ops是面向云平台系统, 基于 PaaS 技术支持客户实现 DevOps 解�
 
 ## 构建项目
 
+- make
+  
+  > make build
 
+
+
+- 配置文件说明
+  - config.json  agent配置文件
+  ```json
+  {
+    "port":13333,  // agent 监听的端口号
+    "bootlist":["tcp://127.0.0.1:9999"]  // 引导网络地址
+  }
+  ```
+  - config.yaml  apiserver配置文件
+  
+  ```json
+
+  database:
+    default:
+      link:  "mysql:root:root@tcp(127.0.0.1:3306)/ops" // 数据库连接串
+      debug: "true" // 是否开启调试模式
+
+  server:
+    ServerRoot: "public"  // 静态资源文件目录
+    address: ":8199"  // api 监听端口
+    openapiPath: "/api.json"  // openapi 接口文件
+  ```
+
+
+## 运行项目
+
+> 如果是第一次运行需要在数据库中创建数据库，并导入scripts/ops.sql  这个文件的表结构信息
+
+- apiserver
+  > bin/apiserver
+
+  或者
+  >  go run cmd/server/main.go
+
+- agent
+  > bin/agent
+  
+  或者
+  > agent: go run cmd/agent/main.go
 
