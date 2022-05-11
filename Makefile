@@ -3,6 +3,19 @@ NAMESPACE   = "default"
 DEPLOY_NAME = "template-single"
 DOCKER_NAME = "template-single"
 
+
+.PHONY: agent
+agent:
+	go build -o bin/agent cmd/agent/main.go
+
+.PHONY: apiserver
+apiserver:
+	go build -o bin/apiserver cmd/server/main.go
+
+
+.PHONY: build
+build: agent apiserver
+
 # Install/Update to the latest CLI tool.
 .PHONY: cli
 cli:
