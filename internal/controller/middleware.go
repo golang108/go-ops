@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"go-ops/internal/service"
 	"go-ops/pkg/util"
 	"net/http"
@@ -17,17 +16,17 @@ const (
 	GoOpsHeaderToken     = "GO-OPS-X-TOKEN"
 )
 
-func MiddlewareGetApp(r *ghttp.Request) {
+func MiddlewareGetApp(r *ghttp.Request) bool {
 	appid := r.GetHeader(GoOpsHeaderAppId)
 	if appid == "" {
 		r.Response.WriteStatus(http.StatusForbidden)
-		return
+		return false
 	}
 
 	app, err := service.App().GetApp(r.GetCtx(), appid)
 	if err != nil {
 		r.Response.WriteStatus(http.StatusForbidden)
-		return
+		return false
 	}
 
 	signature := r.GetHeader(GoOpsHeaderSignature)
@@ -38,15 +37,17 @@ func MiddlewareGetApp(r *ghttp.Request) {
 
 	if sign != signature {
 		r.Response.WriteStatus(http.StatusForbidden)
-		return
+		return false
 	}
 
-	fmt.Println("appid=", appid)
-	r.Middleware.Next()
+	return true
 
 }
 
 func AuthUser(r *ghttp.Request) {
-	service.Auth().MiddlewareFunc()(r)
+	// 如果是app
+	if !MiddlewareGetApp(r) {
+		service.Auth().MiddlewareFunc()(r)
+	}
 	r.Middleware.Next()
 }
