@@ -35,7 +35,6 @@ class Ops:
         timestamp = str(int(time.time()))
         body = json.dumps(data)
         sign = self.getSign(nonce, timestamp, body)
-
         header = {
             'Content-Type': 'application/json',
             'GO-OPS-X-TIMESTAMP': timestamp,
