@@ -16,7 +16,13 @@ data = \
 
 import ops
 
-ospReq = ops.Ops("http://127.0.0.1:8199")
+
+appid = 'adeif00jps0cjq4dq4kf4ys100bqsgp7'
+apikey = 'adeif00jps0cjq4dq4kf60t2009dn99jadeif00jps0cjq4dq4kf6am30070yp17'
+seckey = 'adeif00jps0cjq4dq4kf6lx400u1hfkoadeif00jps0cjq4dq4kf6v1500ciqss7adeif00jps0cjq4dq4kf73p60007did2adeif00jps0cjq4dq4kf7c4700q1uhbp'
+
+
+ospReq = ops.Ops("http://127.0.0.1:8199", appid, apikey, seckey)
 
 res = ospReq.script_add(data)
 
