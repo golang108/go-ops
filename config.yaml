@@ -14,3 +14,9 @@ server:
   ServerRoot: "public"
   address: ":8199"
   openapiPath: "/api.json"
+
+peer:
+  port: 9999                # 节点监听端口号
+  boots:                    # 加入的网络节点列表
+    - addr: "tcp:xxxx"
+    - addr: "tcp:xx11122"

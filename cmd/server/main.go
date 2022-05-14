@@ -1,61 +1,61 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"go-ops/internal/cmd"
 	_ "go-ops/internal/packed"
 	"go-ops/internal/peer"
-	"log"
-	"os"
+
+	"github.com/gogf/gf/v2/os/glog"
 
 	"github.com/luxingwen/pnet/config"
+
+	"github.com/gogf/gf/v2/frame/g"
 
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/google/uuid"
 )
 
 func main() {
-	fg := flag.NewFlagSet("osp", flag.ContinueOnError)
 
-	var addr string
-	var id string
-	var port uint64
-	var h bool
-	fg.StringVar(&addr, "addr", "", "-addr")
-	fg.StringVar(&id, "id", "", "-id")
-	fg.Uint64Var(&port, "port", 9999, "-port port")
-	fg.BoolVar(&h, "h", false, "-h help")
+	log := glog.DefaultLogger()
+	var ctx = gctx.New()
+	var port uint16 = 9999
 
-	err := fg.Parse(os.Args[1:])
+	portvar, err := g.Cfg().Get(ctx, "peer.port")
 	if err != nil {
-		log.Fatal(err)
+		log.Warning(ctx, "没有配置节点端口,将使用默认端口：", port)
+	} else {
+		port = portvar.Uint16()
 	}
 
-	if h {
-		fg.Usage()
-		return
+	var addrs []string
+
+	boots, err := g.Cfg().Get(ctx, "peer.boots")
+	if err != nil {
+		log.Warning(ctx, "获取引导节点失败,err:", err)
+	} else {
+		for _, item := range boots.Array() {
+			dataval := item.(map[string]interface{})
+			addrs = append(addrs, dataval["addr"].(string))
+		}
 	}
 
-	if id == "" {
-		id = uuid.New().String()
-	}
+	id := uuid.New().String()
 
-	id += "@osp"
+	id += "@ops-apiserver"
 	conf := &config.Config{}
 	conf.Port = uint16(port)
-	conf.Name = "osp"
+	conf.Name = "ops-apiserver"
 
 	err = peer.InitOspPeer(id, conf)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(ctx, err)
 	}
 
-	if addr != "" {
-		fmt.Println("join addr:", addr)
+	for _, addr := range addrs {
 		_, err = peer.GetOspPeer().Join(addr)
 		if err != nil {
-			log.Fatal(err)
+			log.Warning(ctx, "join addr:", addr, " err: ", err)
 		}
 	}
 

@@ -58,13 +58,19 @@ Go-ops是面向云平台系统, 基于 PaaS 技术支持客户实现 DevOps 解�
 
   database:
     default:
-      link:  "mysql:root:root@tcp(127.0.0.1:3306)/ops" // 数据库连接串
-      debug: "true" // 是否开启调试模式
+      link:  "mysql:root:root@tcp(127.0.0.1:3306)/ops" # 数据库连接串
+      debug: "true"                                    # 是否开启调试模式
 
   server:
-    ServerRoot: "public"  // 静态资源文件目录
-    address: ":8199"  // api 监听端口
-    openapiPath: "/api.json"  // openapi 接口文件
+    ServerRoot: "public"        # 静态资源文件目录
+    address: ":8199"            # api 监听端口
+    openapiPath: "/api.json"    # openapi 接口文件
+  
+  peer:
+    port: 9999                # 节点监听端口号
+    boots:                    # 加入的网络节点列表
+      - addr: "tcp://xxxx"    # 引导节点地址1
+      - addr: "tcp://xx11122" # 引导节点地址2
   ```
 
 
