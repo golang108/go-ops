@@ -16,17 +16,17 @@ const (
 	GoOpsHeaderToken     = "GO-OPS-X-TOKEN"
 )
 
-func MiddlewareGetApp(r *ghttp.Request) bool {
+func MiddlewareGetApp(r *ghttp.Request) {
 	appid := r.GetHeader(GoOpsHeaderAppId)
 	if appid == "" {
 		r.Response.WriteStatus(http.StatusForbidden)
-		return false
+		return
 	}
 
 	app, err := service.App().GetApp(r.GetCtx(), appid)
 	if err != nil {
 		r.Response.WriteStatus(http.StatusForbidden)
-		return false
+		return
 	}
 
 	signature := r.GetHeader(GoOpsHeaderSignature)
@@ -37,17 +37,22 @@ func MiddlewareGetApp(r *ghttp.Request) bool {
 
 	if sign != signature {
 		r.Response.WriteStatus(http.StatusForbidden)
-		return false
+		return
 	}
 
-	return true
+	r.Middleware.Next()
 
 }
 
 func AuthUser(r *ghttp.Request) {
-	// 如果是app
-	if !MiddlewareGetApp(r) {
+
+	appid := r.GetHeader(GoOpsHeaderAppId)
+	if appid != "" {
+		// 如果是app
+		MiddlewareGetApp(r)
+	} else {
 		service.Auth().MiddlewareFunc()(r)
+		r.Middleware.Next()
 	}
-	r.Middleware.Next()
+
 }
