@@ -14,6 +14,7 @@ type ContentScript struct {
 	GenericScript
 	cmd   string
 	input string
+	ext   string
 }
 
 func NewContentScript(
@@ -27,13 +28,14 @@ func NewContentScript(
 	input string,
 	user string,
 	args []string,
+	ext string,
 ) ContentScript {
 
 	if cmd == "" {
 		cmd = Cmder
 	}
 
-	s := ContentScript{cmd: cmd, input: input}
+	s := ContentScript{cmd: cmd, input: input, ext: ext}
 	s.GenericScript.runner = runner
 	s.GenericScript.path = path
 	s.GenericScript.content = content
@@ -51,7 +53,7 @@ func (s ContentScript) Run() (r model.ResCmd) {
 	if s.path == "" {
 		s.path = ScriptPath
 	}
-	runpath := path.Join(s.path, s.jobid+ScriptExt)
+	runpath := path.Join(s.path, s.jobid+s.ext)
 	err := s.ensureContainingDir(runpath)
 
 	if err != nil {

@@ -29,13 +29,23 @@ func NewJobScriptProvider(
 		cmdRunner: runer,
 	}
 
+	// 如果文件得扩展名不是以.结尾
+	if scriptJob.Script.Ext != "" && !strings.HasPrefix(scriptJob.Script.Ext, ".") {
+		scriptJob.Script.Ext = "." + scriptJob.Script.Ext
+	}
+
+	if scriptJob.Script.Ext == "" {
+		scriptJob.Script.Ext = ScriptExt
+	}
+
 	log.Infof("[%s] new script job, execway: %v, waitime:%d", scriptJob.Jobid, scriptJob.Script.ExecWay, scriptJob.Script.Timeout)
 
 	switch scriptJob.Script.ExecWay {
 	case model.ExecCmd:
 		p.scripter = NewScript(runer, scriptJob.Jobid, path, scriptJob.Script.Content, scriptJob.Script.Env, scriptJob.Script.Timeout, scriptJob.Script.User, scriptJob.Script.Args)
 	case model.ExecContent:
-		p.scripter = NewContentScript(runer, scriptJob.Jobid, path, scriptJob.Script.Cmd, scriptJob.Script.Content, scriptJob.Script.Env, scriptJob.Script.Timeout, scriptJob.Script.Input, scriptJob.Script.User, scriptJob.Script.Args)
+		p.scripter = NewContentScript(runer, scriptJob.Jobid, path, scriptJob.Script.Cmd, scriptJob.Script.Content, scriptJob.Script.Env,
+			scriptJob.Script.Timeout, scriptJob.Script.Input, scriptJob.Script.User, scriptJob.Script.Args, scriptJob.Script.Ext)
 	case model.ExecScriptName:
 		p.scripter = NewNameScript(runer, scriptJob.Jobid, path, scriptJob.Script.Cmd, scriptJob.Script.Content, scriptJob.Script.Env, scriptJob.Script.Timeout, scriptJob.Script.Input, scriptJob.Script.User, scriptJob.Script.Args)
 	case model.ExecURL:

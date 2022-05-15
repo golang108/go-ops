@@ -15,6 +15,7 @@ func testGetContentScriptJob(content, spath string) model.ScriptJob {
 		Content: content,
 		Path:    spath,
 		ExecWay: model.ExecContent,
+		Ext:     ".sh",
 	}
 	s1 := model.ScriptJob{
 		Jobid:  guid.S(),
