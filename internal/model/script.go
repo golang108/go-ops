@@ -18,6 +18,7 @@ type Script struct {
 	Timeout  int               `json:"timeout" dc:"脚本执行的超时时间"`                                                                                 // 超时时间
 	Args     []string          `json:"args" dc:"脚本需要传入的参数"`                                                                                    // 输入参数
 	Input    string            `json:"input" dc:"脚本通过stdin输入内容"`                                                                               // 输入内容
+	Ext      string            `json:"ext" dc:"文件扩展名"`
 }
 
 type ScriptJob struct {
