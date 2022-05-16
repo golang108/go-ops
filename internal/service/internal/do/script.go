@@ -25,4 +25,5 @@ type Script struct {
 	ScriptUid interface{} //
 	WaitTime  interface{} // 脚本超时时间
 	Cmd       interface{} // 脚本解释器
+	Ext       interface{} // 脚本文件扩展名
 }
