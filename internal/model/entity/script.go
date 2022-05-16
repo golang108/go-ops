@@ -23,4 +23,5 @@ type Script struct {
 	ScriptUid string      `json:"scriptUid" ` //
 	WaitTime  int         `json:"waitTime"  ` // 脚本超时时间
 	Cmd       string      `json:"cmd"       ` // 脚本解释器
+	Ext       string      `json:"ext"       ` // 脚本文件扩展名
 }

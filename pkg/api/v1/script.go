@@ -16,6 +16,7 @@ type AddScriptReq struct {
 	Creater  string      `json:"creater" dc:"创建人"`
 	WaitTime int         `json:"waitTime" dc:"脚本超时时间"`
 	Cmd      string      `json:"cmd" dc:"脚本解释器"`
+	Ext      string      `json:"ext" dc:"脚本文件扩展名"`
 }
 
 type ScriptQueryReq struct {
@@ -42,6 +43,7 @@ type UpdateScriptReq struct {
 	Updater  string      `json:"updater" dc:"更新人"`
 	WaitTime int         `json:"waitTime" dc:"脚本超时时间"`
 	Cmd      string      `json:"cmd" dc:"脚本解释器"`
+	Ext      string      `json:"ext" dc:"脚本文件扩展名"`
 }
 
 type ScriptItemRes struct {
@@ -55,6 +57,7 @@ type ScriptItemRes struct {
 	Updater  string      `json:"updater" dc:"更新人"`
 	WaitTime int         `json:"waitTime" dc:"脚本超时时间"`
 	Cmd      string      `json:"cmd" dc:"脚本解释器"`
+	Ext      string      `json:"ext" dc:"脚本文件扩展名"`
 }
 
 type DeleteScriptReq struct {
