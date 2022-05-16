@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2022-05-14 14:28:28
+Date: 2022-05-16 21:25:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -160,8 +160,9 @@ CREATE TABLE `script` (
   `script_uid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `wait_time` int(11) DEFAULT NULL COMMENT '脚本超时时间',
   `cmd` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '脚本解释器',
+  `ext` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '脚本文件扩展名',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for task
