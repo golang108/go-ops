@@ -16,10 +16,12 @@ func Auth() *jwt.GfJWTMiddleware {
 	return authService
 }
 
+var jwtKey string = "Go-ops-apiserver-jwt-key"
+
 func init() {
 	auth := jwt.New(&jwt.GfJWTMiddleware{
-		Realm:           "test zone",
-		Key:             []byte("secret key"),
+		Realm:           "Go-ops apiserver",
+		Key:             []byte(jwtKey),
 		Timeout:         time.Minute * 10,
 		MaxRefresh:      time.Minute * 20,
 		IdentityKey:     "uid",
