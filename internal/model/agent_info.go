@@ -5,7 +5,7 @@ type AgentInfo struct {
 	Version    string `json:"version" dc:"版本信息"`
 	UrlAddress string `json:"urlAddress" dc:"下载地址"`
 	Status     string `json:"status" dc:"agent状态"`
-	RunTimeout int    `json:"runTimeout" dc:"启动超时时间"`
+	Timeout    int    `json:"timeout" dc:"执行命令超时时间"`
 }
 
 type AgentDetails struct {
