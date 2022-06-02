@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/os/glog"
 )
 
 const (
@@ -19,12 +20,14 @@ const (
 func MiddlewareGetApp(r *ghttp.Request) {
 	appid := r.GetHeader(GoOpsHeaderAppId)
 	if appid == "" {
+		glog.Error(r.GetCtx(), "appid is empty")
 		r.Response.WriteStatus(http.StatusForbidden)
 		return
 	}
 
 	app, err := service.App().GetApp(r.GetCtx(), appid)
 	if err != nil {
+		glog.Errorf(r.GetCtx(), "get app:%s err:%v", appid, err)
 		r.Response.WriteStatus(http.StatusForbidden)
 		return
 	}
@@ -36,6 +39,7 @@ func MiddlewareGetApp(r *ghttp.Request) {
 	sign := util.GetSign(app.ApiKey, app.SecKey, nonce, timestamp, body)
 
 	if sign != signature {
+		glog.Errorf(r.GetCtx(), "sign is not match, req sign:%s server sign:%s", signature, sign)
 		r.Response.WriteStatus(http.StatusForbidden)
 		return
 	}
