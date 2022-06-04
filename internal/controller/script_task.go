@@ -9,6 +9,8 @@ import (
 	"go-ops/pkg/message"
 	"sync"
 	"time"
+
+	"github.com/gogf/gf/v2/os/glog"
 )
 
 var ScritptTask = &scritptTask{}
@@ -20,10 +22,14 @@ func (c *scritptTask) CreateAsync(ctx context.Context, req *v1.ScriptTaskReq) (r
 
 	createFunc := func(peerid string, scriptJob *model.ScriptJob) error {
 		err = peer.SendMsgAsync(peer.GetOspPeer().PNet, scriptJob, peerid, "")
+		if err != nil {
+			glog.Errorf(ctx, "create script task send msg async err:%v", err)
+		}
 		return err
 	}
 	taskid, err := service.Task().CreateScriptTask(ctx, &req.ScriptTask, createFunc)
 	if err != nil {
+		glog.Errorf(ctx, "create script task  async err:%v", err)
 		return
 	}
 	res = new(v1.ScriptTaskRes)
@@ -47,17 +53,25 @@ func (c *scritptTask) CreateSync(ctx context.Context, req *v1.ScriptTaskSyncReq)
 
 			r, err := peer.SendMsgSyncWithTimeout(peer.GetOspPeer().PNet, scriptJob, peerid, "", time.Duration(req.Content.Timeout*int(time.Second))+time.Second*20)
 			if err != nil {
+
+				glog.Errorf(ctx, "create script task sync send msg with timeout err:%v", err)
+
 				resCmd := model.ResCmd{Err: err.Error(), Code: model.CodeFailed}
 				resResponse := &model.ResponseResCmd{Jobid: scriptJob.Jobid, PeerId: peerid, ResCmd: resCmd}
 
 				res.List = append(res.List, &v1.ScriptTaskExecItem{ResponseResCmd: resResponse, Status: "failed"})
-				service.Task().UpdateSubScriptTask(ctx, resResponse)
+				err0 := service.Task().UpdateSubScriptTask(ctx, resResponse)
+				if err0 != nil {
+					glog.Errorf(ctx, "create script task sync update sub script task err:%v", err0)
+					return
+				}
 
 				return
 			}
 
 			v, err := message.JSONCodec.Decode(r)
 			if err != nil {
+				glog.Errorf(ctx, "create script task sync json decode err:%v", err)
 				resCmd := model.ResCmd{Err: err.Error()}
 				resResponse := &model.ResponseResCmd{Jobid: scriptJob.Jobid, PeerId: peerid, ResCmd: resCmd}
 				res.List = append(res.List, &v1.ScriptTaskExecItem{ResponseResCmd: resResponse, Status: "failed"})
@@ -81,6 +95,7 @@ func (c *scritptTask) CreateSync(ctx context.Context, req *v1.ScriptTaskSyncReq)
 
 	taskid, err := service.Task().CreateScriptTask(ctx, &req.ScriptTask, createFunc)
 	if err != nil {
+		glog.Errorf(ctx, "create script task sync err:%v", err)
 		return
 	}
 
@@ -97,7 +112,11 @@ func (c *scritptTask) CreateSync(ctx context.Context, req *v1.ScriptTaskSyncReq)
 		res.Status = "done"
 	}
 
-	service.Task().UpdataScriptTaskStatus(ctx, taskid, res.Status)
+	err = service.Task().UpdataScriptTaskStatus(ctx, taskid, res.Status)
+	if err != nil {
+		glog.Errorf(ctx, "update script task status err:%v", err)
+		return
+	}
 	res.TaskId = taskid
 
 	return
@@ -129,10 +148,12 @@ func (s *scritptTask) GetTaskInfo(ctx context.Context, req *v1.PeerScriptTaskInf
 	res = new(v1.ScriptTaskInfoRes)
 	r, err := peer.SendMsgSync(peer.GetOspPeer().PNet, &model.GetTaskInfo{TaskId: req.TaskId}, req.PeerId, "")
 	if err != nil {
+		glog.Errorf(ctx, "scripttask get task info err:%v", err)
 		return
 	}
 	val, err := message.JSONCodec.Decode(r)
 	if err != nil {
+		glog.Errorf(ctx, "scripttask get task info  json decode err:%v", err)
 		return
 	}
 	res.TaskInfo = val.(*model.TaskInfo)

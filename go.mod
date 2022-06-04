@@ -22,6 +22,7 @@ require (
 	github.com/panjf2000/ants/v2 v2.4.8
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/shirou/gopsutil/v3 v3.22.3
+	github.com/syndtr/goleveldb v1.0.0
 	github.com/toolkits/file v0.0.0-20160325033739-a5b3c5147e07
 	go.opentelemetry.io/otel/sdk v1.6.3 // indirect
 	go.uber.org/zap v1.21.0
