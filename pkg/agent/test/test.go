@@ -7,7 +7,6 @@ import (
 	"go-ops/pkg/agent"
 	"go-ops/pkg/agent/script"
 	"go-ops/pkg/agent/task"
-	"time"
 )
 
 func main() {
@@ -45,12 +44,8 @@ func main() {
 	}
 
 	ospAgent := agent.NewOspAgent("./")
-	t := ospAgent.CreateTask(s1.Jobid, startFunc, c, endFunc)
+	t := ospAgent.CreateTask(s1.Jobid, s1, startFunc, c, endFunc)
 	ospAgent.StartTask(t)
-	go func() {
-		time.Sleep(time.Second * 5)
-		t.Cancel()
-	}()
 	//	ospAgent.StartTask(t)
 
 	select {}
