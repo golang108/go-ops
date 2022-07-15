@@ -103,7 +103,14 @@ func (r execCmdRunner) buildComplexCommand(cmd Command) (execCmd *exec.Cmd, err 
 		if err != nil {
 			return nil, err
 		}
-		attr := execCmd.SysProcAttr
+		// 修复execCmd.SysProcAttr为nil的bug
+		var attr *syscall.SysProcAttr
+		if execCmd.SysProcAttr == nil {
+			attr = new(syscall.SysProcAttr)
+		} else {
+			attr = execCmd.SysProcAttr
+		}
+
 		//设置进程执行用户
 		attr.Credential = &syscall.Credential{
 			Uid: uint32(uid),
