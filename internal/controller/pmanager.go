@@ -28,6 +28,7 @@ func (self *peerManager) GetNodes(ctx context.Context, nodeReq *v1.NodeReq) (res
 	if nodeReq.NodeId == "" {
 		rns, err := peer.GetOspPeer().GetLocalNode().GetNeighbors(nil)
 		if err != nil {
+
 			return nil, err
 		}
 		for _, item := range rns {
