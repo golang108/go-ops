@@ -18,7 +18,7 @@ func NewAsyncTaskService() (service Service) {
 		taskSem:      make(chan func()),
 	}
 
-	p, _ := ants.NewPoolWithFunc(10, s.execTask)
+	p, _ := ants.NewPoolWithFunc(100, s.execTask)
 
 	s.taskPool = p
 	go s.processTasks()
