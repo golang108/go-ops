@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"strconv"
 	"time"
+	"syscall"
 )
 
 const ENV_NAME = "LXW_DAEMON_IDX"
@@ -69,6 +70,7 @@ func Background(isExit bool) (cmd *exec.Cmd, err error) {
 	}
 
 	if isExit {
+		syscall.Umask(0x00);
 		os.Exit(0)
 	}
 
